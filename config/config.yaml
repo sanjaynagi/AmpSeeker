@@ -1,0 +1,11 @@
+# This file should contain everything to configure the workflow on a global scale.
+# In case of sample based data, it should be complemented by a samples.tsv file that contains
+# one row per sample. It can be parsed easily via pandas.
+metadata: "config/samples.tsv"
+present_samples: "resources/present.samples.txt"
+
+illumina_dir: "resources/210326_M05658_0003_000000000-J54FT"
+
+ref:
+  wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
+  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"

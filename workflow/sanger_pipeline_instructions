@@ -1,0 +1,185 @@
+sanger_pipeline_instructions
+
+We receive a vcf from Sanger Core pipelines.
+
+ 
+
+From the miseq, the sequence reads are placed into per sample crams using the tagging
+
+barcodes.
+
+ 
+
+adapters and tags are removed from reads
+
+ 
+
+reads are aligned to a amplicon only agam reference (the reference only includes the
+
+reference sequence of the expected amplicons)
+
+ 
+
+vcfs are called from the alignment
+
+ 
+
+From out Manuscript on MedRxiv. https://www.malariagen.net/resource/29
+
+For parasites samples but the process is very similar
+
+ 
+
+"Data Analysis
+
+For amplicon sequencing, we used a series of open-source and custom analysis programs and
+
+scripts. To ensure future reproducibility across sites/institutions all analyses began
+
+with BCL files and the sequencing manifest from the Illumina MiSeq. The program bambi
+
+(see URLs) was used to convert the BCL directory into a BAM file, and was then used to
+
+separate reads into read groups based on the taglist. We used biobambam2 (see URLs)
+
+(bamadapterfind) to identify potential contamination by sequencing adaptors and then used
+
+samtools to split the BAM file into separate CRAM files by read group. Subsequent steps
+
+were carried out per CRAM files. Beginning with biobambam2, we collated and reset CRAM
+
+files into a pre-aligned state using bamcollate2 and bamreset. Using the output from
+
+bamadapterfind, we detected and removed adapters using bamadapterclip. We converted CRAM
+
+files to FASTQ files with bamtofastq in biobambam2 and aligned with BWA-MEM (see URLs) to
+
+a custom referenced which consists of all target amplicon regions in FASTA format. We then
+
+converted the resulting aligned SAM file into a BAM files and did a header replacement
+
+with samtools (see URLs) reheader and the FASTQ dictionary. Using biobambam2 again, we
+
+used bam12split to create single ranks and then merged using bam12uxmerger to create a
+
+single BAM again. On the single BAMs we performed a bamsort using biobambam2. For
+
+genotyping we used BCFTools (see URLs) using the sorted BAM. We performed an mpileup to
+
+create a VCF using a predetermined set of loci which contained the list of typeable loci
+
+in amplicons used for targeted genotyping or all loci in regions used for pfkelch13
+
+sequencing and speciation. We performed two filters on the VCF files, the first with
+
+quality exclude rules of “%QUAL<15” and “MQ<20” and the second on depth with an exclude
+
+of “FORMAT/DP<8”.
+
+After genotyping, VCFs from the same sample were combined using the sequencing manifest
+
+tag list and genotypes failing VCF filters (low quality/low depth) were masked. Next,
+
+individual samples are assessed for sample quality using pass rates of genotype barcodes.
+
+In early tests, samples with low pass rates (<50%) in their barcodes SNPs were
+
+significantly more likely to produce spurious genotypes due most likely to PCR artefacts
+
+and low input DNA amounts. An exception was seen that speciation PCRs still performed when
+
+other loci failed and allowed us to identify samples that contained parasites (any
+
+species) but otherwise were unable to be genotyped. Any samples with less than 50% of
+
+their genotyping barcode able to be called were excluded from further analysis, and only
+
+speciation results were reported. Complexity of infection estimates using the genotype
+
+barcode were identical to those using Agena genotypes described above. For speciation, we
+
+aligned mitochondrial amplicons to both their Pf and Pv reference sequences and called
+
+genotypes. This was to account for sequence divergence across clades which in some cases
+
+caused read not to align. All loci variable between species were used to determine the
+
+probability of infection with a certain species. Any species whose reference sequence
+
+matched the informative genotyped loci at >95% of positions was deemed to be present in
+
+the infection."
+
+ 
+
+MalariaGEN Pipeline
+
+ 
+
+A set of perl scripts is run for each sequencing batch.
+
+ 
+
+1) irod sequencing extraction
+
+- iRODs is a data service at sanger; each per sample vcf is extracted from this service
+
+and verified as present against the list of samples submitted
+
+ 
+
+2) processBatchVCF.pl
+
+- vcfs are verified against known batch list to id missing sample files (vcfs)
+
+- vcfs are parsed and each position (all sites in all amplicons) is stored; chrom, pos,
+
+id, ref, alt, qual, filt, info, form, name
+
+- genotype files for each sample are created (note; if there are multiple vcfs per sample,
+
+meaning there are multiple panels run simultaneously, then these are combined here).
+
+- example 4690STDY7610032.txt
+
+ 
+
+3) runQCcheck.pl
+
+- for each sample genotype file we determine snp and sample callability
+
+- target SNP depth is >=15, for hets the minor allele depth >= 5
+
+- calculate sample qc values (# calls per sample, avg depth per snp, # of hets)
+
+- calculate amplicon qc values (per amplicon avg depth)
+
+- inspect plots of qc values ("barcode" is remnant - all viable snps)
+
+- example 26947_plateQC.pdf
+
+- reference barcodeOrder_anopheles.txt
+
+ 
+
+4) anopheles_speciate.pl
+
+- determines gam/col status per chromosome arm
+
+- reference speciesRef_anopheles.txt
+
+ 
+
+5) anopheles_createGRC.pl
+
+- create a "genetic report card (GRC)" for each batch
+
+- Calls genotypes again - target SNP depth is >=15, for hets the minor allele depth >= 5
+
+- summarizes drug-resistance loci, gam/col info, barcodes
+
+- excludes/fails samples which have <= 18 missing loci in the barcode (determined to be
+
+indicative of a poor quality sample)
+
+ 
