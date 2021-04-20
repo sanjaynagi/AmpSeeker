@@ -4,8 +4,15 @@
 metadata: "config/samples.tsv"
 present_samples: "resources/present.samples.txt"
 
+# Directory of Illumina Miseq Run
 illumina_dir: "resources/210326_M05658_0003_000000000-J54FT"
 
+# Genome fasta reference files 
 ref:
   wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
-#  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
+  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
+
+# .bed file of target SNPs
+bed:
+  wholegenome: "resources/AgamDao_wholegenome_snptargets.bed"
+  amplicon: "resources/AgamDao_amplicon_snptargets.bed"

@@ -60,28 +60,10 @@ rule mpileupAndCall:
         call = "logs/bcftools_call/{sample}_{ref}.log"
     params:
         ref = lambda wildcards: config['ref'][wildcards.ref],
-        regions = "resources/AgamDaoLoci.bed",
+        regions = lambda wildcards: config['bed'][wildcards.ref],
         depth = 2000
     shell:
         """
         bcftools mpileup -Ov -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
         bcftools call -m -Ov -o {output.calls} 2> {log.call}
         """
-<<<<<<< Updated upstream
-=======
-
-rule bcftoolsCall:
-    """
-    Call Variants 
-    """
-    input:
-        pileup = "results/{ref}/bcfs/{sample}.pileup.bcf",
-    output:
-        calls = "results/{ref}/bcfs/{sample}.calls.bcf",
-    log:
-        "logs/bcftools_call/{sample}_{ref}.log",
-    shell:
-        """
-        bcftools call -m -Ob -o {output.calls} {input.pileup} 2> {log}
-        """
->>>>>>> Stashed changes
