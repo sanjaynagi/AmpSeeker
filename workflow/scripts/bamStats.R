@@ -11,47 +11,56 @@ present = fread("resources/present.samples.txt", sep="\t", header = FALSE)
 metadata = metadata[metadata$sampleID %in% present$V1]
 
 
-totalReads = c()
-dupReads = c()
-mappedReads = c()
-pMapped = c()
 
-for (sample in metadata$sampleID){
-  flagstat = fread(glue("resources/wholegenome/alignments/bamStats/{sample}.flagstat"), fill=TRUE)
+for (ref in c("amplicon", "wholegenome")){
   
-  totalReads = c(totalReads, flagstat$V1[1])
-  dupReads = c(dupReads, flagstat$V1[4])
-  mappedReads = c(mappedReads, flagstat$V1[5])
-  pMapped = c(pMapped, ((flagstat$V1[5]/flagstat$V1[1]) * 100))
+  totalReads = c()
+  dupReads = c()
+  mappedReads = c()
+  pMapped = c()
   
+  for (sample in metadata$sampleID){
+    flagstat = fread(glue("resources/{ref}/alignments/bamStats/{sample}.flagstat"), fill=TRUE)
+    
+    totalReads = c(totalReads, flagstat$V1[1])
+    dupReads = c(dupReads, flagstat$V1[4])
+    mappedReads = c(mappedReads, flagstat$V1[5])
+    pMapped = c(pMapped, ((flagstat$V1[5]/flagstat$V1[1]) * 100))
+    
+  }
+  
+  
+  plt_tot = ggplot(data.frame(totalReads), aes(x=totalReads)) + 
+    geom_density() + ggtitle(ref) + 
+    theme_light()
+  
+  
+  plt_dup = ggplot(data.frame(dupReads), aes(x=dupReads)) + 
+    geom_density() +  ggtitle(ref) + 
+    theme_light()
+  
+  plt_mapped = ggplot(data.frame(mappedReads), aes(x=mappedReads)) + 
+    geom_density() + ggtitle(ref) + 
+    theme_light()
+  
+  plt_pmapped = ggplot(data.frame(pMapped), aes(x=pMapped)) + 
+    geom_density() + ggtitle(ref) +  
+    theme_light()
+  
+  print(plt_tot)
+  print(plt_dup)
+  print(plt_mapped)
+  print(plt_pmapped)
+  
+  print(ref)
+  print(tapply(metadata$pMapped, metadata$plate, mean))
+  
+  print(tapply(mappedReads, metadata$plate, mean))
+  print(tapply(mappedReads, metadata$well, mean))
 }
 
 
-ggplot(data.frame(totalReads), aes(x=totalReads)) + 
-  geom_density() + 
-  theme_light()
 
-
-ggplot(data.frame(dupReads), aes(x=dupReads)) + 
-  geom_density() + 
-  theme_light()
-
-ggplot(data.frame(mappedReads), aes(x=mappedReads)) + 
-  geom_density() + 
-  theme_light()
-
-ggplot(data.frame(pMapped), aes(x=pMapped)) + 
-  geom_density() + 
-  theme_light()
-
-
-metadata$pMapped = pMapped
-
-
-tapply(metadata$pMapped, metadata$plate, mean)
-
-tapply(mappedReads, metadata$plate, mean)
-tapply(mappedReads, metadata$well, mean)
 
 exclude = metadata[metadata$pMapped < 50,]
 

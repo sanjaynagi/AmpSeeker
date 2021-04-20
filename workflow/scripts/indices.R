@@ -83,18 +83,6 @@ agamdao %>%
 
 
 
-bed = fread("resources/AgamDao.bed")
-bed$Chromosome = str_remove(bed$Chromosome, "Ag_")
-bed %>% select(Chromosome, Start, Stop) %>% fwrite(., "resources/AgamDao.bed", col.names = FALSE, sep="\t")
-bed = bed %>% mutate("hello" = paste0(Chromosome,":" ,Start-50,"-", Stop+50)) #%>% 
-  #select(hello) %>%  
-  #fwrite(., "resources/AgamDao.bed", col.names = FALSE, sep="\t")
-
-bed$Start - bed$Stop            
-            
-
-
-
 ####  
 library(Biostrings)
 

@@ -67,3 +67,21 @@ rule mpileupAndCall:
         bcftools mpileup -Ov -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
         bcftools call -m -Ov -o {output.calls} 2> {log.call}
         """
+<<<<<<< Updated upstream
+=======
+
+rule bcftoolsCall:
+    """
+    Call Variants 
+    """
+    input:
+        pileup = "results/{ref}/bcfs/{sample}.pileup.bcf",
+    output:
+        calls = "results/{ref}/bcfs/{sample}.calls.bcf",
+    log:
+        "logs/bcftools_call/{sample}_{ref}.log",
+    shell:
+        """
+        bcftools call -m -Ob -o {output.calls} {input.pileup} 2> {log}
+        """
+>>>>>>> Stashed changes
