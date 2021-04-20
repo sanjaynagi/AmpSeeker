@@ -8,4 +8,4 @@ illumina_dir: "resources/210326_M05658_0003_000000000-J54FT"
 
 ref:
   wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
-  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
+#  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"

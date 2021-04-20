@@ -1,4 +1,3 @@
-
 """
 A snakemake rule file which includes rules for bgzipping, tabix indexing, and merging bcf/vcfs.
 Kept in a separate rule file due to maintain visibility of the main, analysis rules in analysis.smk
@@ -6,9 +5,9 @@ Kept in a separate rule file due to maintain visibility of the main, analysis ru
 
 rule bgzip:
     input:
-        calls = "results/{ref}/bcfs/{sample}.calls.bcf",    
+        calls = "results/{ref}/bcfs/{sample}.calls.vcf",    
     output:
-        callsgz = "results/{ref}/bcfs/{sample}.calls.bcf.gz",
+        callsgz = "results/{ref}/bcfs/{sample}.calls.vcf.gz",
     log:
         "logs/bgzip/{sample}_{ref}.log",
     shell:
@@ -18,9 +17,9 @@ rule bgzip:
 
 rule tabix:
     input:
-        calls = "results/{ref}/bcfs/{sample}.calls.bcf.gz",    
+        calls = "results/{ref}/bcfs/{sample}.calls.vcf.gz",    
     output:
-        calls_tbi = "results/{ref}/bcfs/{sample}.calls.bcf.gz.tbi",
+        calls_tbi = "results/{ref}/bcfs/{sample}.calls.vcf.gz.tbi",
     log:
         "logs/tabix/{sample}_{ref}.log",
     shell:
@@ -31,8 +30,8 @@ rule tabix:
 # wont work with over 1000 files 
 rule bcftools_merge1:
     input:
-        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.bcf.gz", sample=samples1),
-        idx = expand("results/{{ref}}/bcfs/{sample}.calls.bcf.gz.tbi", sample=samples1)
+        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples1),
+        idx = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples1)
     output:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM1.vcf",
     log:
@@ -45,8 +44,8 @@ rule bcftools_merge1:
 
 rule bcftools_merge2:
     input:
-        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.bcf.gz", sample=samples2),
-        idx = expand("results/{{ref}}/bcfs/{sample}.calls.bcf.gz.tbi", sample=samples2)
+        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples2),
+        idx = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples2)
     output:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM2.vcf",
     log:

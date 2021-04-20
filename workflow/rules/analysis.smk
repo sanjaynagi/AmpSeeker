@@ -26,7 +26,7 @@ rule alignBWA:
         sort="logs/sort/{sample}_{ref}.log",
         samblaster="logs/samblaster/{sample}_{ref}.log"
     resources:bwa=1
-    threads:8
+    threads:1
     params:
         tag="'@RG\\tID:{sample}\\tSM:{sample}\\tPU:nye\\tPL:nye\\tLB:{sample}_lb{sample}'"
     shell:
@@ -46,7 +46,7 @@ rule indexBams:
         "samtools index {input} {output} 2> {log}"
 
 
-rule mpileUp:
+rule mpileupAndCall:
     """
     Get pileup of reads at target loci and pipe output to bcftoolsCall
     """
@@ -54,29 +54,16 @@ rule mpileUp:
         bam = "resources/{ref}/alignments/{sample}.bam",
         index = "resources/{ref}/alignments/{sample}.bam.bai"
     output:
-        pileup = pipe("results/{ref}/bcfs/{sample}.pileup.bcf"),
+        calls = "results/{ref}/bcfs/{sample}.calls.vcf"
     log:
-        "logs/mpileup/{sample}_{ref}.log"
+        mpileup = "logs/mpileup/{sample}_{ref}.log",
+        call = "logs/bcftools_call/{sample}_{ref}.log"
     params:
         ref = lambda wildcards: config['ref'][wildcards.ref],
         regions = "resources/AgamDaoLoci.bed",
         depth = 2000
     shell:
         """
-        bcftools mpileup -Ov -o {output.pileup} -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log}
-        """
-
-rule bcftoolsCall:
-    """
-    Call Variants 
-    """
-    input:
-        pileup = "results/{ref}/bcfs/{sample}.pileup.bcf",
-    output:
-        calls = "results/{ref}/bcfs/{sample}.calls.bcf",
-    log:
-        "logs/bcftools_call/{sample}_{ref}.log",
-    shell:
-        """
-        bcftools call -m -Ob -o {output.calls} {input.pileup} 2> {log}
+        bcftools mpileup -Ov -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
+        bcftools call -m -Ov -o {output.calls} 2> {log.call}
         """
