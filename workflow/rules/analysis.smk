@@ -65,5 +65,5 @@ rule mpileupAndCall:
     shell:
         """
         bcftools mpileup -Ov -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
-        bcftools call -m -Ov -o {output.calls} 2> {log.call}
+        bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """

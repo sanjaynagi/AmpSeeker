@@ -44,7 +44,7 @@ rule bcftools_merge1:
 
 rule bcftools_merge2:
     input:
-        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples2),
+        vcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples2),
         idx = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples2)
     output:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM2.vcf",
@@ -53,7 +53,7 @@ rule bcftools_merge2:
     threads: 12
     shell:
         """
-        bcftools merge --threads {threads} -o {output.vcf} -O v {input.bcfs} 2> {log}
+        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
         """
 
 
@@ -91,5 +91,5 @@ rule bcftools_merge3:
         "logs/bcftools_merge3_{ref}.log",
     shell:
         """
-        bcftools merge -o {output.vcf} -O v {input} 2> {log}
+        bcftools merge -o {output.vcf} -Ov {input.vcf} 2> {log}
         """
