@@ -5,13 +5,15 @@ library(data.table)
 library(tidyverse)
 library(glue)
 
-
+## Read metadata 
 metadata = fread("config/samples.tsv", sep="\t")
 present = fread("resources/present.samples.txt", sep="\t", header = FALSE)
 metadata = metadata[metadata$sampleID %in% present$V1]
 
+#### targets
+snps_targets = fread("resources/AgamDao_info.tsv", sep="\t")
 
-
+## Produce plots for each alignment method
 for (ref in c("amplicon", "wholegenome")){
   
   totalReads = c()
@@ -29,83 +31,94 @@ for (ref in c("amplicon", "wholegenome")){
     
   }
   
-  
+  pdf(glue("results/{ref}/qc/totalReads.pdf"))
   plt_tot = ggplot(data.frame(totalReads), aes(x=totalReads)) + 
-    geom_density() + ggtitle(ref) + 
+    geom_density() + ggtitle(glue("{ref}_totalReads")) + 
     theme_light()
+  null = dev.off()
   
-  
+  pdf(glue("results/{ref}/qc/dupReads.pdf"))
   plt_dup = ggplot(data.frame(dupReads), aes(x=dupReads)) + 
-    geom_density() +  ggtitle(ref) + 
+    geom_density() +  ggtitle(glue("{ref}_dupReads")) + 
     theme_light()
+  null = dev.off()
   
+  pdf(glue("results/{ref}/qc/mappedReads.pdf"))
   plt_mapped = ggplot(data.frame(mappedReads), aes(x=mappedReads)) + 
-    geom_density() + ggtitle(ref) + 
+    geom_density() + ggtitle(glue("{ref}_mappedReads")) + 
     theme_light()
+  null = dev.off()
   
+  pdf(glue("results/{ref}/qc/pMapped.pdf"))
   plt_pmapped = ggplot(data.frame(pMapped), aes(x=pMapped)) + 
-    geom_density() + ggtitle(ref) +  
+    geom_density() + ggtitle(glue("{ref}_pMapped")) +  
     theme_light()
+  null = dev.off()
   
-  print(plt_tot)
-  print(plt_dup)
-  print(plt_mapped)
-  print(plt_pmapped)
+  ### get avergaes per plate / well 
+  pmap = tapply(pMapped, metadata$plate, mean)
+  mapped = tapply(mappedReads, metadata$plate, mean)
+  edge = tapply(mappedReads, metadata$well, sum)
   
-  print(ref)
-  print(tapply(metadata$pMapped, metadata$plate, mean))
+  ### plot edge effects 
+  edge = data.frame(edge) %>% 
+    rownames_to_column("Well") %>% 
+    separate(Well,sep="(?<=[A-Za-z])(?=[0-9])", 
+             into = c("Row", "column"))
+  edge$column = as.numeric(edge$column)
   
-  print(tapply(mappedReads, metadata$plate, mean))
-  print(tapply(mappedReads, metadata$well, mean))
+  # edge effects 
+  pdf(glue("results/{ref}/qc/edge_effects.pdf"))
+  ggplot(edge, aes(x=column, y=reorder(Row, desc(Row)), fill=edge)) + 
+    ggtitle(glue("Visualising edge effects - Average mapped Reads - {ref} reference")) + 
+    geom_tile() + 
+    scale_x_continuous(breaks = seq(1,12)) +
+    theme_light() +
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()) 
+  null = dev.off()
+
 }
 
+# mapped reads
+metadata$pMapped = pMapped
+metadata$MappedReads = mappedReads 
+metadata$duplicated = dupReads
 
 
 
-exclude = metadata[metadata$pMapped < 50,]
 
 
-############## Where is the coverage being aligned to? ##########
-
-cov = fread(glue("results/wholegenome/coverage/{sample}.regions.bed.gz"))
-
+############## Where are the reads being aligned to? ##########
 
 cover = list()
 
-#read in mosdepth coverage data and store coverage per 300bp
+# read in mosdepth coverage data and store coverage per 300bp
 for (sample in metadata$sampleID){
-  cov = fread(glue("results/coverage/{sample}.regions.bed.gz"))
-  
+  cov = fread(glue("results/amplicon/coverage/{sample}.regions.bed.gz"))
   cover[[sample]] = cov$V4
 }
 
-#get mean of all positions across samples 
-mediancov = apply(simplify2array(cover), 1, median, na.rm=T)
 
 
-df$median = apply(df, 1, median, na.rm = T).
 
-#### coverage per chrom 
-chroms = c('2L', '2R', '3L', '3R', 'X')
 
-for (chrom in chroms){
-  
-  bool_ = cov$V1 == chrom
-  pos = cov$V2[bool_]
-  
-  coverage = meancov[bool_]
-  
-  df = data.frame("pos" = pos, "cov" = coverage)
-  
-  plt = ggplot(df, aes(x=pos, y=cov)) + geom_line() + ggtitle(chrom) + ylim(0, 200)
-  
-  print(plt)
-  print(paste(chrom, sum(df$cov)))
-}
 
-targets[targets$chrom == '2L']
+### Overall means ###
+# get mean of all positions across samples 
+cov$TotalReads = apply(simplify2array(cover), 1, sum, na.rm=T)
 
-targets[]
+# calc overall cov
+cov = cov %>% select(V1, TotalReads) %>% 
+  group_by(V1) %>% 
+  summarise(AmpliconReads = sum(TotalReads)) %>% 
+  mutate("TotalReads" = sum(AmpliconReads)) %>% 
+  mutate("Perc" = (AmpliconReads/TotalReads)*100)
+
+
+
+
+
 
 
 sessionInfo()

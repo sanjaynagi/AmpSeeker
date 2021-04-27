@@ -77,6 +77,13 @@ targets_noverlap %>%
   select(loc, amplicon_id) %>% 
   fwrite("resources/amplicon_names.txt", sep="\t", col.names = FALSE)
                             
+fwrite(snps_targets, "resources/AgamDao_info.tsv", sep="\t")
+
+
+
+
+
 sessionInfo()
+
 
                             

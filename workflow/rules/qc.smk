@@ -53,7 +53,7 @@ rule windowedCoverage:
         prefix="results/{ref}/coverage/{sample}"
     shell:
         """
-        mosdepth {params.prefix} {input.bam} --by 300 -n --fast-mode --threads {threads} 2> {log}
+        mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
         """
 
 rule BamStats:
