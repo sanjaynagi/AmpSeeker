@@ -45,15 +45,16 @@ rule windowedCoverage:
         bam="resources/{ref}/alignments/{sample}.bam",
         idx="resources/{ref}/alignments/{sample}.bam.bai"
     output:
-        "results/{ref}/coverage/{sample}.regions.bed.gz"
+        "results/{ref}/coverage/{sample}.per-base.bed.gz"
     log:
         "logs/coverage/{sample}_{ref}.log"
     threads:4
     params:
-        prefix="results/{ref}/coverage/{sample}"
+        prefix="results/{ref}/coverage/{sample}",
+        regions = lambda wildcards: config['bed'][wildcards.ref]
     shell:
         """
-        mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
+        mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
         """
 
 rule BamStats:

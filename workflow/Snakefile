@@ -23,7 +23,7 @@ loci = pd.read_csv("resources/AgamDaoLocs.txt", sep="\t")
 rule all:
     input:
         # The first rule should define the default target files
-        cov = expand("results/{ref}/coverage/{sample}.regions.bed.gz", sample=samples, ref=config['ref']),
+        cov = expand("results/{ref}/coverage/{sample}.per-base.bed.gz", sample=samples, ref=config['ref']),
         stats = expand("resources/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
         bams = expand("resources/{ref}/alignments/{sample}.bam", sample=samples, ref=config['ref']),
         vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
