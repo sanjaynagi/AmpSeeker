@@ -37,9 +37,9 @@ rule TrimFastqs:
         """
 
 
-rule windowedCoverage:
+rule targetedCoverage:
   """
-  300 bp windowed and per-base coverage with mosdepth
+  Target per-base coverage with mosdepth
   """
     input:
         bam="resources/{ref}/alignments/{sample}.bam",
@@ -55,6 +55,26 @@ rule windowedCoverage:
     shell:
         """
         mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
+        """
+
+
+rule windowedCoverage:
+  """
+  300 bp windowed coverage with mosdepth
+  """
+    input:
+        bam="resources/wholegenome/alignments/{sample}.bam",
+        idx="resources/wholegenome/alignments/{sample}.bam.bai"
+    output:
+        "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"
+    log:
+        "logs/coverage/windowed_{sample}_wholegenome.log"
+    threads:4
+    params:
+        prefix="results/wholegenome/coverage/windowed/{sample}",
+    shell:
+        """
+        mosdepth {params.prefix} {input.bam} --by 300 -n --fast-mode --threads {threads} 2> {log}
         """
 
 rule BamStats:

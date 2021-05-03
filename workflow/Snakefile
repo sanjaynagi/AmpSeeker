@@ -18,17 +18,16 @@ samples1 = metadata[metadata['sampleID'].isin(present[0])]['sampleID'][:1000]
 samples2 = metadata[metadata['sampleID'].isin(present[0])]['sampleID'][1000:]
 #samples = samples[~np.isin(samples, ["AgamDaoLSTM1_1375", "AgamDaoLSTM1_1378", "])]
 
-loci = pd.read_csv("resources/AgamDaoLocs.txt", sep="\t")
-
 rule all:
     input:
         # The first rule should define the default target files
         cov = expand("results/{ref}/coverage/{sample}.per-base.bed.gz", sample=samples, ref=config['ref']),
+        cov2 = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
         stats = expand("resources/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
         bams = expand("resources/{ref}/alignments/{sample}.bam", sample=samples, ref=config['ref']),
         vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
         trimmed = expand("resources/reads/trimmed/{sample}_{n}.fq.gz", n=[1,2], sample=samples, ref=config['ref'])
 
 include: "rules/qc.smk"
-include: "rules/analysis.smk"
-include: "rules/bgzip_tabix_merge.smk"
+include: "rules/AlignmentVariantCalling.smk"
+include: "rules/BgzipTabixMerge.smk"
