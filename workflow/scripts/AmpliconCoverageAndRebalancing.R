@@ -19,7 +19,6 @@ coverage_df = cov %>% mutate("targetID" = paste0(V1,"_", V2)) %>%
   column_to_rownames("targetID")
 
 
-
 #### Rebalancing ####
 ## cal total per sample 
 total_per_sample = apply(coverage_df, FUN=sum, MARGIN = 2)

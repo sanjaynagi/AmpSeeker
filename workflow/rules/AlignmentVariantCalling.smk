@@ -1,6 +1,5 @@
 # An example collection of Snakemake rules imported in the main Snakefile.
 
-
 rule GenomeIndex:
     input:
         ref = lambda wildcards: config['ref'][wildcards.ref]
@@ -13,7 +12,7 @@ rule GenomeIndex:
 
 rule alignBWA:
     """
-    Align with bwa mem, marking duplicates with samblaster, and sorting by coordinate with samtools sort. then index with samtools.  
+    Align with bwa mem, and sorting by coordinate with samtools sort. then index with samtools.  
     """
     input:
         reads = expand("resources/reads/trimmed/{{sample}}_{n}.fq.gz", n=[1,2]),
@@ -24,15 +23,14 @@ rule alignBWA:
     log:
         align="logs/align_bwa/{sample}_{ref}.log",
         sort="logs/sort/{sample}_{ref}.log",
-        samblaster="logs/samblaster/{sample}_{ref}.log"
     resources:bwa=1
-    threads:1
+    threads:1 # each sample tiny so perhaps better to run each on single thread
     params:
         tag="'@RG\\tID:{sample}\\tSM:{sample}\\tPU:nye\\tPL:nye\\tLB:{sample}_lb{sample}'"
     shell:
         """
         bwa mem -t {threads} {input.ref} {input.reads} -R {params.tag} 2> {log.align} |
-        samblaster 2> {log.samblaster} | samtools sort -@{threads} -o {output} 2> {log.sort}
+        samtools sort -@{threads} -o {output} 2> {log.sort}
         """
 
 rule indexBams:

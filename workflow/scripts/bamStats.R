@@ -12,6 +12,14 @@ metadata = metadata[metadata$sampleID %in% present$V1]
 #### targets
 snps_targets = fread("resources/AgamDao_info.tsv", sep="\t")
 
+
+
+flagstat = fread("resources/amplicon/alignments/bamStats/AgamDaoLSTM1_0058.flagstat", fill=TRUE)
+flagstat
+
+
+
+
 ## Produce plots for each alignment method
 for (ref in c("wholegenome","amplicon")){
   
@@ -114,5 +122,6 @@ metadata$duplicated = dupReads
 
 sessionInfo()
 
-length(unique(metadata$external_plate))
-length(unique(metadata$plate))
+# 
+# length(unique(metadata$external_plate))
+# length(unique(metadata$plate))

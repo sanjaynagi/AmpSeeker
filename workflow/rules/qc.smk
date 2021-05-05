@@ -57,7 +57,6 @@ rule targetedCoverage:
         mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
         """
 
-
 rule windowedCoverage:
   """
   300 bp windowed coverage with mosdepth
