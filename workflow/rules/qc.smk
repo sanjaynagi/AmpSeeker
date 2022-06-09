@@ -7,7 +7,7 @@
 #    resources:bwa=1
 #    threads:8
 
-# demuxbyname.sh in=AGAMDAO_LSTM2.R1.fq.gz in2=AGAMDAO_LSTM2.R2.fq.gz out=%_#AGAMDAO.fq.gz outu=AGAMDAO_unmatched.fq.gz barcode=T stats=readStatistics.txt
+# demuxbyname.sh in=AGAMDAO_LSTM2.R1.fastq.gz in2=AGAMDAO_LSTM2.R2.fastq.gz out=%_#AGAMDAO.fastq.gz outu=AGAMDAO_unmatched.fastq.gz barcode=T stats=readStatistics.txt
 
 # Useful demultiplexing info http://protocols.faircloth-lab.org/en/latest/protocols-computer/sequencing/sequencing-demultiplex-a-run.html
 
@@ -16,11 +16,11 @@ rule TrimFastqs:
   Trim Fastq files with bbduk - remove adapter sequences and low quality bases
   """
     input:
-        read1 = "resources/reads/{sample}_1.fq.gz",
-        read2 = "resources/reads/{sample}_2.fq.gz"
+        read1 = "resources/reads/{sample}_1.fastq.gz",
+        read2 = "resources/reads/{sample}_2.fastq.gz"
     output:
-        read1 = "resources/reads/trimmed/{sample}_1.fq.gz",
-        read2 = "resources/reads/trimmed/{sample}_2.fq.gz",
+        read1 = "resources/reads/trimmed/{sample}_1.fastq.gz",
+        read2 = "resources/reads/trimmed/{sample}_2.fastq.gz",
         stats = "resources/reads/trimmed/stats/{sample}.txt"
     log:
         "logs/bbduk/{sample}.log"
@@ -49,6 +49,8 @@ rule targetedCoverage:
     log:
         "logs/coverage/{sample}_{ref}.log"
     threads:4
+    conda:
+        "../envs/AmpSeq.yaml"
     params:
         prefix="results/{ref}/coverage/{sample}",
         regions = lambda wildcards: config['bed'][wildcards.ref]
@@ -68,6 +70,8 @@ rule windowedCoverage:
         "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"
     log:
         "logs/coverage/windowed_{sample}_wholegenome.log"
+    conda:
+        "../envs/AmpSeq.yaml"
     threads:4
     params:
         prefix="results/wholegenome/coverage/windowed/{sample}",
@@ -85,6 +89,8 @@ rule BamStats:
         idx = "resources/{ref}/alignments/{sample}.bam.bai"
     output:
         stats = "resources/{ref}/alignments/bamStats/{sample}.flagstat"
+    conda:
+        "../envs/AmpSeq.yaml"
     log:
         "logs/BamStats/{sample}_{ref}.log"
     shell:

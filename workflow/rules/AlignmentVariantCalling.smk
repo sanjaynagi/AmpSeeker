@@ -5,6 +5,8 @@ rule GenomeIndex:
         ref = lambda wildcards: config['ref'][wildcards.ref]
     output:
         idx = touch("resources/reference/.bwa.index.{ref}")
+    conda:
+        "../envs/AmpSeq.yaml"
     shell:
         """
         bwa index {input.ref}
@@ -15,7 +17,7 @@ rule alignBWA:
     Align with bwa mem, and sorting by coordinate with samtools sort. then index with samtools.  
     """
     input:
-        reads = expand("resources/reads/trimmed/{{sample}}_{n}.fq.gz", n=[1,2]),
+        reads = expand("resources/reads/trimmed/{{sample}}_{n}.fastq.gz", n=[1,2]),
         ref = lambda wildcards: config['ref'][wildcards.ref],
         idx = "resources/reference/.bwa.index.{ref}"
     output:
@@ -23,6 +25,8 @@ rule alignBWA:
     log:
         align="logs/align_bwa/{sample}_{ref}.log",
         sort="logs/sort/{sample}_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     resources:bwa=1
     threads:1 # each sample tiny so perhaps better to run each on single thread
     params:
@@ -34,13 +38,15 @@ rule alignBWA:
         """
 
 rule indexBams:
-     input:
+    input:
         "resources/{ref}/alignments/{sample}.bam"
-     output:
+    output:
         "resources/{ref}/alignments/{sample}.bam.bai"
-     log:
+    conda:
+        "../envs/AmpSeq.yaml"
+    log:
         "logs/index_bams/{sample}_index_{ref}.log"
-     shell:
+    shell:
         "samtools index {input} {output} 2> {log}"
 
 
@@ -56,6 +62,8 @@ rule mpileupAndCall:
     log:
         mpileup = "logs/mpileup/{sample}_{ref}.log",
         call = "logs/bcftools_call/{sample}_{ref}.log"
+    conda:
+        "../envs/AmpSeq.yaml"
     params:
         ref = lambda wildcards: config['ref'][wildcards.ref],
         regions = lambda wildcards: config['bed'][wildcards.ref],

@@ -20,6 +20,8 @@ rule tabix:
         calls = "results/{ref}/bcfs/{sample}.calls.vcf.gz",    
     output:
         calls_tbi = "results/{ref}/bcfs/{sample}.calls.vcf.gz.tbi",
+    conda:
+        "../envs/AmpSeq.yaml"
     log:
         "logs/tabix/{sample}_{ref}.log",
     shell:
@@ -36,6 +38,8 @@ rule bcftools_merge1:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM1.vcf",
     log:
         "logs/bcftools_merge_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     threads: 12
     shell:
         """
@@ -50,6 +54,8 @@ rule bcftools_merge2:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM2.vcf",
     log:
         "logs/bcftools_merge2_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     threads: 12
     shell:
         """
@@ -64,6 +70,8 @@ rule bgzip2:
         vcfgz = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz",
     log:
         "logs/bgzip/main_{n}_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     shell:
         """
         bgzip {input.vcf} 2> {log}
@@ -76,6 +84,8 @@ rule tabix2:
         tbi = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz.tbi"
     log:
         "logs/tabix/main_{n}_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     shell:
         """
         tabix {input.vcfgz} 2> {log}
@@ -89,6 +99,8 @@ rule bcftools_merge3:
         vcf = "results/{ref}/vcfs/AgamDaoLSTM_merged.vcf",
     log:
         "logs/bcftools_merge3_{ref}.log",
+    conda:
+        "../envs/AmpSeq.yaml"
     shell:
         """
         bcftools merge -o {output.vcf} -Ov {input.vcf} 2> {log}

@@ -7,15 +7,16 @@ import numpy as np
 configfile:"config/config.yaml"
 
 metadata = pd.read_csv(config['metadata'], sep="\t")
-present = pd.read_csv(config['present_samples'], sep="\t", header=None)
+samples = metadata['sampleID']
+#present = pd.read_csv(config['present_samples'], sep="\t", header=None)
 
 # We have to remove absent samples, or workflow will fail 
-samples = metadata[metadata['sampleID'].isin(present[0])]['sampleID']
+#samples = metadata[metadata['sampleID'].isin(present[0])]['sampleID']
 
 # Split into two sample sets as bcftools merge cant take over 1020 files
 # So we must do two rounds of merging
-samples1 = metadata[metadata['sampleID'].isin(present[0])]['sampleID'][:1000]
-samples2 = metadata[metadata['sampleID'].isin(present[0])]['sampleID'][1000:]
+samples1 = metadata['sampleID'][:200]
+samples2 = metadata['sampleID'][200:]
 #samples = samples[~np.isin(samples, ["AgamDaoLSTM1_1375", "AgamDaoLSTM1_1378", "])]
 
 rule all:
@@ -26,7 +27,7 @@ rule all:
         stats = expand("resources/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
         bams = expand("resources/{ref}/alignments/{sample}.bam", sample=samples, ref=config['ref']),
         vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
-        trimmed = expand("resources/reads/trimmed/{sample}_{n}.fq.gz", n=[1,2], sample=samples, ref=config['ref'])
+        trimmed = expand("resources/reads/trimmed/{sample}_{n}.fastq.gz", n=[1,2], sample=samples, ref=config['ref'])
 
 include: "rules/qc.smk"
 include: "rules/AlignmentVariantCalling.smk"
