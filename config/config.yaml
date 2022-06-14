@@ -10,7 +10,7 @@ illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_00
 
 # Genome fasta reference files 
 ref:
-  wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
+ # wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
   amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
 
 # .bed file of target SNPs

@@ -15,15 +15,17 @@ samples = metadata['sampleID']
 
 # Split into two sample sets as bcftools merge cant take over 1020 files
 # So we must do two rounds of merging
-samples1 = metadata['sampleID'][:200]
-samples2 = metadata['sampleID'][200:]
+n_samples = len(metadata)
+half = int(n_samples/2)
+samples1 = metadata['sampleID'][:half]
+samples2 = metadata['sampleID'][half:]
 #samples = samples[~np.isin(samples, ["AgamDaoLSTM1_1375", "AgamDaoLSTM1_1378", "])]
 
 rule all:
     input:
         # The first rule should define the default target files
         cov = expand("results/{ref}/coverage/{sample}.per-base.bed.gz", sample=samples, ref=config['ref']),
-        cov2 = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
+       # cov2 = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
         stats = expand("resources/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
         bams = expand("resources/{ref}/alignments/{sample}.bam", sample=samples, ref=config['ref']),
         vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
