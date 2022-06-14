@@ -1,0 +1,11 @@
+channels:
+  - bioconda
+  - conda-forge
+  - agbiome
+dependencies:
+  - samtools=1.11
+  - bwa-mem
+  - bcftools=1.11
+  - mosdepth
+  - tabix
+  - bbtools
