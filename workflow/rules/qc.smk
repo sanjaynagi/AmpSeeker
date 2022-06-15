@@ -42,8 +42,8 @@ rule targetedCoverage:
   Target per-base coverage with mosdepth
   """
     input:
-        bam="resources/{ref}/alignments/{sample}.bam",
-        idx="resources/{ref}/alignments/{sample}.bam.bai"
+        bam="results/{ref}/alignments/{sample}.bam",
+        idx="results/{ref}/alignments/{sample}.bam.bai"
     output:
         "results/{ref}/coverage/{sample}.per-base.bed.gz"
     log:
@@ -64,8 +64,8 @@ rule windowedCoverage:
   300 bp windowed coverage with mosdepth
   """
     input:
-        bam="resources/wholegenome/alignments/{sample}.bam",
-        idx="resources/wholegenome/alignments/{sample}.bam.bai"
+        bam="results/wholegenome/alignments/{sample}.bam",
+        idx="results/wholegenome/alignments/{sample}.bam.bai"
     output:
         "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"
     log:
@@ -85,10 +85,10 @@ rule BamStats:
   Calculate mapping statistics with samtools flagstat
   """
     input:
-        bam = "resources/{ref}/alignments/{sample}.bam",
-        idx = "resources/{ref}/alignments/{sample}.bam.bai"
+        bam = "results/{ref}/alignments/{sample}.bam",
+        idx = "results/{ref}/alignments/{sample}.bam.bai"
     output:
-        stats = "resources/{ref}/alignments/bamStats/{sample}.flagstat"
+        stats = "results/{ref}/alignments/bamStats/{sample}.flagstat"
     conda:
         "../envs/AmpSeq.yaml"
     log:

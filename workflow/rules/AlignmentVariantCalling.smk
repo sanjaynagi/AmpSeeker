@@ -21,7 +21,7 @@ rule alignBWA:
         ref = lambda wildcards: config['ref'][wildcards.ref],
         idx = "resources/reference/.bwa.index.{ref}"
     output:
-        bam = "resources/{ref}/alignments/{sample}.bam"
+        bam = "results/{ref}/alignments/{sample}.bam"
     log:
         align="logs/align_bwa/{sample}_{ref}.log",
         sort="logs/sort/{sample}_{ref}.log",
@@ -39,9 +39,9 @@ rule alignBWA:
 
 rule indexBams:
     input:
-        "resources/{ref}/alignments/{sample}.bam"
+        "results/{ref}/alignments/{sample}.bam"
     output:
-        "resources/{ref}/alignments/{sample}.bam.bai"
+        "results/{ref}/alignments/{sample}.bam.bai"
     conda:
         "../envs/AmpSeq.yaml"
     log:
@@ -55,8 +55,8 @@ rule mpileupAndCall:
     Get pileup of reads at target loci and pipe output to bcftoolsCall
     """
     input:
-        bam = "resources/{ref}/alignments/{sample}.bam",
-        index = "resources/{ref}/alignments/{sample}.bam.bai"
+        bam = "results/{ref}/alignments/{sample}.bam",
+        index = "results/{ref}/alignments/{sample}.bam.bai"
     output:
         calls = "results/{ref}/bcfs/{sample}.calls.vcf"
     log:

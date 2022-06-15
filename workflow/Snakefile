@@ -26,10 +26,9 @@ rule all:
         # The first rule should define the default target files
         cov = expand("results/{ref}/coverage/{sample}.per-base.bed.gz", sample=samples, ref=config['ref']),
        # cov2 = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
-        stats = expand("resources/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
-        bams = expand("resources/{ref}/alignments/{sample}.bam", sample=samples, ref=config['ref']),
+        stats = expand("results/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
         vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
-        trimmed = expand("resources/reads/trimmed/{sample}_{n}.fastq.gz", n=[1,2], sample=samples, ref=config['ref'])
+        #trimmed = expand("resources/reads/trimmed/{sample}_{n}.fastq.gz", n=[1,2], sample=samples, ref=config['ref'])
 
 include: "rules/qc.smk"
 include: "rules/AlignmentVariantCalling.smk"
