@@ -17,7 +17,7 @@ rule alignBWA:
     Align with bwa mem, and sorting by coordinate with samtools sort. then index with samtools.  
     """
     input:
-        reads = expand("resources/reads/trimmed/{{sample}}_{n}.fastq.gz", n=[1,2]),
+        reads = expand("resources/reads/{{sample}}_{n}.fastq.gz", n=[1,2]),
         ref = lambda wildcards: config['ref'][wildcards.ref],
         idx = "resources/reference/.bwa.index.{ref}"
     output:
