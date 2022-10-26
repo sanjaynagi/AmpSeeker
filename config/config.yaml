@@ -8,9 +8,9 @@ present_samples:  "resources/present.samples.txt"
 # Directory of Illumina Miseq Run
 illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
 
-# Genome fasta reference files 
+# Genome fasta reference files
 ref:
- # wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
+  wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
   amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
 
 # .bed file of target SNPs
