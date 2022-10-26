@@ -42,18 +42,18 @@ rule targetedCoverage:
   Target per-base coverage with mosdepth
   """
     input:
-        bam="results/{ref}/alignments/{sample}.bam",
-        idx="results/{ref}/alignments/{sample}.bam.bai"
+        bam="results/alignments/{sample}.bam",
+        idx="results/alignments/{sample}.bam.bai"
     output:
-        "results/{ref}/coverage/{sample}.per-base.bed.gz"
+        "results/coverage/{sample}.per-base.bed.gz"
     log:
-        "logs/coverage/{sample}_{ref}.log"
+        "logs/coverage/{sample}.log"
     threads:4
     conda:
         "../envs/AmpSeq.yaml"
     params:
-        prefix="results/{ref}/coverage/{sample}",
-        regions = lambda wildcards: config['bed'][wildcards.ref]
+        prefix="results/coverage/{sample}",
+        regions = BED
     shell:
         """
         mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
@@ -85,14 +85,14 @@ rule BamStats:
   Calculate mapping statistics with samtools flagstat
   """
     input:
-        bam = "results/{ref}/alignments/{sample}.bam",
-        idx = "results/{ref}/alignments/{sample}.bam.bai"
+        bam = "results/alignments/{sample}.bam",
+        idx = "results/alignments/{sample}.bam.bai"
     output:
-        stats = "results/{ref}/alignments/bamStats/{sample}.flagstat"
+        stats = "results/alignments/bamStats/{sample}.flagstat"
     conda:
         "../envs/AmpSeq.yaml"
     log:
-        "logs/BamStats/{sample}_{ref}.log"
+        "logs/BamStats/{sample}.log"
     shell:
         """
         samtools flagstat {input.bam} > {output} 2> {log}
