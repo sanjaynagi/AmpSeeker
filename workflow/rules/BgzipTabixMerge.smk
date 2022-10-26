@@ -5,11 +5,11 @@ Kept in a separate rule file due to maintain visibility of the main, analysis ru
 
 rule bgzip:
     input:
-        calls = "results/{ref}/bcfs/{sample}.calls.vcf",    
+        calls = "results/bcfs/{sample}.calls.vcf",    
     output:
-        callsgz = "results/{ref}/bcfs/{sample}.calls.vcf.gz",
+        callsgz = "results/bcfs/{sample}.calls.vcf.gz",
     log:
-        "logs/bgzip/{sample}_{ref}.log",
+        "logs/bgzip/{sample}.log",
     shell:
         """
         bgzip {input.calls} 2> {log}
@@ -17,13 +17,13 @@ rule bgzip:
 
 rule tabix:
     input:
-        calls = "results/{ref}/bcfs/{sample}.calls.vcf.gz",    
+        calls = "results/bcfs/{sample}.calls.vcf.gz",    
     output:
-        calls_tbi = "results/{ref}/bcfs/{sample}.calls.vcf.gz.tbi",
+        calls_tbi = "results/bcfs/{sample}.calls.vcf.gz.tbi",
     conda:
         "../envs/AmpSeq.yaml"
     log:
-        "logs/tabix/{sample}_{ref}.log",
+        "logs/tabix/{sample}.log",
     shell:
         """
         tabix {input.calls} 2> {log}
@@ -32,12 +32,12 @@ rule tabix:
 # wont work with over 1000 files 
 rule bcftools_merge1:
     input:
-        bcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples1),
-        idx = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples1)
+        bcfs = expand("results/bcfs/{sample}.calls.vcf.gz", sample=samples1),
+        idx = expand("results/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples1)
     output:
-        vcf = "results/{ref}/vcfs/AgamDaoLSTM1.vcf",
+        vcf = "results/vcfs/AgamDaoLSTM1.vcf",
     log:
-        "logs/bcftools_merge_{ref}.log",
+        "logs/bcftools_merge.log",
     conda:
         "../envs/AmpSeq.yaml"
     threads: 12
@@ -48,12 +48,12 @@ rule bcftools_merge1:
 
 rule bcftools_merge2:
     input:
-        vcfs = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz", sample=samples2),
-        idx = expand("results/{{ref}}/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples2)
+        vcfs = expand("results/bcfs/{sample}.calls.vcf.gz", sample=samples2),
+        idx = expand("results/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples2)
     output:
-        vcf = "results/{ref}/vcfs/AgamDaoLSTM2.vcf",
+        vcf = "results/vcfs/AgamDaoLSTM2.vcf",
     log:
-        "logs/bcftools_merge2_{ref}.log",
+        "logs/bcftools_merge2.log",
     conda:
         "../envs/AmpSeq.yaml"
     threads: 12
@@ -65,11 +65,11 @@ rule bcftools_merge2:
 
 rule bgzip2:
     input:
-        vcf = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf",
+        vcf = "results/vcfs/AgamDaoLSTM{n}.vcf",
     output:
-        vcfgz = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz",
+        vcfgz = "results/vcfs/AgamDaoLSTM{n}.vcf.gz",
     log:
-        "logs/bgzip/main_{n}_{ref}.log",
+        "logs/bgzip/main_{n}.log",
     conda:
         "../envs/AmpSeq.yaml"
     shell:
@@ -79,11 +79,11 @@ rule bgzip2:
 
 rule tabix2:
     input:
-        vcfgz = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz",
+        vcfgz = "results/vcfs/AgamDaoLSTM{n}.vcf.gz",
     output:
-        tbi = "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz.tbi"
+        tbi = "results/vcfs/AgamDaoLSTM{n}.vcf.gz.tbi"
     log:
-        "logs/tabix/main_{n}_{ref}.log",
+        "logs/tabix/main_{n}.log",
     conda:
         "../envs/AmpSeq.yaml"
     shell:
@@ -93,12 +93,12 @@ rule tabix2:
 
 rule bcftools_merge3:
     input:
-        vcf = expand("results/{{ref}}/vcfs/AgamDaoLSTM{n}.vcf.gz", n=[1,2]),
-        tbi = expand("results/{{ref}}/vcfs/AgamDaoLSTM{n}.vcf.gz.tbi", n=[1,2])
+        vcf = expand("results/vcfs/AgamDaoLSTM{n}.vcf.gz", n=[1,2]),
+        tbi = expand("results/vcfs/AgamDaoLSTM{n}.vcf.gz.tbi", n=[1,2])
     output:
-        vcf = "results/{ref}/vcfs/AgamDaoLSTM_merged.vcf",
+        vcf = "results/vcfs/AgamDaoLSTM_merged.vcf",
     log:
-        "logs/bcftools_merge3_{ref}.log",
+        "logs/bcftools_merge3.log",
     conda:
         "../envs/AmpSeq.yaml"
     shell:
