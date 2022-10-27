@@ -1,12 +1,10 @@
 channels:
   - bioconda
   - conda-forge
-  - agbiome
 dependencies:
   - samtools
   - htslib=1.16
+  - conda-forge::libdeflate=1.13
   - bwa
   - bcftools
   - mosdepth
-  - tabix
-  - bbtools
