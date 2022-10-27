@@ -3,9 +3,9 @@ channels:
   - conda-forge
   - agbiome
 dependencies:
-  - samtools=1.11
+  - samtools
   - bwa
-  - bcftools=1.11
+  - bcftools
   - mosdepth
   - tabix
   - bbtools
