@@ -4,9 +4,9 @@ channels:
   - agbiome
 dependencies:
   - samtools
+  - htslib
   - bwa
   - bcftools
   - mosdepth
-  - bgzip
   - tabix
   - bbtools
