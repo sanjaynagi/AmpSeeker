@@ -2,7 +2,6 @@ channels:
   - bioconda
   - conda-forge
   - defaults
-channel_priority: flexible
 dependencies:
   - samtools
   - htslib=1.16

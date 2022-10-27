@@ -16,6 +16,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
+
+      - name: config channel_priority
+        run: conda config --set channel_priority flexible
       
       - name: Test workflow 
         uses: snakemake/snakemake-github-action@v1.23.0
