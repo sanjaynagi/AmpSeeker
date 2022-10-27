@@ -4,8 +4,7 @@ channels:
   - defaults
 dependencies:
   - samtools
-  - htslib
+  - tabix
   - bwa
   - bcftools
   - mosdepth
-
