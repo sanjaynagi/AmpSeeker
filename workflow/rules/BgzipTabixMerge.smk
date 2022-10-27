@@ -5,15 +5,13 @@ Kept in a separate rule file due to maintain visibility of the main, analysis ru
 
 rule bgzip:
     input:
-        calls = "results/bcfs/{sample}.calls.vcf",    
+        "results/{ref}/bcfs/{sample}.calls.vcf",    
     output:
-        callsgz = "results/bcfs/{sample}.calls.vcf.gz",
+        "results/{ref}/bcfs/{sample}.calls.vcf.gz",
     log:
-        "logs/bgzip/{sample}.log",
-    shell:
-        """
-        bgzip {input.calls} 2> {log}
-        """
+        "logs/bgzip/{sample}_{ref}.log",
+    wrapper:
+        "v1.17.4-17-g62b55d45/bio/bgzip"
 
 rule tabix:
     input:
@@ -65,17 +63,13 @@ rule bcftools_merge2:
 
 rule bgzip2:
     input:
-        vcf = "results/vcfs/AgamDaoLSTM{n}.vcf",
+        "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf",
     output:
-        vcfgz = "results/vcfs/AgamDaoLSTM{n}.vcf.gz",
+        "results/{ref}/vcfs/AgamDaoLSTM{n}.vcf.gz",
     log:
-        "logs/bgzip/main_{n}.log",
-    conda:
-        "../envs/AmpSeq.yaml"
-    shell:
-        """
-        bgzip {input.vcf} 2> {log}
-        """
+        "logs/bgzip/main_{n}_{ref}.log",
+    wrapper:
+        "v1.17.4-17-g62b55d45/bio/bgzip"
 
 rule tabix2:
     input:
