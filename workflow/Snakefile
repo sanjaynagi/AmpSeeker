@@ -8,28 +8,41 @@ configfile:"config/config.yaml"
 
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
-#present = pd.read_csv(config['present_samples'], sep="\t", header=None)
+# Specify below whether sequence data provided is amplicon or whole genome sequence data.
+sequence_data = "amplicon" 
 
-# We have to remove absent samples, or workflow will fail 
-#samples = metadata[metadata['sampleID'].isin(present[0])]['sampleID']
+if sequence_data == "amplicon":
+	REF=config['ref']['amplicon']
+	BED=config['bed']['amplicon']
+	coverage = expand("results/coverage/{sample}.per-base.bed.gz", sample=samples, ref=REF)
 
-# Split into two sample sets as bcftools merge cant take over 1020 files
+if sequence_data == "wholegenome":
+	REF=config['ref']['wholegenome']
+	BED=config['bed']['wholegenome']
+	coverage = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples)
+
+# Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
-n_samples = len(metadata)
-half = int(n_samples/2)
-samples1 = metadata['sampleID'][:half]
-samples2 = metadata['sampleID'][half:]
-#samples = samples[~np.isin(samples, ["AgamDaoLSTM1_1375", "AgamDaoLSTM1_1378", "])]
+if len(metadata) > 1000:
+	n_samples = len(metadata)
+	half = int(n_samples/2)
+	samples1 = metadata['sampleID'][:half]
+	samples2 = metadata['sampleID'][half:]
+	large_sample_size = True
+else:
+	large_sample_size = False
+	samples1 = []
+	samples2 = []
 
-rule all:
-    input:
-        # The first rule should define the default target files
-        cov = expand("results/{ref}/coverage/{sample}.per-base.bed.gz", sample=samples, ref=config['ref']),
-       # cov2 = expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
-        stats = expand("results/{ref}/alignments/bamStats/{sample}.flagstat", sample=samples,ref=config['ref']),
-        vcf = expand("results/{ref}/vcfs/AgamDaoLSTM_merged.vcf", ref=config['ref']),
-        #trimmed = expand("resources/reads/trimmed/{sample}_{n}.fastq.gz", n=[1,2], sample=samples, ref=config['ref'])
-
+	
+include: "rules/BgzipTabixMerge.smk"
 include: "rules/qc.smk"
 include: "rules/AlignmentVariantCalling.smk"
-include: "rules/BgzipTabixMerge.smk"
+
+rule all:
+	input:
+		# The first rule should define the default target files
+		coverage,
+		stats = expand("results/alignments/bamStats/{sample}.flagstat", sample=samples,ref=REF),
+		vcf = expand("results/vcfs/{dataset}_LSTM_merged.vcf", ref=REF, dataset=config['dataset']),
+		merge_vcfs = "results/vcfs/.complete.merge_vcfs" if large_sample_size else [],
