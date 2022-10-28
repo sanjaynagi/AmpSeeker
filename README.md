@@ -10,6 +10,7 @@ This is a snakemake workflow for Amplicon Sequencing data analysis.
 ## Authors
 
 * Sanjay C Nagi (@sanjaynagi)
+* Trevor Mugoya (@ChabbyTMD)
 
 ## Usage
 
