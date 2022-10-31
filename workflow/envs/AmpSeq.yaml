@@ -1,11 +1,10 @@
 channels:
   - bioconda
   - conda-forge
-  - agbiome
+  - defaults
 dependencies:
-  - samtools=1.11
-  - bwa
-  - bcftools=1.11
-  - mosdepth
+  - samtools
   - tabix
-  - bbtools
+  - bwa
+  - bcftools
+  - mosdepth
