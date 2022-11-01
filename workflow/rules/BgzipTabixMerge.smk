@@ -32,7 +32,7 @@ rule bcftools_merge:
         bcfs = expand("results/bcfs/{sample}.calls.vcf.gz", sample=samples),
         idx = expand("results/bcfs/{sample}.calls.vcf.gz.tbi", sample=samples)
     output:
-        vcf = "results/vcfs/{dataset}.vcf",
+        vcf = "results/vcfs/{dataset}.merged.vcf",
     log:
         "logs/bcftools/merge_{dataset}.log",
     conda:
