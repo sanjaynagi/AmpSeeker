@@ -10,8 +10,5 @@ include: "rules/AlignmentVariantCalling.smk"
 rule all:
 	input:
 		# The first rule should define the default target files
-		coverage,
-		stats,
-		vcf,
-		merge_vcfs,
+		AmpSeekerOutputs,
 		
