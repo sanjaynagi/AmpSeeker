@@ -21,3 +21,9 @@ bed:
   wholegenome: "resources/AgamDao_wholegenome_snptargets.bed"
   amplicon: "resources/AgamDao_amplicon_snptargets.bed"
 
+Coverage:
+  activate: True
+Stats:
+  activate: True
+Mapping:
+  activate: True
