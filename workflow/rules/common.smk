@@ -1,17 +1,5 @@
 from snakemake.utils import validate
-import pandas as pd
 
-# this container defines the underlying OS for each job when using the workflow
-# with --use-conda --use-singularity
-singularity: "docker://continuumio/miniconda3"
-
-##### load config and conditional logic for splitting sample files if greater than 1000 #####
-
-configfile: "config/config.yaml"
-dataset=config['dataset']
-metadata = pd.read_csv(config['metadata'], sep="\t")
-samples = metadata['sampleID']
-sequence_data = config['sequence_data']
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
 large_sample_size = False
