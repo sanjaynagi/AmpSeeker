@@ -8,11 +8,13 @@ singularity: "docker://continuumio/miniconda3"
 ##### load config and conditional logic for splitting sample files if greater than 1000 #####
 
 configfile: "config/config.yaml"
+dataset=config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
 sequence_data = config['sequence_data']
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
+large_sample_size = False
 if len(metadata) > 1000:
     large_sample_size = True
     n_samples = len(metadata)
@@ -21,7 +23,6 @@ if len(metadata) > 1000:
     samples2 = metadata['sampleID'][half:]
 
 else:
-    large_sample_size = False
     samples1 = []
     samples2 = []
 
@@ -43,17 +44,21 @@ def RefBed(sequence_data):
 
 REF, BED = RefBed(sequence_data)
 
-def coverage(wildcards):
-    if sequence_data == "amplicon":
-        return expand("results/coverage/{sample}.per-base.bed.gz", sample=samples)
-    if sequence_data == "wholegenome":
-        return expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples)
+def AmpSeekerOutputs(wildcards):
+    inputs = []
+    if config['Mapping']['activate']:
+        if large_sample_size:
+            inputs.extend("results/vcfs/{dataset}.complete.merge_vcfs" if large_sample_size else [])
+        else:
+            inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", ref=REF, regions=BED, dataset=config['dataset']))
 
-def stats(wildcards):
-    return expand("results/alignments/bamStats/{sample}.flagstat", sample=samples,ref=REF)
+    if config['Stats']['activate']:
+        inputs.extend(expand("results/alignments/bamStats/{sample}.flagstat", sample=samples,ref=REF))
 
-def vcf(wildcards):
-    return expand("results/vcfs/{dataset}_LSTM_merged.vcf", ref=REF, dataset=config['dataset'])
-
-def merge_vcfs(metadata):
-    return "results/vcfs/.complete.merge_vcfs" if large_sample_size else []
+    if config['Coverage']['activate']:
+        if sequence_data == "amplicon":
+            inputs.extend(expand("results/coverage/{sample}.per-base.bed.gz", sample=samples))
+        if sequence_data == "wholegenome":
+            inputs.extend(expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples))
+    
+    return inputs
