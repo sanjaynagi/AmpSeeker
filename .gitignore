@@ -1,0 +1,4 @@
+.snakemake
+*.log
+resources/reads/
+resources/reference/
