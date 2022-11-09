@@ -5,6 +5,9 @@ dataset: "AgamDao"
 metadata: "config/dummy_metadata.tsv"
 present_samples:  "resources/present.samples.txt"
 
+# Specify whether dataset provided is amplicon or wholegenome sequence data
+sequence_data: "amplicon"
+
 # Directory of Illumina Miseq Run
 illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
 
@@ -18,3 +21,9 @@ bed:
   wholegenome: "resources/AgamDao_wholegenome_snptargets.bed"
   amplicon: "resources/AgamDao_amplicon_snptargets.bed"
 
+Coverage:
+  activate: True
+Stats:
+  activate: True
+Mapping:
+  activate: True
