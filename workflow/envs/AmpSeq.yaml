@@ -3,6 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python>=3.9
+  - snakemake
+  - numpy
+  - pandas
   - samtools
   - tabix
   - bwa
@@ -10,7 +14,6 @@ dependencies:
   - mosdepth
   - papermill
   - ipykernel
-  - pandas
   - pip 
   - pip:
     - igv_notebook
