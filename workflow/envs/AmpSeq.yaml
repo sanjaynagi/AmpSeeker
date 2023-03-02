@@ -2,10 +2,10 @@ name: AmpSeq
 channels:
   - bioconda
   - conda-forge
-  - defaults
 dependencies:
   - python>=3.9
-  - snakemake>=6.0
+  - snakemake>=6
+  - papermill>=2
   - numpy
   - pandas
   - samtools
@@ -13,7 +13,6 @@ dependencies:
   - bwa
   - bcftools
   - mosdepth
-  - papermill
   - ipykernel
   - pip 
   - pip:
