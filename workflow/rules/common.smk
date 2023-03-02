@@ -10,45 +10,43 @@ if len(metadata) > 1000:
     half = int(n_samples/2)
     samples1 = metadata['sampleID'][:half]
     samples2 = metadata['sampleID'][half:]
-
 else:
     samples1 = []
     samples2 = []
 
-# Broken Validation Code
-# validate(config, schema="../schemas/config.schema.yaml")
-# samples = pd.read_csv(config["samples"], sep="\t").set_index("sample", drop=False)
-# samples.index.names = ["sample_id"]
-# validate(samples, schema="../schemas/samples.schema.yaml")
 
-def RefBed(sequence_data):
-    if sequence_data == "amplicon":
-        ref=config['ref']['amplicon']
-        bed=config['bed']['amplicon']
-        return ref, bed
-    if sequence_data == "wholegenome":
-        ref=config['ref']['wholegenome']
-        bed=config['bed']['wholegenome']
-        return ref, bed
+rule set_kernel:
+    input:
+        f'{workflow.basedir}/envs/AmpSeq.yaml'
+    output:
+        touch("results/.kernel.set")
+    conda: f'{workflow.basedir}/envs/AmpSeq.yaml'
+    log:
+        "logs/set_kernel.log"
+    shell: 
+        """
+        python -m ipykernel install --user --name=AmpSeq 2> {log}
+        """
 
-REF, BED = RefBed(sequence_data)
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
     if config['Mapping']['activate']:
         if large_sample_size:
-            inputs.extend("results/vcfs/{dataset}.complete.merge_vcfs" if large_sample_size else [])
+            inputs.extend(expand("results/vcfs/{dataset}.complete.merge_vcfs", dataset=config['dataset']) if large_sample_size else [])
         else:
-            inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", ref=REF, regions=BED, dataset=config['dataset']))
+            inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", dataset=config['dataset']))
 
     if config['Stats']['activate']:
-        inputs.extend(expand("results/alignments/bamStats/{sample}.flagstat", sample=samples,ref=REF))
+        inputs.extend(expand("results/alignments/bamStats/{sample}.flagstat", sample=samples))
 
     if config['Coverage']['activate']:
-        if sequence_data == "amplicon":
+        if reference_type == "amplicon":
             inputs.extend(expand("results/coverage/{sample}.per-base.bed.gz", sample=samples))
-        if sequence_data == "wholegenome":
+        if reference_type == "wholegenome":
             inputs.extend(expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples))
+
+    inputs.extend(["results/notebooks/IGV-explore.ipynb"])
     
     return inputs
 

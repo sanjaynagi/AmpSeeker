@@ -53,7 +53,7 @@ rule targetedCoverage:
         "../envs/AmpSeq.yaml"
     params:
         prefix="results/coverage/{sample}",
-        regions = BED
+        regions = config['bed']
     shell:
         """
         mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
@@ -64,8 +64,8 @@ rule windowedCoverage:
   300 bp windowed coverage with mosdepth
   """
     input:
-        bam="results/wholegenome/alignments/{sample}.bam",
-        idx="results/wholegenome/alignments/{sample}.bam.bai"
+        bam="results/alignments/{sample}.bam",
+        idx="results/alignments/{sample}.bam.bai"
     output:
         "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"
     log:

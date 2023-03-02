@@ -8,3 +8,9 @@ dependencies:
   - bwa
   - bcftools
   - mosdepth
+  - papermill
+  - ipykernel
+  - pandas
+  - pip 
+  - pip:
+    - igv_notebook

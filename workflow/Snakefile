@@ -7,13 +7,14 @@ configfile:"config/config.yaml"
 dataset=config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
-sequence_data = config['sequence_data']
+reference_type = config['reference_type']
 report: "report/workflow.rst"
 
 include: "rules/common.smk"	
-include: "rules/BgzipTabixMerge.smk"
+include: "rules/utilities.smk"
 include: "rules/qc.smk"
-include: "rules/AlignmentVariantCalling.smk"
+include: "rules/alignment_variantcalling.smk"
+include: "rules/analysis.smk"
 
 rule all:
 	input:

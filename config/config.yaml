@@ -1,25 +1,22 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: "AgamDao"
-metadata: "config/dummy_metadata.tsv"
+dataset: "AgamDao_23"
+metadata: "config/metadata.tsv"
 present_samples:  "resources/present.samples.txt"
 
-# Specify whether dataset provided is amplicon or wholegenome sequence data
-sequence_data: "amplicon"
-
 # Directory of Illumina Miseq Run
-illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
+illumina_dir: /home/sanj/projects/AmpSeq2023/resources/230203_M05658_0007_000000000-KPHPC
 
+# Specify whether reference  provided is amplicon or wholegenome sequence data
+reference_type: "wholegenome" # amplicon or wholegenome
 # Genome fasta reference files
-ref:
-  wholegenome: "resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa"
-  amplicon: "resources/reference/AGAMP4_AGAMDAO_amplicons.fa"
+reference_name: 'AgamP4'
+reference_fasta: /home/sanj/projects/AgamDao/AmpSeq2023/resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
+reference_gff3: /home/sanj/projects/AgamDao/AmpSeq2023/resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
-bed:
-  wholegenome: "resources/AgamDao_wholegenome_snptargets.bed"
-  amplicon: "resources/AgamDao_amplicon_snptargets.bed"
+bed: "resources/AgamDao_wholegenome_snptargets.bed"
 
 Coverage:
   activate: True

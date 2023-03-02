@@ -1,29 +1,45 @@
-# An example collection of Snakemake rules imported in the main Snakefile.
 
-rule GenomeIndex:
+
+rule reference_index:
     input:
-        ref = REF
+        ref = config['reference_fasta']
+    output:
+        idx = config['reference_fasta'] + ".fai"
+    conda:
+        "../envs/AmpSeq.yaml"
+    log:
+        "logs/reference_index.log"
+    shell:
+        """
+        samtools faidx {input.ref} 2> {log}
+        """
+
+rule bwa_index:
+    input:
+        ref = config['reference_fasta']
     output:
         idx = touch("resources/reference/.bwa.index")
     conda:
         "../envs/AmpSeq.yaml"
+    log:
+        "logs/bwa_index.log"
     shell:
         """
-        bwa index {input.ref}
+        bwa index {input.ref} 2> {log}
         """
 
-rule alignBWA:
+rule bwa_align:
     """
     Align with bwa mem, and sorting by coordinate with samtools sort. then index with samtools.  
     """
     input:
         reads = expand("resources/reads/{{sample}}_{n}.fastq.gz", n=[1,2]),
-        ref = REF,
+        ref = config['reference_fasta'],
         idx = "resources/reference/.bwa.index"
     output:
         bam = "results/alignments/{sample}.bam"
     log:
-        align="logs/align_bwa/{sample}.log",
+        align="logs/bwa_align/{sample}.log",
         sort="logs/sort/{sample}.log",
     conda:
         "../envs/AmpSeq.yaml"
@@ -37,7 +53,7 @@ rule alignBWA:
         samtools sort -@{threads} -o {output} 2> {log.sort}
         """
 
-rule indexBams:
+rule bam_index:
     input:
         "results/alignments/{sample}.bam"
     output:
@@ -50,7 +66,7 @@ rule indexBams:
         "samtools index {input} {output} 2> {log}"
 
 
-rule mpileupAndCall:
+rule mpileup_call:
     """
     Get pileup of reads at target loci and pipe output to bcftoolsCall
     """
@@ -65,8 +81,8 @@ rule mpileupAndCall:
     conda:
         "../envs/AmpSeq.yaml"
     params:
-        ref = REF,
-        regions = BED,
+        ref = config['reference_fasta'],
+        regions = config['bed'],
         depth = 2000
     shell:
         """
