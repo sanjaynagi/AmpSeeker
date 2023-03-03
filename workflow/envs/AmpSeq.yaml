@@ -6,6 +6,8 @@ channels:
   - defaults
 dependencies:
   - python=3.9
+  - tqdm
+  - dropbox
   - snakemake>5.0
   - papermill>1.0
   - numpy
