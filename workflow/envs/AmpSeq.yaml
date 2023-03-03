@@ -6,8 +6,8 @@ channels:
   - defaults
 dependencies:
   - python=3.9
-  - snakemake>6.0
-  - papermill>2.0
+  - snakemake>5.0
+  - papermill>1.0
   - numpy
   - pandas
   - samtools
