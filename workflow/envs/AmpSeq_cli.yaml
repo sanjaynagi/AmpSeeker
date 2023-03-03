@@ -1,0 +1,10 @@
+name: AmpSeq_cli
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - samtools
+  - tabix
+  - bwa
+  - bcftools
+  - mosdepth

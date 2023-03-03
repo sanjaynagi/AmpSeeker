@@ -1,4 +1,4 @@
-name: AmpSeq
+name: AmpSeq_python
 channels:
   - bioconda
   - conda-forge
@@ -7,11 +7,6 @@ dependencies:
   - python=3.9
   - numpy
   - pandas
-  - samtools=1.16.1
-  - tabix
-  - bwa
-  - bcftools
-  - mosdepth
   - pip 
   - pip:
     - igv_notebook

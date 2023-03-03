@@ -12,7 +12,7 @@ rule igv_notebook:
     output:
         nb = "results/notebooks/IGV-explore.ipynb"
     conda:
-        "../envs/AmpSeq.yaml"
+        "../envs/AmpSeq_python.yaml"
     log:
         "logs/notebooks/IGV-explore.log"
     params:

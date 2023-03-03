@@ -17,17 +17,16 @@ else:
 
 rule set_kernel:
     input:
-        f'{workflow.basedir}/envs/AmpSeq.yaml'
+        f'{workflow.basedir}/envs/AmpSeq_python.yaml'
     output:
         touch("results/.kernel.set")
-    conda: f'{workflow.basedir}/envs/AmpSeq.yaml'
+    conda: f'{workflow.basedir}/envs/AmpSeq_python.yaml'
     log:
         "logs/set_kernel.log"
     shell: 
         """
-        python -m ipykernel install --user --name=AmpSeq 2> {log}
+        python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
-
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
