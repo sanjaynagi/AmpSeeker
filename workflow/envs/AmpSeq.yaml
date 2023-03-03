@@ -2,6 +2,8 @@ name: AmpSeq
 channels:
   - bioconda
   - conda-forge
+  - anaconda
+  - defaults
 dependencies:
   - python>=3.9
   - snakemake>=6
