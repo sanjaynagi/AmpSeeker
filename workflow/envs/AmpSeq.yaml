@@ -16,4 +16,3 @@ dependencies:
   - pip:
     - igv_notebook
     - papermill
-    - snakemake
