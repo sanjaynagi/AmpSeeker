@@ -5,9 +5,9 @@ channels:
   - anaconda
   - defaults
 dependencies:
-  - python>=3.9
-  - snakemake>=6
-  - papermill>=2
+  - python=3.9
+  - snakemake>6.0
+  - papermill>2.0
   - numpy
   - pandas
   - samtools
@@ -15,7 +15,6 @@ dependencies:
   - bwa
   - bcftools
   - mosdepth
-  - ipykernel
   - pip 
   - pip:
     - igv_notebook
