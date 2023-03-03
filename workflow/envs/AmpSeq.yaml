@@ -5,8 +5,6 @@ channels:
   - anaconda
 dependencies:
   - python=3.9
-  - snakemake>5.0
-  - papermill>1.0
   - numpy
   - pandas
   - samtools
@@ -17,3 +15,5 @@ dependencies:
   - pip 
   - pip:
     - igv_notebook
+    - papermill
+    - snakemake
