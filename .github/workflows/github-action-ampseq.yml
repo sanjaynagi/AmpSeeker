@@ -10,8 +10,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: config channel_priority
-        run: conda config --set channel_priority disabled
+   #   - name: config channel_priority
+   #     run: conda config --set channel_priority disabled
       
       - name: Test workflow 
         uses: snakemake/snakemake-github-action@v1.23.0
