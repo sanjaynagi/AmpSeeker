@@ -19,5 +19,5 @@ rule igv_notebook:
         reference_name = config["reference_name"],
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq -p metadata_path {input.metadata} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
         """
