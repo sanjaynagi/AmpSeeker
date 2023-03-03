@@ -6,7 +6,7 @@ rule reference_index:
     output:
         idx = config['reference_fasta'] + ".fai"
     conda:
-        "../envs/AmpSeq.yaml"
+        "../envs/AmpSeq_cli.yaml"
     log:
         "logs/reference_index.log"
     shell:
