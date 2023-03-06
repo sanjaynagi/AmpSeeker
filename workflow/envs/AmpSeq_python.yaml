@@ -1,0 +1,13 @@
+name: AmpSeq_python
+channels:
+  - bioconda
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - pip 
+  - pip:
+    - igv_notebook
+    - papermill

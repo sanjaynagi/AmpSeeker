@@ -5,11 +5,17 @@ library(tidyverse)
 library(glue)
 
 ############## Where are the reads being aligned to? ##########
+metadata = fread("AmpSeq2023/config/metadata.tsv")
+
+
+
+
+
 # Need to edit column name 
-cov = fread("results/amplicon/coverage/AgamDaoLSTM1_0002.regions.bed.gz")[,1:3]
+cov = fread("AmpSeq2023/results_amplicon/coverage/sample97.regions.bed.gz")[,1:3]
 # read in mosdepth coverage data and store coverage per 300bp
 for (sample in metadata$sampleID){
-  covdf = fread(glue("results/amplicon/coverage/{sample}.regions.bed.gz")) %>% dplyr::rename(!!sample := V4) %>% select(-c(V1,V2,V3))
+  covdf = fread(glue("AmpSeq2023/results_amplicon/coverage/{sample}.regions.bed.gz")) %>% dplyr::rename(!!sample := V4) %>% select(-c(V1,V2,V3))
   cov = cbind(cov, covdf)
 }
 
@@ -19,7 +25,7 @@ coverage_df = cov %>% mutate("targetID" = paste0(V1,"_", V2)) %>%
   column_to_rownames("targetID")
 
 
-#### Rebalancing ####
+### Rebalancing ####
 ## cal total per sample 
 total_per_sample = apply(coverage_df, FUN=sum, MARGIN = 2)
 

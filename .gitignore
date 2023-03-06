@@ -1,3 +1,5 @@
 .snakemake
 *.log
 resources/reads/
+resources/*bam
+resources/reference/*
