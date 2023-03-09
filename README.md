@@ -5,7 +5,15 @@
 [![GitHub release](https://img.shields.io/github/release/sanjaynagi/AmpSeeker?include_prereleases=&sort=semver&color=blue)](https://github.com/sanjaynagi/AmpSeeker/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
-This is a snakemake workflow for Amplicon Sequencing data analysis.
+This is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is a work in progress, however, it currently implements:
+
+- BCL to FastQ conversion
+- Genome alignment
+- Coverage calculation
+- Visualisation of reads in IGV-notebook
+- Variant calling
+
+The workflow uses a combination of papermill and jupyter notebooks, so that users can visually explore the results in html reports.
 
 ## Authors
 
