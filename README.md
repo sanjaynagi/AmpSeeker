@@ -27,3 +27,14 @@ Please see the [wiki](https://github.com/sanjaynagi/AmpSeeker/wiki) for more inf
 ## Testing
 
 Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [Github Actions](https://github.com/features/actions).
+
+## Contributing to AmpSeeker
+
+1. Fork the repository to your own github user account
+2. Clone your fork
+3. Create a branch to implement the changes or features you would like `git checkout -b my_new_feature-24-03-23`
+4. Implement the changes
+5. Use `git add FILES`, `git commit -m COMMENT`, and `git push` to push your changes back to the branch
+6. Open a Pull request to the main repository 
+7. Once the pull request is merged, either delete your fork, or switch back to the main branch `git checkout main` and use `git pull upstream master` to incorporate the changes back in your local repo. 
+8. At this stage, your local repo should be up to date with the main Ampseeker branch and you are ready to start from #3 if you have more contributions!
