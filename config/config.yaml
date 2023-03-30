@@ -18,8 +18,6 @@ reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 # .bed file of target SNPs
 bed: "resources/AgamDao_wholegenome_snptargets.bed"
 
-BCL_conversion:
-  activate: True
 Coverage:
   activate: True
 Stats:
