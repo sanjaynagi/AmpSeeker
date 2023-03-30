@@ -5,8 +5,6 @@ import numpy as np
 
 configfile:"config/config.yaml"
 dataset = config['dataset']
-read_dir = config["read_dir"]
-workflow_reads = config["workflow_reads"]
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
 # sample_numbers = metadata['sampleID'].str.extract('(\\d+)$').astype(int)
