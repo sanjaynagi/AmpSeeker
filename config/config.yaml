@@ -6,8 +6,12 @@ metadata: "config/metadata.tsv"
 present_samples:  "resources/present.samples.txt"
 
 # Directory of Illumina Miseq Run
-illumina_dir: resources/230203_M05658_0007_000000000-KPHPC
+illumina_dir: /home/tmugoya/PIPELINE/bcl_branch/BCL_FILES/230203_M05658_0007_000000000-KPHPC/
 
+# Illumina read directory
+read_dir: "resources/reads/"
+# Worflow reads:
+workflow_reads: "results/renamed_reads/"
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 reference_type: "wholegenome" # amplicon or wholegenome
 # Genome fasta reference files
@@ -18,6 +22,8 @@ reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 # .bed file of target SNPs
 bed: "resources/AgamDao_wholegenome_snptargets.bed"
 
+BCL_conversion:
+  activate: True
 Coverage:
   activate: True
 Stats:

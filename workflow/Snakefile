@@ -4,9 +4,12 @@ import pandas as pd
 import numpy as np
 
 configfile:"config/config.yaml"
-dataset=config['dataset']
+dataset = config['dataset']
+read_dir = config["read_dir"]
+workflow_reads = config["workflow_reads"]
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
+# sample_numbers = metadata['sampleID'].str.extract('(\\d+)$').astype(int)
 reference_type = config['reference_type']
 report: "report/workflow.rst"
 
@@ -15,6 +18,9 @@ include: "rules/utilities.smk"
 include: "rules/qc.smk"
 include: "rules/alignment_variantcalling.smk"
 include: "rules/analysis.smk"
+include: "rules/bcl_convert.smk"
+
+# containerized: "docker://chabbytmd1/ampseeker:1.0"
 
 rule all:
 	input:
