@@ -18,7 +18,6 @@ include: "rules/alignment_variantcalling.smk"
 include: "rules/analysis.smk"
 include: "rules/bcl_convert.smk"
 
-# containerized: "docker://chabbytmd1/ampseeker:1.0"
 
 rule all:
 	input:
