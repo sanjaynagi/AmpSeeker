@@ -5,3 +5,10 @@ resources/230203_M05658_0007_000000000-KPHPC/
 resources/*bam
 resources/reference/*
 results/
+.test/resources/reference/*
+*docx
+*.zip 
+resources/*23*
+resources/rev_comp.ipynb*
+*ipynb_checkpoints*
+config/metadata.tsv
