@@ -36,5 +36,5 @@ Test cases are in the subfolder `.test`. They are automatically executed via con
 4. Implement the changes
 5. Use `git add FILES`, `git commit -m COMMENT`, and `git push` to push your changes back to the branch
 6. Open a Pull request to the main repository 
-7. Once the pull request is merged, either delete your fork, or switch back to the main branch `git checkout main` and use `git pull upstream master` to incorporate the changes back in your local repo. 
+7. Once the pull request is merged, either delete your fork, or switch back to the main branch `git checkout main` and use `git pull upstream main` to incorporate the changes back in your local repo. Prior to `git pull upstream main`, you may need to set sanjaynagi/AmpSeeker as the upstream remote url, with `git remote set-url upstream git@github.com:sanjaynagi/AmpSeeker.git`. 
 8. At this stage, your local repo should be up to date with the main Ampseeker branch and you are ready to start from #3 if you have more contributions!
