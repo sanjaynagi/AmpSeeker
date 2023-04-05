@@ -6,7 +6,7 @@ rule reference_index:
     output:
         idx = config['reference_fasta'] + ".fai"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     log:
         "logs/reference_index.log"
     shell:
@@ -20,7 +20,7 @@ rule bwa_index:
     output:
         idx = touch("resources/reference/.bwa.index")
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     log:
         "logs/bwa_index.log"
     shell:
@@ -42,7 +42,7 @@ rule bwa_align:
         align="logs/bwa_align/{sample}.log",
         sort="logs/sort/{sample}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     resources:bwa=1
     threads:1 # each sample tiny so perhaps better to run each on single thread
     params:
@@ -59,7 +59,7 @@ rule bam_index:
     output:
         "results/alignments/{sample}.bam.bai"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     log:
         "logs/index_bams/{sample}_index.log"
     shell:
@@ -79,7 +79,7 @@ rule mpileup_call:
         mpileup = "logs/mpileup/{sample}.log",
         call = "logs/bcftools_call/{sample}.log"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     params:
         ref = config['reference_fasta'],
         regions = config['bed'],

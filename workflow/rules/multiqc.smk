@@ -7,7 +7,7 @@ rule FastQC:
     log:
         "logs/fastqc/fastq.log"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     threads: 4
     params:
         outdir="--outdir results/fastqc/",
@@ -24,7 +24,7 @@ rule vcfStats:
     log:
         "logs/vcfStats/{dataset}.log"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     shell:
         """
         bcftools stats {input.vcf} > {output.stats} 2> {log}
@@ -43,7 +43,7 @@ rule multiQC:
     log:
         "logs/multiqc/multiqc.log"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli-lock.yaml"
     shell:
         """
         multiqc results -o results/multiqc/ -f {input} 2> {log}
