@@ -16,6 +16,7 @@ include: "rules/qc.smk"
 include: "rules/alignment_variantcalling.smk"
 include: "rules/analysis.smk"
 include: "rules/bcl_convert.smk"
+include: "rules/multiqc.smk"
 
 
 rule all:
