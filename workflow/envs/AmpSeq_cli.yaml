@@ -2,8 +2,9 @@ name: AmpSeq_cli
 channels:
   - bioconda
   - conda-forge
+  - anaconda
 dependencies:
-  - python=3.9
+  - python=3.7
   - samtools
   - tabix
   - bwa
@@ -11,5 +12,5 @@ dependencies:
   - mosdepth
   - rename
   - fastqc
-  - multiqc
+  - multiqc=1.6
   - bcftools
