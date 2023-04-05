@@ -17,10 +17,10 @@ else:
 
 rule set_kernel:
     input:
-        f'{workflow.basedir}/envs/AmpSeeker-python-lock.yaml'
+        f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
     output:
         touch("results/.kernel.set")
-    conda: f'{workflow.basedir}/envs/AmpSeeker-python-lock.yaml'
+    conda: f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
     log:
         "logs/set_kernel.log"
     shell: 

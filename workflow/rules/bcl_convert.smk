@@ -17,7 +17,7 @@ rule rename_fastq:
     log:
         "logs/rename_fastq.log"
     conda:
-        "../envs/AmpSeeker-cli-lock.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     shell:
         """
         rename s/S[[:digit:]]\+_L001_R// {input.reads}/*.gz 
