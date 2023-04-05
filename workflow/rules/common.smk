@@ -45,7 +45,19 @@ def AmpSeekerOutputs(wildcards):
             inputs.extend(expand("results/coverage/{sample}.per-base.bed.gz", sample=samples))
         if reference_type == "wholegenome":
             inputs.extend(expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples))
-
+    inputs.extend(
+        expand(
+            [
+                "results/fastqc/{sample}_{n}_fastqc.html",
+                "results/fastqc/{sample}_{n}_fastqc.zip",
+                "results/vcfs/stats/{dataset}.merged.vcf.txt",
+                "results/multiqc/multiqc_report.html"
+            ],
+            sample=samples, 
+            n=[1,2], 
+            dataset=config['dataset'],
+        )
+    )
     inputs.extend(["results/notebooks/IGV-explore.ipynb"])
     
     return inputs
