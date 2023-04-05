@@ -2,9 +2,8 @@ name: AmpSeq_cli
 channels:
   - bioconda
   - conda-forge
-  - anaconda
 dependencies:
-  - python=3.8
+  - python=3.9
   - samtools
   - tabix
   - bwa
