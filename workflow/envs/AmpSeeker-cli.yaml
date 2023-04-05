@@ -13,4 +13,4 @@ dependencies:
   - mosdepth
   - rename
   - fastqc
-  - multiqc
+  - multiqc=1.6
