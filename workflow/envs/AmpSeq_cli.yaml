@@ -9,3 +9,6 @@ dependencies:
   - bcftools
   - mosdepth
   - rename
+  - fastqc
+  - multiqc
+  - bcftools
