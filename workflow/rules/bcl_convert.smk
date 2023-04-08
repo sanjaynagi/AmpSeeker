@@ -7,7 +7,7 @@ rule bcl_convert:
     log:
         "logs/bcl_convert.log"
     shell:
-        "bcl-convert --bcl-input-directory {input.illumina_in_dir} --force --output-directory {output.output_reads} --sample-sheet {input.sample_csv} 2> {log}"
+        "bcl-convert --bcl-input-directory {input.illumina_in_dir} --force --output-directory {output} --sample-sheet {input.sample_csv} 2> {log}"
 
 rule rename_fastq:
     input:
