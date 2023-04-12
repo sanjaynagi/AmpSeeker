@@ -15,6 +15,8 @@ rule FastQC:
         """
         fastqc {input} {params.outdir} -t {threads} 2> {log}
         """
+    # wrapper:
+    #     "v1.25.0/bio/fastqc"
 
 rule vcfStats:
     input:
@@ -43,8 +45,6 @@ rule multiQC:
     log:
         "logs/multiqc/multiqc.log"
     conda:
-        "../envs/AmpSeeker-cli.yaml"
-    shell:
-        """
-        multiqc results -o results/multiqc/ -f {input} 2> {log}
-        """
+        "../envs/AmpSeeker-multiqc.yaml"
+    wrapper:
+        "v1.25.0/bio/multiqc"
