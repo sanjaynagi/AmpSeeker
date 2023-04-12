@@ -1,5 +1,5 @@
-name: AmpSeeker-multiqc
+name: AmpSeeker-qc
 channels:
   - bioconda
 dependencies:
-  - multiqc
+  - fastqc

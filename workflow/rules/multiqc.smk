@@ -7,7 +7,7 @@ rule FastQC:
     log:
         "logs/fastqc/fastq.log"
     conda:
-        "../envs/AmpSeeker-cli.yaml"
+        "../envs/AmpSeeker-qc.yaml"
     threads: 4
     params:
         outdir="--outdir results/fastqc/",
@@ -44,7 +44,5 @@ rule multiQC:
         "results/multiqc/multiqc_report.html"
     log:
         "logs/multiqc/multiqc.log"
-    conda:
-        "../envs/AmpSeeker-multiqc.yaml"
     wrapper:
         "v1.25.0/bio/multiqc"
