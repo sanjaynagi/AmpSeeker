@@ -1,4 +1,4 @@
-name: AmpSeq_cli_multiqc
+name: AmpSeeker-multiqc
 channels:
   - bioconda
 dependencies:

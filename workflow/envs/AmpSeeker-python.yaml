@@ -1,4 +1,4 @@
-name: AmpSeq_python
+name: AmpSeeker-python
 channels:
   - bioconda
   - conda-forge
