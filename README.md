@@ -19,6 +19,7 @@ The workflow uses a combination of papermill and jupyter notebooks, so that user
 
 * Sanjay C Nagi (@sanjaynagi)
 * Trevor Mugoya (@ChabbyTMD)
+* Edward Lukyamezi (@edd_UG) 
 
 ## Usage
 
