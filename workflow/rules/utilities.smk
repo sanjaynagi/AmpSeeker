@@ -19,7 +19,7 @@ rule tabix:
     output:
         calls_tbi = "results/bcfs/{sample}.calls.vcf.gz.tbi",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     log:
         "logs/tabix/{sample}.log",
     shell:
@@ -36,7 +36,7 @@ rule bcftools_merge:
     log:
         "logs/bcftools/merge_{dataset}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     threads: 12
     shell:
         """
@@ -52,7 +52,7 @@ rule bcftools_merge1:
     log:
         "logs/bcftools/merge1_{dataset}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     threads: 12
     shell:
         """
@@ -68,7 +68,7 @@ rule bcftools_merge2:
     log:
         "logs/bcftools/merge2_{dataset}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     threads: 12
     shell:
         """
@@ -93,7 +93,7 @@ rule tabix2:
     log:
         "logs/tabix/{dataset}.{n}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     shell:
         """
         tabix {input.vcfgz} 2> {log}
@@ -109,7 +109,7 @@ rule bcftools_merge3:
     log:
         "logs/bcftools/merge3_{dataset}.log",
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     shell:
         """
         bcftools merge -o {output.vcf} -Ov {input.vcf} 2> {log}

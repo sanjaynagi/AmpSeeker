@@ -37,7 +37,7 @@ rule targetedCoverage:
         "logs/coverage/{sample}.log"
     threads:4
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     params:
         prefix="results/coverage/{sample}",
         regions = config['bed']
@@ -58,7 +58,7 @@ rule windowedCoverage:
     log:
         "logs/coverage/windowed_{sample}_wholegenome.log"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     threads:4
     params:
         prefix="results/wholegenome/coverage/windowed/{sample}",
@@ -77,7 +77,7 @@ rule BamStats:
     output:
         stats = "results/alignments/bamStats/{sample}.flagstat"
     conda:
-        "../envs/AmpSeq_cli.yaml"
+        "../envs/AmpSeeker-cli.yaml"
     log:
         "logs/BamStats/{sample}.log"
     shell:

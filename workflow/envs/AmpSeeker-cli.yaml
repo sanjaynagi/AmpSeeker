@@ -1,9 +1,12 @@
-name: AmpSeq_cli
+name: AmpSeeker-cli
 channels:
   - bioconda
   - conda-forge
+  - anaconda
 dependencies:
-  - samtools
+  - python=3.9
+  - samtools>=1.10
+  - htslib>=1.10
   - tabix
   - bwa
   - bcftools

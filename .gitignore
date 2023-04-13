@@ -4,6 +4,7 @@ resources/reads/
 resources/230203_M05658_0007_000000000-KPHPC/
 resources/*bam
 resources/reference/*
+results_amplicon/*
 results/
 .test/resources/reference/*
 *docx
