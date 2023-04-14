@@ -1,22 +1,15 @@
-rule FastQC:
+rule fastp:
     input:
-        reads = expand(["results/reads/{sample}_1.fastq.gz","results/reads/{sample}_2.fastq.gz"], sample=samples),
+        sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
     output:
-        html = expand(["results/fastqc/{sample}_1_fastqc.html", "results/fastqc/{sample}_2_fastqc.html"], sample=samples),
-        zip = expand(["results/fastqc/{sample}_1_fastqc.zip", "results/fastqc/{sample}_2_fastqc.zip"], sample=samples)
+        trimmed=["results/reads/trimmed/{sample}_1.fastq.gz", "results/reads/trimmed/{sample}_2.fastq.gz"],
+        html="results/fastp_reports/{sample}.html",
+        json="results/fastp_reports/{sample}.json",
     log:
-        "logs/fastqc/fastq.log"
-    conda:
-        "../envs/AmpSeeker-qc.yaml"
+        "logs/fastp/{sample}.log"
     threads: 4
-    params:
-        outdir="--outdir results/fastqc/",
-    shell:
-        """
-        fastqc {input} {params.outdir} -t {threads} 2> {log}
-        """
-    # wrapper:
-    #     "v1.25.0/bio/fastqc"
+    wrapper:
+        "v1.25.0/bio/fastp"
 
 rule vcfStats:
     input:
@@ -34,8 +27,8 @@ rule vcfStats:
 
 rule multiQC:
     input:
-        expand(["results/fastqc/{sample}_1_fastqc.html","results/fastqc/{sample}_2_fastqc.html"], sample=samples),
-        expand(["results/fastqc/{sample}_1_fastqc.zip", "results/fastqc/{sample}_2_fastqc.zip"], sample=samples),
+        expand("results/fastp_reports/{sample}.html", sample=samples),
+        expand("results/fastp_reports/{sample}.json", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
         expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
