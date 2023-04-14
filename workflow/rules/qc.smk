@@ -1,29 +1,3 @@
-rule TrimFastqs:
-  """
-  Trim Fastq files with bbduk - remove adapter sequences and low quality bases
-  """
-    input:
-        read1 = "resources/reads/{sample}_1.fastq.gz",
-        read2 = "resources/reads/{sample}_2.fastq.gz"
-    output:
-        read1 = "resources/reads/trimmed/{sample}_1.fastq.gz",
-        read2 = "resources/reads/trimmed/{sample}_2.fastq.gz",
-        stats = "resources/reads/trimmed/stats/{sample}.txt"
-    log:
-        "logs/bbduk/{sample}.log"
-    params:
-        adaptors = "resources/bbtools_adapters.fa",
-        trimq = 10,
-        qtrimside="rl",
-        ktrimside="l",
-    shell:
-        """
-        bbduk.sh in1={input.read1} in2={input.read2} out1={output.read1} out2={output.read2} \
-        qtrim={params.qtrimside} trimq={params.trimq} ref={params.adaptors} ktrim={params.ktrimside} rcomp=t \
-        stats={output.stats}
-        """
-
-
 rule targetedCoverage:
   """
   Target per-base coverage with mosdepth
