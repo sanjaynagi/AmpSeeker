@@ -96,7 +96,7 @@ rule qualimap:
                  "mapped_reads_gc-content_distribution.txt",
                  "genome_results.txt",
                  "coverage_histogram.txt")
-    log:
-        "logs/qualimap/bamqc/{sample}.log",
-    wrapper:
-        "v1.25.0/bio/qualimap/bamqc"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    shell:
+        "unset DISPLAY; qualimap bamqc -bam {input} -outdir results/qualimap/{wilcards.sample}"
