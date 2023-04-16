@@ -99,4 +99,4 @@ rule qualimap:
     conda:
         "../envs/AmpSeeker-cli.yaml"
     shell:
-        "unset DISPLAY; qualimap bamqc -bam {input} -outdir results/qualimap/{wilcards.sample}"
+        "unset DISPLAY; qualimap bamqc -bam {input} -outdir results/qualimap/{sample}"
