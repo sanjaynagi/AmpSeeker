@@ -90,12 +90,13 @@ rule qualimap:
     input:
         bam="results/alignments/{sample}.bam",
     output:
-        multiext("results/qualimap/{sample}",
-                 ".qualimapReport.html",
-                 ".genome_fraction_coverage.txt",
-                 ".mapped_reads_gc-content_distribution.txt",
-                 ".genome_results.txt",
-                 ".coverage_histogram.txt")
+        "results/qualimap/{sample}.qualimapReport.html",
+        #multiext("results/qualimap/{sample}",
+                 #".qualimapReport.html",
+                 #".genome_fraction_coverage.txt",
+                 #".mapped_reads_gc-content_distribution.txt",
+                 #".genome_results.txt",
+                 #".coverage_histogram.txt")
     conda:
         "../envs/AmpSeeker-cli.yaml"
     shell:
