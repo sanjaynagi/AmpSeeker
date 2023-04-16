@@ -84,13 +84,18 @@ rule BamStats:
         """
         samtools flagstat {input.bam} > {output} 2> {log}
         """
-        
+
 # qualimap analysis for alignment QC 
 rule qualimap:
     input:
         bam="results/alignments/{sample}.bam",
     output:
-        directory("results/qualimap/{sample}"),
+        multiext("results/qualimap/{sample}/",
+                 "qualimapReport.html",
+                 "genome_fraction_coverage.txt",
+                 "mapped_reads_gc-content_distribution.txt",
+                 "genome_results.txt",
+                 "coverage_histogram.txt")
     log:
         "logs/qualimap/bamqc/{sample}.log",
     wrapper:
