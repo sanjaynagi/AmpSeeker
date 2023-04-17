@@ -1,27 +1,33 @@
-rule TrimFastqs:
-  """
-  Trim Fastq files with bbduk - remove adapter sequences and low quality bases
-  """
+rule vcfStats:
     input:
-        read1 = "resources/reads/{sample}_1.fastq.gz",
-        read2 = "resources/reads/{sample}_2.fastq.gz"
+        vcf = "results/vcfs/{dataset}.merged.vcf"
     output:
-        read1 = "resources/reads/trimmed/{sample}_1.fastq.gz",
-        read2 = "resources/reads/trimmed/{sample}_2.fastq.gz",
-        stats = "resources/reads/trimmed/stats/{sample}.txt"
+        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
     log:
-        "logs/bbduk/{sample}.log"
-    params:
-        adaptors = "resources/bbtools_adapters.fa",
-        trimq = 10,
-        qtrimside="rl",
-        ktrimside="l",
+        "logs/vcfStats/{dataset}.log"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
     shell:
         """
-        bbduk.sh in1={input.read1} in2={input.read2} out1={output.read1} out2={output.read2} \
-        qtrim={params.qtrimside} trimq={params.trimq} ref={params.adaptors} ktrim={params.ktrimside} rcomp=t \
-        stats={output.stats}
+        bcftools stats {input.vcf} > {output.stats} 2> {log}
         """
+
+rule multiQC:
+    input:
+        expand(["results/fastqc/{sample}_1_fastqc.html","results/fastqc/{sample}_2_fastqc.html",
+                "results/fastqc/{sample}_1_fastqc.zip", "results/fastqc/{sample}_2_fastqc.zip",
+                "results/alignments/bamStats/{sample}.flagstat",
+                "results/qualimap/{sample}",
+                "results/coverage/{sample}.per-base.bed.gz",
+                "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"], sample=samples),
+        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
+    output:
+        "results/multiqc/multiqc_report.html"
+    log:
+        "logs/multiqc/multiqc.log"
+    wrapper:
+        "v1.25.0/bio/multiqc"
+
 
 
 rule targetedCoverage:
