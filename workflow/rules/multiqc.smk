@@ -38,10 +38,6 @@ rule multiQC:
                 "results/fastqc/{sample}_1_fastqc.zip", "results/fastqc/{sample}_2_fastqc.zip",
                 "results/alignments/bamStats/{sample}.flagstat",
                 "results/qualimap/{sample}",
-                #"results/qualimap/{sample}.genome_fraction_coverage.txt",
-                #"results/qualimap/{sample}.mapped_reads_gc-content_distribution.txt",
-                #"results/qualimap/{sample}.genome_results.txt",
-                #"results/qualimap/{sample}.coverage_histogram.txt",
                 "results/coverage/{sample}.per-base.bed.gz",
                 "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"], sample=samples),
         expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
