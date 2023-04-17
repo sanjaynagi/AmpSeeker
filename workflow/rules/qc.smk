@@ -26,38 +26,6 @@ rule multiQC:
     wrapper:
         "v1.25.0/bio/multiqc"
 
-rule BamStats:
-  """
-  Calculate mapping statistics with samtools flagstat
-  """
-    input:
-        bam = "results/alignments/{sample}.bam",
-        idx = "results/alignments/{sample}.bam.bai"
-    output:
-        stats = "results/alignments/bamStats/{sample}.flagstat"
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    log:
-        "logs/BamStats/{sample}.log"
-    shell:
-        """
-        samtools flagstat {input.bam} > {output} 2> {log}
-        """
-
-rule vcfStats:
-    input:
-        vcf = "results/vcfs/{dataset}.merged.vcf"
-    output:
-        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
-    log:
-        "logs/vcfStats/{dataset}.log"
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    shell:
-        """
-        bcftools stats {input.vcf} > {output.stats} 2> {log}
-        """
-
 rule targetedCoverage:
   """
   Target per-base coverage with mosdepth
@@ -99,4 +67,47 @@ rule windowedCoverage:
     shell:
         """
         mosdepth {params.prefix} {input.bam} --by 300 -n --fast-mode --threads {threads} 2> {log}
+        """
+
+rule BamStats:
+  """
+  Calculate mapping statistics with samtools flagstat
+  """
+    input:
+        bam = "results/alignments/{sample}.bam",
+        idx = "results/alignments/{sample}.bam.bai"
+    output:
+        stats = "results/alignments/bamStats/{sample}.flagstat"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    log:
+        "logs/BamStats/{sample}.log"
+    shell:
+        """
+        samtools flagstat {input.bam} > {output} 2> {log}
+        """
+
+# qualimap analysis for alignment QC 
+rule qualimap:
+    input:
+        bam="results/alignments/{sample}.bam",
+    output:
+        directory("results/qualimap/{sample}"),
+    log:
+        "logs/qualimap/bamqc/{sample}.log",
+    wrapper:
+        "v1.25.0/bio/qualimap/bamqc"
+
+rule vcfStats:
+    input:
+        vcf = "results/vcfs/{dataset}.merged.vcf"
+    output:
+        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
+    log:
+        "logs/vcfStats/{dataset}.log"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    shell:
+        """
+        bcftools stats {input.vcf} > {output.stats} 2> {log}
         """
