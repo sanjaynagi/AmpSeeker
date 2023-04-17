@@ -12,4 +12,4 @@ dependencies:
   - bcftools
   - mosdepth
   - rename
-  - qualimap=2.2.2d
+  #- qualimap=2.2.2d
