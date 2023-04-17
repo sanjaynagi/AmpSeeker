@@ -48,8 +48,7 @@ def AmpSeekerOutputs(wildcards):
     inputs.extend(
         expand(
             [
-                "results/fastqc/{sample}_{n}_fastqc.html",
-                "results/fastqc/{sample}_{n}_fastqc.zip",
+                "results/fastp_reports/{sample}.html",
                 "results/vcfs/stats/{dataset}.merged.vcf.txt",
                 "results/multiqc/multiqc_report.html"
             ],

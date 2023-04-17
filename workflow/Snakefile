@@ -17,7 +17,6 @@ include: "rules/alignment_variantcalling.smk"
 include: "rules/analysis.smk"
 include: "rules/bcl_convert.smk"
 
-
 rule all:
 	input:
 		# The first rule should define the default target files

@@ -1,25 +1,23 @@
-rule vcfStats:
+rule fastp:
     input:
-        vcf = "results/vcfs/{dataset}.merged.vcf"
+        sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
     output:
-        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
+        trimmed=["results/reads/trimmed/{sample}_1.fastq.gz", "results/reads/trimmed/{sample}_2.fastq.gz"],
+        html="results/fastp_reports/{sample}.html",
+        json="results/fastp_reports/{sample}.json",
     log:
-        "logs/vcfStats/{dataset}.log"
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    shell:
-        """
-        bcftools stats {input.vcf} > {output.stats} 2> {log}
-        """
+        "logs/fastp/{sample}.log"
+    threads: 4
+    wrapper:
+        "v1.25.0/bio/fastp"
 
 rule multiQC:
     input:
-        expand(["results/fastqc/{sample}_1_fastqc.html","results/fastqc/{sample}_2_fastqc.html",
-                "results/fastqc/{sample}_1_fastqc.zip", "results/fastqc/{sample}_2_fastqc.zip",
-                "results/alignments/bamStats/{sample}.flagstat",
-                "results/qualimap/{sample}",
-                "results/coverage/{sample}.per-base.bed.gz",
-                "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"], sample=samples),
+        expand("results/fastp_reports/{sample}.html", sample=samples),
+        expand("results/fastp_reports/{sample}.json", sample=samples),
+        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
+        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
+        expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
         expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
     output:
         "results/multiqc/multiqc_report.html"
@@ -27,8 +25,6 @@ rule multiQC:
         "logs/multiqc/multiqc.log"
     wrapper:
         "v1.25.0/bio/multiqc"
-
-
 
 rule targetedCoverage:
   """
@@ -101,3 +97,17 @@ rule qualimap:
         "logs/qualimap/bamqc/{sample}.log",
     wrapper:
         "v1.25.0/bio/qualimap/bamqc"
+
+rule vcfStats:
+    input:
+        vcf = "results/vcfs/{dataset}.merged.vcf"
+    output:
+        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
+    log:
+        "logs/vcfStats/{dataset}.log"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    shell:
+        """
+        bcftools stats {input.vcf} > {output.stats} 2> {log}
+        """
