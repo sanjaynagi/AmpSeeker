@@ -1,0 +1,7 @@
+name: AmpSeeker-jupyterbook
+channels:
+  - bioconda
+  - conda-forge
+  - anaconda
+dependencies:
+  - jupyter-book
