@@ -1,16 +1,15 @@
 
-
 rule igv_notebook:
     input:
         nb = f"{workflow.basedir}/notebooks/IGV-explore.ipynb",
-        kernel="results/.kernel.set",
+        kernel = "results/.kernel.set",
         alignments = expand("results/alignments/{sample}.bam", sample=samples),
         genome = config["reference_fasta"],
         index = config["reference_fasta"] + ".fai",
         gff3 = config["reference_gff3"],
         metadata = config["metadata"],
     output:
-        nb = "results/notebooks/IGV-explore.ipynb"
+        nb = "results/notebooks/IGV-explore.ipynb",
         docs_nb = "docs/ampseeker-book/notebooks/IGV-explore.ipynb"
     conda:
         "../envs/AmpSeeker-python.yaml"
