@@ -11,6 +11,7 @@ rule igv_notebook:
         metadata = config["metadata"],
     output:
         nb = "results/notebooks/IGV-explore.ipynb"
+        docs_nb = "docs/ampseeker-book/notebooks/IGV-explore.ipynb"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
@@ -20,4 +21,5 @@ rule igv_notebook:
     shell:
         """
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
         """

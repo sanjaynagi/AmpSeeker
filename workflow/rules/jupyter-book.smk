@@ -11,5 +11,5 @@ rule jupyterbook:
         "../envs/AmpSeeker-jupyterbook.yaml"
     shell:
         """
-            jupyter-book build --all {input.page}
+        jupyter-book build --all {input.page}
         """
