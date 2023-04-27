@@ -60,7 +60,9 @@ def AmpSeekerOutputs(wildcards):
         )
     )
     inputs.extend(["results/notebooks/IGV-explore.ipynb"])
-    inputs.extend(["docs/ampseeker-book/_build/html/index.html"])
+
+    if config['build-jupyter-book']:
+        inputs.extend(["docs/ampseeker-book/_build/html/index.html"])
     
     return inputs
 

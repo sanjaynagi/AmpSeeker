@@ -23,3 +23,5 @@ Stats:
   activate: True
 Mapping:
   activate: True
+
+build-jupyter-book: True
