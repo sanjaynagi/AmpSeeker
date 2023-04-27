@@ -18,6 +18,6 @@ jobs:
           args: '--cores 4 --use-conda --conda-cleanup-pkgs cache'
           stagein: 
             "
+            cp -r docs/ .test/docs/ &&
             conda config --set channel_priority flexible
-            cp -r docs/ .test/docs/
             "
