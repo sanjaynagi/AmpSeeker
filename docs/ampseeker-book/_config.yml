@@ -1,14 +1,14 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Sample AmpSeeker Book
-author: Trevor Mugoya & Sanjay Nagi & Edward Lukyamuzi
+title: AmpSeeker results book
+author: Trevor Mugoya, Edward Lukyamuzi & Sanjay C Nagi
 logo: logo.png
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: off
 
 # Define the name of the latex output file for PDF builds
 latex:
