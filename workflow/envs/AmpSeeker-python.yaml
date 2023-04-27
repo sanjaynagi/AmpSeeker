@@ -7,6 +7,7 @@ dependencies:
   - python=3.9
   - numpy
   - pandas
+  - plotly
   - pip 
   - pip:
     - igv_notebook

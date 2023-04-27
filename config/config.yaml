@@ -15,7 +15,7 @@ reference_fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.f
 reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
-targets: "resources/AgamDao_wholegenome_snptargets.bed"
+targets: "config/AgamDao.bed"
 
 Coverage:
   activate: True

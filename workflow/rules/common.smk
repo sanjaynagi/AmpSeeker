@@ -37,8 +37,16 @@ def AmpSeekerOutputs(wildcards):
     else:
         inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", dataset=config['dataset']))
 
-    if config['QualityControl']['Coverage']['activate']:
-            inputs.extend(expand("results/coverage/{sample}.per-base.bed.gz", sample=samples))
+    if config['Coverage']['activate']:
+            inputs.extend(
+                expand(
+                    [
+                        "results/coverage/{sample}.per-base.bed.gz",
+                        "results/notebooks/coverage.ipynb",
+                        "docs/ampseeker-book/notebooks/coverage.ipynb"
+                    ],
+                sample=samples)
+                )
     
     inputs.extend(
         expand(

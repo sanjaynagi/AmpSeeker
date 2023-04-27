@@ -11,4 +11,5 @@ parts:
 - caption: Results
   chapters:
   - file: notebooks/IGV-explore
+  - file: notebooks/coverage
 
