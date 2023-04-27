@@ -10,11 +10,11 @@ illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_00
 
 # Genome fasta reference files 
 reference_name: 'AgamP4'
-reference_fasta: resources/reference/AGAMP4_AGAMDAO_amplicons.fa
+reference_fasta: resources/reference/AGAMP4_2L_3mb.fa
 reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
-targets: "resources/AgamDao_amplicon_snptargets.bed"
+targets: "config/AgamDao_test2L.bed"
 
 Coverage:
   activate: True
