@@ -17,7 +17,6 @@ rule multiQC:
         expand("results/fastp_reports/{sample}.json", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
-        expand("results/wholegenome/coverage/windowed/{sample}.regions.bed.gz", sample=samples),
         expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
     output:
         "results/multiqc/multiqc_report.html"
@@ -26,7 +25,8 @@ rule multiQC:
     wrapper:
         "v1.25.0/bio/multiqc"
 
-rule targetedCoverage:
+
+rule mosdepthCoverage:
   """
   Target per-base coverage with mosdepth
   """
@@ -42,31 +42,9 @@ rule targetedCoverage:
         "../envs/AmpSeeker-cli.yaml"
     params:
         prefix="results/coverage/{sample}",
-        regions = config['bed']
     shell:
         """
-        mosdepth {params.prefix} {input.bam} --by {params.regions} --fast-mode --threads {threads} 2> {log}
-        """
-
-rule windowedCoverage:
-  """
-  300 bp windowed coverage with mosdepth
-  """
-    input:
-        bam="results/alignments/{sample}.bam",
-        idx="results/alignments/{sample}.bam.bai"
-    output:
-        "results/wholegenome/coverage/windowed/{sample}.regions.bed.gz"
-    log:
-        "logs/coverage/windowed_{sample}_wholegenome.log"
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    threads:4
-    params:
-        prefix="results/wholegenome/coverage/windowed/{sample}",
-    shell:
-        """
-        mosdepth {params.prefix} {input.bam} --by 300 -n --fast-mode --threads {threads} 2> {log}
+        mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
         """
 
 rule BamStats:

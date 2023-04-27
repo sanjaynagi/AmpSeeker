@@ -9,18 +9,19 @@ present_samples:  "resources/present.samples.txt"
 illumina_dir: /home/tmugoya/PIPELINE/bcl_branch/BCL_FILES/230203_M05658_0007_000000000-KPHPC/
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
-reference_type: "wholegenome" # amplicon or wholegenome
 # Genome fasta reference files
 reference_name: 'AgamP4'
 reference_fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
 reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
-bed: "resources/AgamDao_wholegenome_snptargets.bed"
+targets: "resources/AgamDao_wholegenome_snptargets.bed"
 
-Coverage:
-  activate: True
-Stats:
-  activate: True
-Mapping:
-  activate: True
+QualityControl:
+  FastP:
+    activate: True
+  Coverage:
+    activate: True
+  Qualimap:
+    activate: True
+  

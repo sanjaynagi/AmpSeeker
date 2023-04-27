@@ -7,7 +7,6 @@ configfile:"config/config.yaml"
 dataset = config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
-reference_type = config['reference_type']
 report: "report/workflow.rst"
 
 include: "rules/common.smk"	
