@@ -17,11 +17,11 @@ reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 # .bed file of target SNPs
 targets: "resources/AgamDao_wholegenome_snptargets.bed"
 
-QualityControl:
-  FastP:
-    activate: True
-  Coverage:
-    activate: True
-  Qualimap:
-    activate: True
-  
+Coverage:
+  activate: True
+Stats:
+  activate: True
+Mapping:
+  activate: True
+
+build-jupyter-book: True

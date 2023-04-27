@@ -16,4 +16,8 @@ jobs:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
           args: '--cores 4 --use-conda --conda-cleanup-pkgs cache'
-          stagein: 'conda config --set channel_priority flexible'
+          stagein: 
+            "
+            cp -r docs/ .test/docs/ &&
+            conda config --set channel_priority flexible
+            "
