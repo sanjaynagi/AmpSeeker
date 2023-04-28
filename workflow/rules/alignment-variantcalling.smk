@@ -82,7 +82,7 @@ rule mpileup_call:
         "../envs/AmpSeeker-cli.yaml"
     params:
         ref = config['reference_fasta'],
-        regions = config['bed'],
+        regions = config['targets'],
         depth = 2000
     shell:
         """
