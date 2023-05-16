@@ -13,4 +13,4 @@ resources/*23*
 resources/rev_comp.ipynb*
 *ipynb_checkpoints*
 config/metadata.tsv
-docs/ampseeker-book/_build/
+docs/ampseeker-results/_build/

@@ -3,7 +3,6 @@ import pandas as pd
 
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
-large_sample_size = False
 if len(metadata) > 1000:
     large_sample_size = True
     n_samples = len(metadata)
@@ -11,9 +10,9 @@ if len(metadata) > 1000:
     samples1 = metadata['sampleID'][:half]
     samples2 = metadata['sampleID'][half:]
 else:
+    large_sample_size = False
     samples1 = []
     samples2 = []
-
 
 rule set_kernel:
     input:
@@ -27,6 +26,10 @@ rule set_kernel:
         """
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
+
+
+
+
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
@@ -43,7 +46,7 @@ def AmpSeekerOutputs(wildcards):
                     [
                         "results/coverage/{sample}.per-base.bed.gz",
                         "results/notebooks/coverage.ipynb",
-                        "docs/ampseeker-book/notebooks/coverage.ipynb"
+                        "docs/ampseeker-results/notebooks/coverage.ipynb"
                     ],
                 sample=samples)
                 )
@@ -53,7 +56,6 @@ def AmpSeekerOutputs(wildcards):
             [
                 "results/alignments/bamStats/{sample}.flagstat",
                 "results/fastp_reports/{sample}.html",
-                "results/qualimap/{sample}",
                 "results/vcfs/stats/{dataset}.merged.vcf.txt",
                 "results/multiqc/multiqc_report.html"
             ],
@@ -62,10 +64,26 @@ def AmpSeekerOutputs(wildcards):
             dataset=config['dataset'],
         )
     )
-    inputs.extend(["results/notebooks/IGV-explore.ipynb"])
+
+    if config['qualimap']:
+        inputs.extend(               
+            expand(
+                [
+                    "results/qualimap/{sample}",
+                ],
+                sample=samples,
+            )
+        )
+
+    inputs.extend(
+        [
+            "results/notebooks/IGV-explore.ipynb",
+            "results/notebooks/principal-component-analysis.ipynb",
+        ]
+        )
 
     if config['build-jupyter-book']:
-        inputs.extend(["docs/ampseeker-book/_build/html/index.html"])
+        inputs.extend(["docs/ampseeker-results/_build/html/index.html"])
     
     return inputs
 

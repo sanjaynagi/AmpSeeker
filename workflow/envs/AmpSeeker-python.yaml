@@ -8,7 +8,9 @@ dependencies:
   - numpy
   - pandas
   - plotly
+  - scipy 
   - pip 
   - pip:
     - igv_notebook
     - papermill
+    - scikit-allel

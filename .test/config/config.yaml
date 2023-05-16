@@ -22,5 +22,6 @@ Stats:
   activate: True
 Mapping:
   activate: True
+qualimap: True
 
 build-jupyter-book: True
