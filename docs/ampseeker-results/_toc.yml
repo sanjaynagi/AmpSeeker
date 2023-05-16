@@ -6,6 +6,7 @@ root: intro
 parts:
 - caption: Results
   chapters:
+  - file: notebooks/sample-map
   - file: notebooks/IGV-explore
   - file: notebooks/coverage
   - file: notebooks/principal-component-analysis

@@ -79,6 +79,7 @@ def AmpSeekerOutputs(wildcards):
         [
             "results/notebooks/IGV-explore.ipynb",
             "results/notebooks/principal-component-analysis.ipynb",
+            "results/notebooks/sample-map.ipynb",
         ]
         )
 
