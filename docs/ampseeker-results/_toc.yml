@@ -4,10 +4,6 @@
 format: jb-book
 root: intro
 parts:
-- caption: Introduction
-  chapters:
-  - file: notebooks/workflow_setup
-  - file: notebooks/running_the_workflow
 - caption: Results
   chapters:
   - file: notebooks/IGV-explore
