@@ -65,7 +65,7 @@ rule pca:
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
-rule map:
+rule sample_map:
     input:
         nb = f"{workflow.basedir}/notebooks/sample-map.ipynb",
         kernel = "results/.kernel.set",
@@ -81,6 +81,6 @@ rule map:
         dataset = dataset
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
