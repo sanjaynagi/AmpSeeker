@@ -10,10 +10,8 @@ rule jupyterbook:
         "logs/jupyterbook/jupyterbook.log"
     conda:
         "../envs/AmpSeeker-jupyterbook.yaml"
-    params:
-        dataset = dataset
     shell:
         """
         jupyter-book build --all {input.pages} &&
-        ln -sf docs/ampseeker-results/_build/html/index.html AmpSeeker-{params.dataset}-results.html
+        ln -sf docs/ampseeker-results/_build/html/index.html AmpSeeker-results.html
         """
