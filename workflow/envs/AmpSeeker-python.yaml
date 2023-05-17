@@ -9,6 +9,7 @@ dependencies:
   - pandas
   - plotly
   - scipy 
+  - ipyleaflet
   - pip 
   - pip:
     - igv_notebook

@@ -64,3 +64,23 @@ rule pca:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p vcf_path {input.vcf} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+rule sample_map:
+    input:
+        nb = f"{workflow.basedir}/notebooks/sample-map.ipynb",
+        kernel = "results/.kernel.set",
+        metadata = config["metadata"],
+    output:
+        nb = "results/notebooks/sample-map.ipynb",
+        docs_nb = "docs/ampseeker-results/notebooks/sample-map.ipynb"
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/sample-map.log"
+    params:
+        dataset = dataset
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """
