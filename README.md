@@ -12,8 +12,10 @@ This is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline
 - Coverage calculation
 - Visualisation of reads in IGV-notebook
 - Variant calling
+- Principal component analysis
+- Geographic sample maps
 
-The workflow uses a combination of papermill and jupyter notebooks, so that users can visually explore the results in html reports.
+The workflow uses a combination of papermill and jupyter book, so that users can visually explore the results in a local webpage for convenience.
 
 ## Authors
 
