@@ -13,7 +13,7 @@ include: "rules/utilities.smk"
 include: "rules/qc.smk"
 include: "rules/alignment-variantcalling.smk"
 include: "rules/analysis.smk"
-# include: "rules/bcl-convert.smk"
+include: "rules/bcl-convert.smk"
 include: "rules/jupyter-book.smk"
 
 rule all:
