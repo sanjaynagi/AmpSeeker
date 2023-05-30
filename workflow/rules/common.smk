@@ -33,7 +33,8 @@ rule set_kernel:
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
-    inputs.extend(expand("results/reads/{sample}_{n}.fastq.gz", sample=samples, n=[1,2]))
+    if config['BCL_Conversion']:
+        inputs.extend(expand("results/reads/{sample}_{n}.fastq.gz", sample=samples, n=[1,2]))
  
     if large_sample_size:
         inputs.extend(expand("results/vcfs/{dataset}.complete.merge_vcfs", dataset=config['dataset']))
