@@ -17,7 +17,8 @@ reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 # .bed file of target SNPs
 targets: "config/AgamDao.bed"
 
-qualimap: False
+BCL_Conversion: False
+qualimap: True
 Coverage:
   activate: True
 Stats:
