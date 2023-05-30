@@ -40,7 +40,7 @@ rule bcftools_merge:
     threads: 12
     shell:
         """
-        bcftools merge --threads {threads} -o {output.vcf} -O v {input.bcfs} 2> {log}
+        bcftools merge --threads {threads} -o {output.vcf} -O v {input.bcfs} --force-samples 2> {log}
         """
 
 rule bcftools_merge1:
