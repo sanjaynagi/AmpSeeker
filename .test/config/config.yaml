@@ -3,26 +3,35 @@
 # one row per sample. It can be parsed easily via pandas.
 dataset: "AgamDao"
 metadata: "config/metadata.tsv"
-present_samples:  "resources/present.samples.txt"
 
 # Directory of Illumina Miseq Run
-illumina_dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
+illumina-dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
 
 # Genome fasta reference files 
-reference_name: 'AgamP4'
-reference_fasta: resources/reference/AGAMP4_2L_2_3mb.fa
-reference_gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
+reference-name: 'AgamP4'
+reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
+reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
 targets: "config/AgamDao_test2L.bed"
 
-BCL_Conversion: False
-Coverage:
-  activate: True
-Stats:
-  activate: True
-Mapping:
-  activate: True
-qualimap: True
+# Specify whether to convert bcl files to fastq
+bcl-convert: False
 
+# Specify whether to run quality-control analyses
+quality-control:
+  fastp: True
+  coverage: True
+  qualimap: True
+  stats: True
+  multiqc: True
+
+# Specify whether to run generic analyses
+analysis:  
+  igv: True
+  sample-map: True
+  pca: True
+  allele-frequencies: True
+
+# Specify whether to build jupyter results book
 build-jupyter-book: True

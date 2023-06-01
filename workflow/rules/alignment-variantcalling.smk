@@ -2,9 +2,9 @@
 
 rule reference_index:
     input:
-        ref = config['reference_fasta']
+        ref = config['reference-fasta']
     output:
-        idx = config['reference_fasta'] + ".fai"
+        idx = config['reference-fasta'] + ".fai"
     conda:
         "../envs/AmpSeeker-cli.yaml"
     log:
@@ -16,7 +16,7 @@ rule reference_index:
 
 rule bwa_index:
     input:
-        ref = config['reference_fasta']
+        ref = config['reference-fasta']
     output:
         idx = touch("resources/reference/.bwa.index")
     conda:
@@ -34,7 +34,7 @@ rule bwa_align:
     """
     input:
         reads = expand("results/reads/trimmed/{{sample}}_{n}.fastq.gz", n=[1,2]),
-        ref = config['reference_fasta'],
+        ref = config['reference-fasta'],
         idx = "resources/reference/.bwa.index"
     output:
         bam = "results/alignments/{sample}.bam"
@@ -81,7 +81,7 @@ rule mpileup_call:
     conda:
         "../envs/AmpSeeker-cli.yaml"
     params:
-        ref = config['reference_fasta'],
+        ref = config['reference-fasta'],
         regions = config['targets'],
         depth = 2000
     shell:

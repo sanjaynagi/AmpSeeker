@@ -33,7 +33,7 @@ rule set_kernel:
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
-    if config['BCL_Conversion']:
+    if config['bcl-convert']:
         inputs.extend(expand("results/reads/{sample}_{n}.fastq.gz", sample=samples, n=[1,2]))
  
     if large_sample_size:
@@ -41,7 +41,7 @@ def AmpSeekerOutputs(wildcards):
     else:
         inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", dataset=config['dataset']))
 
-    if config['Coverage']['activate']:
+    if config['quality-control']['coverage']:
             inputs.extend(
                 expand(
                     [
@@ -51,22 +51,18 @@ def AmpSeekerOutputs(wildcards):
                     ],
                 sample=samples)
                 )
-    
-    inputs.extend(
-        expand(
-            [
-                "results/alignments/bamStats/{sample}.flagstat",
-                "results/fastp_reports/{sample}.html",
-                "results/vcfs/stats/{dataset}.merged.vcf.txt",
-                "results/multiqc/multiqc_report.html"
-            ],
-            sample=samples, 
-            n=[1,2], 
-            dataset=config['dataset'],
-        )
-    )
 
-    if config['qualimap']:
+    if config['quality-control']['fastp']:
+        inputs.extend(
+            expand(
+                [
+                    "results/fastp_reports/{sample}.html",
+                ],
+                sample=samples,
+            )
+        )   
+
+    if config['quality-control']['qualimap']:
         inputs.extend(               
             expand(
                 [
@@ -75,14 +71,55 @@ def AmpSeekerOutputs(wildcards):
                 sample=samples,
             )
         )
-
-    inputs.extend(
-        [
-            "results/notebooks/IGV-explore.ipynb",
-            "results/notebooks/principal-component-analysis.ipynb",
-            "results/notebooks/sample-map.ipynb",
-        ]
+    
+    if config['quality-control']['multiqc']:
+        inputs.extend(
+            expand(
+                [
+                    "results/multiqc/multiqc_report.html",
+                ],
+            )
         )
+    
+    if config['quality-control']['stats']:
+        inputs.extend(
+            expand(
+                [
+                    "results/alignments/bamStats/{sample}.flagstat",
+                    "results/vcfs/stats/{dataset}.merged.vcf.txt",
+                ],
+                sample=samples, 
+                dataset=config['dataset'],
+            )
+        )
+
+    if config['analysis']['pca']:
+        inputs.extend(
+            expand(
+                [
+                    "results/notebooks/principal-component-analysis.ipynb",
+                    "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb"
+                ],
+            )
+        )
+
+    if config['analysis']['sample-map']:
+        inputs.extend(
+            expand(
+                [
+                    "results/notebooks/sample-map.ipynb",
+                    "docs/ampseeker-results/notebooks/sample-map.ipynb"
+                ],
+            )
+        )
+
+    if config['analysis']['igv']:
+        inputs.extend(
+            [
+                "results/notebooks/IGV-explore.ipynb",
+                "docs/ampseeker-results/notebooks/IGV-explore.ipynb"
+            ]
+            )
 
     if config['build-jupyter-book']:
         inputs.extend(["docs/ampseeker-results/_build/html/index.html"])

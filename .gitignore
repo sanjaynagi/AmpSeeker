@@ -14,3 +14,4 @@ resources/rev_comp.ipynb*
 *ipynb_checkpoints*
 config/metadata.tsv
 docs/ampseeker-results/_build/
+docs/ampseeker-results/notebooks/
