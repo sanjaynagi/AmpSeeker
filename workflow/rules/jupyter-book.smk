@@ -1,8 +1,10 @@
 rule jupyterbook:
     input:
         pages = "docs/ampseeker-results",
-        igv = "docs/ampseeker-results/notebooks/IGV-explore.ipynb",
-        coverage = "docs/ampseeker-results/notebooks/coverage.ipynb",
+        igv = "docs/ampseeker-results/notebooks/IGV-explore.ipynb" if config["analysis"]["igv"] else [],
+        coverage = "docs/ampseeker-results/notebooks/coverage.ipynb" if config["quality-control"]["coverage"] else [],
+        pca = "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb" if config["analysis"]["pca"] else [],
+        docs_nb = "docs/ampseeker-results/notebooks/sample-map.ipynb" if config["analysis"]["sample-map"] else [],
     output:
         directory("docs/ampseeker-results/_build/html/"),
         home_page = "docs/ampseeker-results/_build/html/index.html"

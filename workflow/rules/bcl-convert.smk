@@ -1,7 +1,7 @@
 rule bcl_convert:
     input:
-        sample_csv = config["illumina_dir"] + "SampleSheet.csv",
-        illumina_in_dir = config["illumina_dir"]
+        sample_csv = config["illumina-dir"] + "SampleSheet.csv",
+        illumina_in_dir = config["illumina-dir"]
     output: 
         temp(directory("resources/reads/"))
     log:
