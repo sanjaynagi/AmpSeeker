@@ -1,23 +1,23 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: "AgamDao_23"
-metadata: "config/metadata.tsv"
+dataset: uvri-23
+metadata: config/metadata.tsv
 
 # Directory of Illumina Miseq Run
-illumina-dir: /home/tmugoya/PIPELINE/bcl_branch/BCL_FILES/230203_M05658_0007_000000000-KPHPC/
+illumina-dir: resources/230530_M02853_0061_000000000-L23TH/
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
-reference-name: 'AgamP4'
+reference-name: AgamP4
 reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 
 # .bed file of target SNPs
-targets: "config/AgamDao.bed"
+targets: config/AgamDao.bed
 
 # Specify whether to convert bcl files to fastq
-bcl-convert: False
+bcl-convert: True
 
 # Specify whether to run quality-control analyses
 quality-control:
@@ -30,8 +30,10 @@ quality-control:
 # Specify whether to run generic analyses
 analysis:  
   igv: True
-  sample-map: True
-  pca: True
+  sample-map: False # needs lat and longs
+  pca: 
+    activate: True
+    colour-column: taxon
   allele-frequencies: True
 
 # Specify whether to build jupyter results book
