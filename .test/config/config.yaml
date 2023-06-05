@@ -30,7 +30,9 @@ quality-control:
 analysis:  
   igv: True
   sample-map: True
-  pca: True
+  pca: 
+    activate: True
+    colour-column: taxon
   allele-frequencies: True
 
 # Specify whether to build jupyter results book
