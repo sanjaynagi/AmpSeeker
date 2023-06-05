@@ -59,9 +59,10 @@ rule pca:
         "logs/notebooks/principal-component-analysis.log"
     params:
         dataset = dataset
+        column = config['analysis']['pca']['colour-column']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p vcf_path {input.vcf} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p vcf_path {input.vcf} -p colour_column {params.column} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 

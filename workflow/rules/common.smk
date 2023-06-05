@@ -93,7 +93,7 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config['analysis']['pca']:
+    if config['analysis']['pca']['activate']:
         inputs.extend(
             expand(
                 [
