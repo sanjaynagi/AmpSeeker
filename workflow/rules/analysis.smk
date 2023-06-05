@@ -58,7 +58,7 @@ rule pca:
     log:
         "logs/notebooks/principal-component-analysis.log"
     params:
-        dataset = dataset
+        dataset = dataset,
         column = config['analysis']['pca']['colour-column']
     shell:
         """
