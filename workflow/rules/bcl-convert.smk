@@ -3,7 +3,7 @@ rule bcl_convert:
         sample_csv = config["illumina-dir"] + "SampleSheet.csv",
         illumina_in_dir = config["illumina-dir"]
     output: 
-        reads_dir = temp(directory("resources/reads")),
+        reads_dir = directory("resources/reads"),
         fastq_list = "resources/reads/Reports/fastq_list.csv"
     log:
         "logs/bcl_convert.log"
@@ -30,7 +30,7 @@ rule rename_fastq:
             echo renaming $read1 and $read2 to ${{sample_id}}_1.fastq.gz and ${{sample_id}}_2.fastq.gz 2>> {log}
             mv $read1 results/reads/${{sample_id}}_1.fastq.gz &&
             mv $read2 results/reads/${{sample_id}}_2.fastq.gz
-        done < {input.fastq_list}
+        done < {input.fastq_list} 2> {log}
         """
 
 rule symlink_fastq:
@@ -45,7 +45,10 @@ rule symlink_fastq:
         "logs/symlink_fastq/{sample}_{n}.log"
     conda:
         "../envs/AmpSeeker-cli.yaml"
+    params:
+        wd = wkdir
     shell:
         """
-        ln -sf {input.input_reads} {output.output_reads}
+        echo {params.wd}/{output.output_reads} 2>> {log}
+        ln -sf {params.wd}/{input.input_reads} {params.wd}/{output.output_reads} 2>> {log}
         """

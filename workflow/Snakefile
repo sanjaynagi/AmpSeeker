@@ -8,6 +8,9 @@ dataset = config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
 samples = metadata['sampleID']
 
+import os
+wkdir = os.getcwd()
+
 include: "rules/common.smk"	
 include: "rules/utilities.smk"
 include: "rules/qc.smk"
