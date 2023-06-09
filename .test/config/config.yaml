@@ -36,4 +36,4 @@ analysis:
   allele-frequencies: True
 
 # Specify whether to build jupyter results book
-build-jupyter-book: True
+build-jupyter-book: False
