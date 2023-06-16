@@ -10,20 +10,40 @@ logo: logo.png
 execute:
   execute_notebooks: off
 
-# Define the name of the latex output file for PDF builds
-latex:
-  latex_documents:
-    targetname: book.tex
 
-
+sphinx:
+    extra_extensions:
+        - 'sphinx.ext.autodoc'
+        - 'sphinx.ext.napoleon'
+    config:
+        myst_enable_extensions:
+            - substitution
+            - dollarmath
+        html_js_files:
+            - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
+        suppress_warnings: ["mystnb.unknown_mime_type"]
+  
 # Information about where the book exists on the web
 repository:
   url: https://github.com/sanjaynagi/AmpSeeker  # Online location of your book
   path_to_book: docs  # Optional path to your book, relative to the repository root
   branch: master  # Which branch of the repository should be used when creating links (optional)
 
+
+# Define the name of the latex output file for PDF builds
+latex:
+    latex_documents:
+        targetname: ampseeker-results.tex
+
+
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
   use_issues_button: true
   use_repository_button: true
+  comments:
+    utterances:
+        repo: 'sanjaynagi/ampseeker'
+        issue-term: 'pathname'
+        label: 'comment'
+        theme: 'github-light'

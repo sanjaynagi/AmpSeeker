@@ -1,7 +1,8 @@
-name: AmpSeeker-jupyterbook
+name: Ampseeker-jupyterbook
 channels:
-  - bioconda
-  - conda-forge
-  - anaconda
+    - conda-forge
+    - bioconda
 dependencies:
-  - jupyter-book
+    - python=3.10
+    - jupyterlab
+    - jupyter-book==0.15.1

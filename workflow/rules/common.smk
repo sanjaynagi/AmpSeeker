@@ -122,7 +122,7 @@ def AmpSeekerOutputs(wildcards):
             )
 
     if config['build-jupyter-book']:
-        inputs.extend(["docs/ampseeker-results/_build/html/index.html"])
+        inputs.extend(["results/ampseeker-results/_build/html/index.html"])
     
     return inputs
 
