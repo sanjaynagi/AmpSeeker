@@ -6,14 +6,14 @@ rule jupyterbook:
         pca = "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb" if config["analysis"]["pca"] else [],
         docs_nb = "docs/ampseeker-results/notebooks/sample-map.ipynb" if config["analysis"]["sample-map"] else [],
     output:
-        directory("docs/ampseeker-results/_build/html/"),
-        home_page = "docs/ampseeker-results/_build/html/index.html"
+        directory("results/ampseeker-results/_build/html/"),
+        home_page = "results/ampseeker-results/_build/html/index.html"
     log:
         "logs/jupyterbook/jupyterbook.log"
     conda:
         "../envs/AmpSeeker-jupyterbook.yaml"
     shell:
         """
-        jupyter-book build --all {input.pages} &&
-        ln -sf docs/ampseeker-results/_build/html/index.html AmpSeeker-results.html
+        jupyter-book build --all {input.pages} --path-output results/ampseeker-results &&
+        ln -sf results/ampseeker-results/_build/html/index.html AmpSeeker-results.html
         """
