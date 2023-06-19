@@ -1,9 +1,5 @@
 <div align="center">
 
-<h1 align="center">
-  AmpSeeker
-</h1>
-
 [<img src="https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png" width="400"/>](https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png)   
 
 
