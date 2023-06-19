@@ -10,4 +10,5 @@ parts:
   - file: notebooks/IGV-explore
   - file: notebooks/coverage
   - file: notebooks/principal-component-analysis
+  - file: notebooks/allele-frequencies
 

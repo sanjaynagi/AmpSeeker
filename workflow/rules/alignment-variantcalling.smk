@@ -33,7 +33,7 @@ rule bwa_align:
     Align with bwa mem, and sorting by coordinate with samtools sort. then index with samtools.  
     """
     input:
-        reads = expand("results/reads/trimmed/{{sample}}_{n}.fastq.gz", n=[1,2]),
+        reads = expand("results/trimmed-reads/{{sample}}_{n}.fastq.gz", n=[1,2]),
         ref = config['reference-fasta'],
         idx = "resources/reference/.bwa.index"
     output:
