@@ -1,0 +1,14 @@
+format: jb-book
+root: landing-page
+parts:
+- caption: Getting started
+  chapters:
+    - file: notebooks/installation
+    - file: notebooks/input_data
+    - file: notebooks/configuring_the_workflow
+    - file: notebooks/running_the_workflow
+    - file: notebooks/snakemake
+- caption: Troubleshooting and contributing
+  chapters:
+    - file: notebooks/troubleshooting
+    - file: notebooks/contributing

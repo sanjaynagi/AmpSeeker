@@ -1,0 +1,38 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: AmpSeeker-documentation
+author: Sanjay Curtis Nagi
+copyright: "2023"
+logo: logo.png
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: "off"
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_documents:
+    targetname: AmpSeeker-docs.tex
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/sanjaynagi/ampseeker  # Online location of your book
+  path_to_book: docs/ampseeker-docs  # Optional path to your book, relative to the repository root
+  branch: main  # Which branch of the repository should be used when creating links (optional)
+
+# Add GitHub buttons to your book
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  use_issues_button: true
+  use_repository_button: true
+  comments:
+    utterances:
+      repo: "sanjaynagi/ampseeker"
+      issue-term: "pathname"
+      label: "comment"
+      theme: "github-light" 
+
+launch_buttons:
+  binderhub_url: ""
