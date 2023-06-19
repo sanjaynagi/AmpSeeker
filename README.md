@@ -1,9 +1,18 @@
-# AmpSeeker
+<div align="center">
+
+<h1 align="center">
+  AmpSeeker
+</h1>
+
+[<img src="https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png" width="400"/>](https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png)   
+
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.11.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![AmpSeq](https://github.com/sanjaynagi/AmpSeeker/workflows/AmpSeq/badge.svg)](https://github.com/sanjaynagi/AmpSeeker/actions?query=workflow:"AmpSeq")
 [![GitHub release](https://img.shields.io/github/release/sanjaynagi/AmpSeeker?include_prereleases=&sort=semver&color=blue)](https://github.com/sanjaynagi/AmpSeeker/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+
+</div>
 
 **Documentation**: https://sanjaynagi.github.io/AmpSeeker/ 
 
