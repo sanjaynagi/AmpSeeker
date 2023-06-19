@@ -5,7 +5,9 @@
 [![GitHub release](https://img.shields.io/github/release/sanjaynagi/AmpSeeker?include_prereleases=&sort=semver&color=blue)](https://github.com/sanjaynagi/AmpSeeker/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
-This is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is a work in progress, however, it currently implements:
+**Documentation**: https://sanjaynagi.github.io/AmpSeeker/ 
+
+AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is a work in progress, however, it currently implements:
 
 - BCL to FastQ conversion
 - Genome alignment
