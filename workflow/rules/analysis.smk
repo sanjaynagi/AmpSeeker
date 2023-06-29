@@ -85,3 +85,27 @@ rule sample_map:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+
+rule allele_frequencies:
+    input:
+        nb = f"{workflow.basedir}/notebooks/allele-frequencies.ipynb",
+        kernel = "results/.kernel.set",
+        metadata = config["metadata"],
+        bed = config['targets'],
+        vcf = expand("results/vcfs/{dataset}.merged.vcf", dataset=dataset),
+    output:
+        nb = "results/notebooks/allele-frequencies.ipynb",
+        docs_nb = "docs/ampseeker-results/notebooks/allele-frequencies.ipynb"
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/allele-frequencies.log"
+    params:
+        dataset = dataset,
+        cohort_column = config['analysis']['allele-frequencies']['cohort-column'],
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p bed_path {input.bed} -p cohort_column {params.cohort_column} -p vcf_path {input.vcf} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """

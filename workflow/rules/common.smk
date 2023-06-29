@@ -103,6 +103,16 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
+    if config['analysis']['allele-frequencies']['activate']:
+        inputs.extend(
+            expand(
+                [
+                    "results/notebooks/allele-frequencies.ipynb",
+                    "docs/ampseeker-results/notebooks/allele-frequencies.ipynb"
+                ],
+            )
+        )
+
     if config['analysis']['sample-map']:
         inputs.extend(
             expand(

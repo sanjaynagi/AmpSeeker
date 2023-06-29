@@ -33,7 +33,9 @@ analysis:
   pca: 
     activate: True
     colour-column: taxon
-  allele-frequencies: True
+  allele-frequencies:
+    activate: True
+    cohort-column: location 
 
 # Specify whether to build jupyter results book
 build-jupyter-book: False

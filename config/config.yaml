@@ -1,7 +1,7 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: uvri-23
+dataset: gaard-sanger
 metadata: config/metadata.tsv
 
 # Directory of Illumina Miseq Run
@@ -17,13 +17,13 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 targets: config/AgamDao.bed
 
 # Specify whether to convert bcl files to fastq
-bcl-convert: True
+bcl-convert: False
 
 # Specify whether to run quality-control analyses
 quality-control:
   fastp: True
   coverage: True
-  qualimap: True
+  qualimap: False
   stats: True
   multiqc: True
 
@@ -34,7 +34,9 @@ analysis:
   pca: 
     activate: True
     colour-column: taxon
-  allele-frequencies: True
+  allele-frequencies:
+    activate: True
+    cohort-column: location
 
 # Specify whether to build jupyter results book
 build-jupyter-book: True

@@ -2,7 +2,7 @@ rule fastp:
     input:
         sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
     output:
-        trimmed=["results/reads/trimmed/{sample}_1.fastq.gz", "results/reads/trimmed/{sample}_2.fastq.gz"],
+        trimmed=["results/trimmed-reads/{sample}_1.fastq.gz", "results/trimmed-reads/{sample}_2.fastq.gz"],
         html="results/fastp_reports/{sample}.html",
         json="results/fastp_reports/{sample}.json",
     log:
