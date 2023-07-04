@@ -1,14 +1,16 @@
-rule bcl_convert:
+rule bcl2fastq:
     input:
         sample_csv = config["illumina-dir"] + "SampleSheet.csv",
         illumina_in_dir = config["illumina-dir"]
     output: 
         reads_dir = directory("resources/reads"),
         fastq_list = "resources/reads/Reports/fastq_list.csv"
+    singularity:
+        "docker://nfcore/bclconvert"
     log:
         "logs/bcl_convert.log"
     shell:
-        "bcl-convert --bcl-input-directory {input.illumina_in_dir} --force --output-directory {output.reads_dir} --sample-sheet {input.sample_csv} 2> {log}"
+        "bcl-convert --bcl-input-directory {input.illumina_in_dir} --output-directory {output.reads_dir} --sample-sheet {input.sample_csv} --force 2> {log}"
 
 
 rule rename_fastq:
