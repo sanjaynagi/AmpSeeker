@@ -404,8 +404,10 @@ document.write(`
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span> <span class="pre">-n</span> </code></p>
 <p>To run the workflow on 4 cores. Conda will install all necessary packages.</p>
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span></code></p>
+<p>If using bcl-convert via singularity, you should use:</p>
+<p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-singularity</span> <span class="pre">--use-conda</span></code></p>
 <p>If you wish to override using the standard <code class="docutils literal notranslate"><span class="pre">config/config.yaml</span></code> path, you can provide a config file at the command line as follows.</p>
-<p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span> <span class="pre">--configfile</span> <span class="pre">myconfig.yaml</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span> <span class="pre">--use-singularity</span> <span class="pre">--configfile</span> <span class="pre">myconfig.yaml</span></code></p>
 <p>If you wish to check that AmpSeeker is configured correctly prior to running it on your dataset, you can run AmpSeeker on the test dataset. To do so, use the following command from the root directory:</p>
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--directory</span> <span class="pre">.test/</span> <span class="pre">--use-conda</span> </code></p>
 <p><strong>Running snakemake on a cluster</strong></p>
