@@ -1,4 +1,4 @@
-rule bcl2fastq:
+rule bcl_convert:
     input:
         sample_csv = config["illumina-dir"] + "SampleSheet.csv",
         illumina_in_dir = config["illumina-dir"]
