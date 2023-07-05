@@ -1,3 +1,24 @@
+rule index_read_fastqc:
+    input:
+        sample=rules.bcl_convert.output,
+    output:
+        index1_qc="results/index-read-qc/I1.html",
+        index2_qc="results/index-read-qc/I2.html",
+    conda:
+        "../envs/AmpSeeker-qc.yaml"
+    log:
+        "logs/index-read-quality.log"
+    shell:
+        """
+        zcat resources/reads/*I1*.fastq.gz | fastqc stdin --outdir results/index-read-qc/ 2>> {log}
+        mv results/index-read-qc/stdin_fastqc.html results/index-read-qc/I1.html 2>> {log}
+        mv results/index-read-qc/stdin_fastqc.zip results/index-read-qc/I1.zip 2>> {log}
+        
+        zcat resources/reads/*I2*.fastq.gz | fastqc stdin --outdir results/index-read-qc/ 2>> {log}
+        mv results/index-read-qc/stdin_fastqc.html results/index-read-qc/I2.html 2>> {log}
+        mv results/index-read-qc/stdin_fastqc.zip results/index-read-qc/I2.zip 2>> {log}
+        """
+
 rule fastp:
     input:
         sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
