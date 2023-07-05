@@ -36,6 +36,10 @@ def AmpSeekerOutputs(wildcards):
     if config['bcl-convert']:
         inputs.extend(expand("results/reads/{sample}_{n}.fastq.gz", sample=samples, n=[1,2]))
         inputs.extend(["results/index-read-qc/I1.html", "results/index-read-qc/I2.html"])
+    
+    if plate_info:
+        inputs.extend(["results/notebooks/reads-per-well.ipynb", 
+                        "docs/ampseeker-results/notebooks/reads-per-well.ipynb"])
  
     if large_sample_size:
         inputs.extend(expand("results/vcfs/{dataset}.complete.merge_vcfs", dataset=config['dataset']))

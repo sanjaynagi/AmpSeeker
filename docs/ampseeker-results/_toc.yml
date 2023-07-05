@@ -4,10 +4,14 @@
 format: jb-book
 root: intro
 parts:
+- caption: QC
+  chapters:
+  - file: notebooks/read-quality
+  - file: notebooks/reads-per-well
+  - file: notebooks/IGV-explore
 - caption: Results
   chapters:
   - file: notebooks/sample-map
-  - file: notebooks/IGV-explore
   - file: notebooks/coverage
   - file: notebooks/principal-component-analysis
   - file: notebooks/allele-frequencies

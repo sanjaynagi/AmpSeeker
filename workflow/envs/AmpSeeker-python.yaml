@@ -16,3 +16,4 @@ dependencies:
     - igv_notebook
     - papermill
     - scikit-allel
+    - pysam
