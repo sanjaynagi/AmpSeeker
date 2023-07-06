@@ -21,11 +21,12 @@ rule index_read_fastqc:
 
 rule fastp:
     input:
-        sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
+        sample=["resources/reads/{sample}_1.fastq.gz", "resources/reads/{sample}_2.fastq.gz"]
     output:
         trimmed=["results/trimmed-reads/{sample}_1.fastq.gz", "results/trimmed-reads/{sample}_2.fastq.gz"],
         html="results/fastp_reports/{sample}.html",
         json="results/fastp_reports/{sample}.json",
+        logs="logs/fastp/{sample}.log"
     log:
         "logs/fastp/{sample}.log"
     threads: 4
@@ -34,8 +35,7 @@ rule fastp:
 
 rule multiQC:
     input:
-        expand("results/fastp_reports/{sample}.html", sample=samples),
-        expand("results/fastp_reports/{sample}.json", sample=samples),
+        expand("logs/fastp/{sample}.log", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
         expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
@@ -43,7 +43,7 @@ rule multiQC:
         "results/multiqc/multiqc_report.html"
     log:
         "logs/multiqc/multiqc.log"
-    wrapper:
+    wrapper: 
         "v1.25.0/bio/multiqc"
 
 
@@ -117,6 +117,7 @@ rule reads_per_well:
         kernel = "results/.kernel.set",
         bam = expand("results/alignments/{sample}.bam", sample=samples),
         bai = expand("results/alignments/{sample}.bam.bai", sample=samples),
+        stats = expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         metadata = config["metadata"],
     output:
         nb = "results/notebooks/reads-per-well.ipynb",
