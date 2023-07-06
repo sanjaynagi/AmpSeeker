@@ -5,7 +5,7 @@ dataset: "AgamDao"
 metadata: "config/metadata.tsv"
 
 # Directory of Illumina Miseq Run
-illumina-dir: /home/sanj/projects/AmpSeqVIGG2022/resources/220329_M05658_0010_000000000-K9TYL
+illumina-dir: ""
 
 # Genome fasta reference files 
 reference-name: 'AgamP4'
