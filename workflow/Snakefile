@@ -6,6 +6,7 @@ import numpy as np
 configfile:"config/config.yaml"
 dataset = config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
+plate_info = np.isin(['plate', 'well_letter', 'well_number'], metadata.columns).all()
 samples = metadata['sampleID']
 
 import os
@@ -16,6 +17,7 @@ include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
 include: "rules/alignment-variantcalling.smk"
+include: "rules/qc-notebooks.smk"
 include: "rules/analysis.smk"
 include: "rules/jupyter-book.smk"
 

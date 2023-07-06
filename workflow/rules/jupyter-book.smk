@@ -6,6 +6,8 @@ rule jupyterbook:
         pca = "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb" if config["analysis"]["pca"] else [],
         af = "docs/ampseeker-results/notebooks/allele-frequencies.ipynb" if config["analysis"]["allele-frequencies"] else [],
         sample_map = "docs/ampseeker-results/notebooks/sample-map.ipynb" if config["analysis"]["sample-map"] else [],
+        read_quality = "docs/ampseeker-results/notebooks/read-quality.ipynb" if config["quality-control"]["fastp"] else [],
+        reads_per_well = "docs/ampseeker-results/notebooks/reads-per-well.ipynb" if plate_info else [],
     output:
         directory("results/ampseeker-results/_build/html/"),
         home_page = "results/ampseeker-results/_build/html/index.html"

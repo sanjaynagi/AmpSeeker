@@ -21,11 +21,12 @@ rule index_read_fastqc:
 
 rule fastp:
     input:
-        sample=["results/reads/{sample}_1.fastq.gz", "results/reads/{sample}_2.fastq.gz"]
+        sample=["resources/reads/{sample}_1.fastq.gz", "resources/reads/{sample}_2.fastq.gz"]
     output:
         trimmed=["results/trimmed-reads/{sample}_1.fastq.gz", "results/trimmed-reads/{sample}_2.fastq.gz"],
         html="results/fastp_reports/{sample}.html",
         json="results/fastp_reports/{sample}.json",
+        logs="logs/fastp/{sample}.log"
     log:
         "logs/fastp/{sample}.log"
     threads: 4
@@ -34,8 +35,7 @@ rule fastp:
 
 rule multiQC:
     input:
-        expand("results/fastp_reports/{sample}.html", sample=samples),
-        expand("results/fastp_reports/{sample}.json", sample=samples),
+        expand("logs/fastp/{sample}.log", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
         expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
@@ -43,7 +43,7 @@ rule multiQC:
         "results/multiqc/multiqc_report.html"
     log:
         "logs/multiqc/multiqc.log"
-    wrapper:
+    wrapper: 
         "v1.25.0/bio/multiqc"
 
 
@@ -68,7 +68,7 @@ rule mosdepthCoverage:
         mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
         """
 
-rule BamStats:
+rule bam_stats:
   """
   Calculate mapping statistics with samtools flagstat
   """
@@ -97,7 +97,7 @@ rule qualimap:
     wrapper:
         "v1.25.0/bio/qualimap/bamqc"
 
-rule vcfStats:
+rule vcf_stats:
     input:
         vcf = "results/vcfs/{dataset}.merged.vcf"
     output:
