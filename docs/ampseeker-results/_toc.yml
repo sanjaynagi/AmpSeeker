@@ -8,7 +8,6 @@ parts:
   chapters:
   - file: notebooks/read-quality
   - file: notebooks/reads-per-well
-  - file: notebooks/IGV-explore
 - caption: Results
   chapters:
   - file: notebooks/sample-map
