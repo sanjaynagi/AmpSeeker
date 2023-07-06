@@ -33,6 +33,18 @@ rule set_kernel:
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
+    
+    inputs.extend(
+        expand(
+            [
+                "results/alignments/{sample}.bam",
+                "results/alignments/{sample}.bam.bai",
+            ],                sample=samples,
+                ),
+    )
+    
+                
+
     if config['bcl-convert']:
         inputs.extend(["results/index-read-qc/I1.html", "results/index-read-qc/I2.html"])
 
@@ -61,10 +73,13 @@ def AmpSeekerOutputs(wildcards):
             expand(
                 [
                     "results/fastp_reports/{sample}.html",
+                    "results/notebooks/read-quality.ipynb",
+                    "docs/ampseeker-results/notebooks/read-quality.ipynb"
                 ],
                 sample=samples,
             )
-        )   
+        )
+
 
     if config['quality-control']['qualimap']:
         inputs.extend(               

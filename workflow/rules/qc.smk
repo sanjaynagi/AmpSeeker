@@ -68,7 +68,7 @@ rule mosdepthCoverage:
         mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
         """
 
-rule BamStats:
+rule bam_stats:
   """
   Calculate mapping statistics with samtools flagstat
   """
@@ -97,7 +97,7 @@ rule qualimap:
     wrapper:
         "v1.25.0/bio/qualimap/bamqc"
 
-rule vcfStats:
+rule vcf_stats:
     input:
         vcf = "results/vcfs/{dataset}.merged.vcf"
     output:
@@ -109,25 +109,4 @@ rule vcfStats:
     shell:
         """
         bcftools stats {input.vcf} > {output.stats} 2> {log}
-        """
-
-rule reads_per_well:
-    input:
-        nb = f"{workflow.basedir}/notebooks/reads-per-well.ipynb",
-        kernel = "results/.kernel.set",
-        bam = expand("results/alignments/{sample}.bam", sample=samples),
-        bai = expand("results/alignments/{sample}.bam.bai", sample=samples),
-        stats = expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
-        metadata = config["metadata"],
-    output:
-        nb = "results/notebooks/reads-per-well.ipynb",
-        docs_nb = "docs/ampseeker-results/notebooks/reads-per-well.ipynb"
-    conda:
-        "../envs/AmpSeeker-python.yaml"
-    log:
-        "logs/notebooks/reads-per-well.log"
-    shell:
-        """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} 2> {log}
-        cp {output.nb} {output.docs_nb} 2>> {log}
         """

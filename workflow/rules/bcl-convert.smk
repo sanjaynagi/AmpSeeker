@@ -32,6 +32,11 @@ rule rename_fastq:
     shell:
         """
         while IFS="," read -r _ sample_id _ _ read1 read2; do
+            
+            if [[ $sample_id == "RGSM" ]]; then
+               continue
+            fi
+            
             echo renaming $read1 and $read2 to ${{sample_id}}_1.fastq.gz and ${{sample_id}}_2.fastq.gz 
             mv $read1 resources/reads/${{sample_id}}_1.fastq.gz
             mv $read2 resources/reads/${{sample_id}}_2.fastq.gz

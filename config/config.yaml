@@ -5,7 +5,7 @@ dataset: gaard-sanger
 metadata: config/metadata.tsv
 
 # Directory of Illumina Miseq Run
-illumina-dir: resources/230530_M02853_0061_000000000-L23TH/
+illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
@@ -17,7 +17,7 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 targets: config/AgamDao.bed
 
 # Specify whether to convert bcl files to fastq
-bcl-convert: False
+bcl-convert: True
 
 # Specify whether to run quality-control analyses
 quality-control:
