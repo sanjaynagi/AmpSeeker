@@ -24,7 +24,7 @@ quality-control:
   coverage: True
   qualimap: True
   stats: True
-  multiqc: True
+  multiqc: False
 
 # Specify whether to run generic analyses
 analysis:  
