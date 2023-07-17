@@ -35,16 +35,23 @@ rule fastp:
 
 rule multiQC:
     input:
-        expand("logs/fastp/{sample}.log", sample=samples),
+        expand("results/fastp_reports/{sample}.json", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
-        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
+        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples),
+        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples),
+        expand("results/qualimap/{sample}/genome_results.txt", sample=samples),
+        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset),
     output:
         "results/multiqc/multiqc_report.html"
+    params:
+        extra="--config config/multiqc.yaml"
     log:
         "logs/multiqc/multiqc.log"
+    conda:
+        "../envs/AmpSeeker-qc.yaml"
     wrapper: 
-        "v1.25.0/bio/multiqc"
+        "v2.2.1/bio/multiqc"
 
 
 rule mosdepthCoverage:
