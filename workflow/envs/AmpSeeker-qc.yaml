@@ -4,6 +4,6 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  - python=3.9
+  - python
   - fastqc
-  - multiqc=1.14
+  - multiqc=1.6

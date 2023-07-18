@@ -1,0 +1,5 @@
+name: AmpSeeker-qc
+channels:
+  - bioconda
+dependencies:
+  - qualimap

@@ -98,11 +98,16 @@ rule qualimap:
     input:
         bam="results/alignments/{sample}.bam",
     output:
-        directory("results/qualimap/{sample}"),
+        folder = directory("results/qualimap/{sample}"),
+        txt = "results/qualimap/{sample}/genome_results.txt",
     log:
         "logs/qualimap/bamqc/{sample}.log",
-    wrapper:
-        "v1.25.0/bio/qualimap/bamqc"
+    conda:
+        "../envs/AmpSeeker-qualimap.yaml"
+    shell:
+        """
+        qualimap bamqc -bam {input.bam} -outdir {output.folder} -outformat PDF:HTML 2> {log}
+        """
 
 rule vcf_stats:
     input:
