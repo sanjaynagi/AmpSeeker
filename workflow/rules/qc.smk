@@ -108,7 +108,7 @@ rule qualimap:
         "../envs/AmpSeeker-qualimap.yaml"
     shell:
         """
-        qualimap bamqc -bam {input.bam} -outdir {output.folder} -outformat PDF:HTML 2> {log}
+        qualimap bamqc -bam {input.bam} -outdir {output.folder} 2> {log}
         """
 
 rule vcf_stats:
