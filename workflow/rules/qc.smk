@@ -62,7 +62,9 @@ rule mosdepthCoverage:
         bam="results/alignments/{sample}.bam",
         idx="results/alignments/{sample}.bam.bai"
     output:
-        "results/coverage/{sample}.per-base.bed.gz"
+        "results/coverage/{sample}.per-base.bed.gz",
+        "results/coverage/{sample}.mosdepth.summary.txt",
+        "results/coverage/{sample}.mosdepth.global.dist.txt",
     log:
         "logs/coverage/{sample}.log"
     threads:4
