@@ -1,7 +1,0 @@
-name: AmpSeeker-qc
-channels:
-  - bioconda
-  - conda-forge
-  - anaconda
-dependencies:
-  - multiqc=1.6
