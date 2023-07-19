@@ -35,13 +35,13 @@ rule fastp:
 
 rule multiQC:
     input:
-        expand("results/fastp_reports/{sample}.json", sample=samples),
-        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
-        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
-        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples),
-        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples),
-        expand("results/qualimap/{sample}/genome_results.txt", sample=samples),
-        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset),
+        expand("results/fastp_reports/{sample}.json", sample=samples) if config['quality-control']['fastp'] else [],
+        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples) if config['quality-control']['stats'] else [],
+        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset) if config['quality-control']['stats'] else [],
+        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/qualimap/{sample}/genome_results.txt", sample=samples) if config['quality-control']['qualimap'] else [],
     output:
         "results/multiqc/multiqc_report.html"
     params:

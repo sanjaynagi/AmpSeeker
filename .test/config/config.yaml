@@ -22,7 +22,7 @@ bcl-convert: False
 quality-control:
   fastp: True
   coverage: True
-  qualimap: True
+  qualimap: False
   stats: True
   multiqc: True
 
