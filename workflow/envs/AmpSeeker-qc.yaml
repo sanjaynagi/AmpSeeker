@@ -6,3 +6,6 @@ channels:
 dependencies:
   - python=3.9
   - fastqc
+  - pip 
+  - pip:
+    - multiqc

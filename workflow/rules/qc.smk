@@ -35,16 +35,23 @@ rule fastp:
 
 rule multiQC:
     input:
-        expand("logs/fastp/{sample}.log", sample=samples),
-        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
-        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
-        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset)
+        expand("results/fastp_reports/{sample}.json", sample=samples) if config['quality-control']['fastp'] else [],
+        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples) if config['quality-control']['stats'] else [],
+        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset) if config['quality-control']['stats'] else [],
+        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples) if config['quality-control']['coverage'] else [],
+        expand("results/qualimap/{sample}/genome_results.txt", sample=samples) if config['quality-control']['qualimap'] else [],
     output:
         "results/multiqc/multiqc_report.html"
+    params:
+        extra="--config config/multiqc.yaml"
     log:
         "logs/multiqc/multiqc.log"
+    conda:
+        "../envs/AmpSeeker-qc.yaml"
     wrapper: 
-        "v1.25.0/bio/multiqc"
+        "v2.2.1/bio/multiqc"
 
 
 rule mosdepthCoverage:
@@ -55,7 +62,9 @@ rule mosdepthCoverage:
         bam="results/alignments/{sample}.bam",
         idx="results/alignments/{sample}.bam.bai"
     output:
-        "results/coverage/{sample}.per-base.bed.gz"
+        "results/coverage/{sample}.per-base.bed.gz",
+        "results/coverage/{sample}.mosdepth.summary.txt",
+        "results/coverage/{sample}.mosdepth.global.dist.txt",
     log:
         "logs/coverage/{sample}.log"
     threads:4
@@ -91,11 +100,16 @@ rule qualimap:
     input:
         bam="results/alignments/{sample}.bam",
     output:
-        directory("results/qualimap/{sample}"),
+        folder = directory("results/qualimap/{sample}"),
+        txt = "results/qualimap/{sample}/genome_results.txt",
     log:
         "logs/qualimap/bamqc/{sample}.log",
-    wrapper:
-        "v1.25.0/bio/qualimap/bamqc"
+    conda:
+        "../envs/AmpSeeker-qualimap.yaml"
+    shell:
+        """
+        qualimap bamqc -bam {input.bam} -outdir {output.folder} 2> {log}
+        """
 
 rule vcf_stats:
     input:
