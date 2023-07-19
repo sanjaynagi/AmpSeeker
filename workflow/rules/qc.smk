@@ -5,7 +5,7 @@ rule index_read_fastqc:
         index1_qc="results/index-read-qc/I1.html",
         index2_qc="results/index-read-qc/I2.html",
     conda:
-        "../envs/AmpSeeker-qc.yaml"
+        "../envs/AmpSeeker-fastqc.yaml"
     log:
         "logs/index-read-quality.log"
     shell:
@@ -49,7 +49,7 @@ rule multiQC:
     log:
         "logs/multiqc/multiqc.log"
     conda:
-        "../envs/AmpSeeker-qc.yaml"
+        "../envs/AmpSeeker-multiqc.yaml"
     wrapper: 
         "v2.2.1/bio/multiqc"
 
