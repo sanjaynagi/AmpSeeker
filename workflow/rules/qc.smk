@@ -114,7 +114,7 @@ rule multiQC:
         expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples) if config['quality-control']['coverage'] else [],
         expand("results/qc/qualimap/{sample}/genome_results.txt", sample=samples) if config['quality-control']['qualimap'] else [],
     output:
-        "results/multiqc/multiqc_report.html"
+        "results/qc/multiqc/multiqc_report.html"
     params:
         extra="--config config/multiqc.yaml"
     log:
