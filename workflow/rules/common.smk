@@ -163,6 +163,7 @@ def AmpSeekerOutputs(wildcards):
 
 
 def welcome(version):
+    import datetime
 
     print("---------------------------- AmpSeeker ----------------------------")
     print(f"Running AmpSeeker snakemake workflow in {workflow.basedir}\n")
