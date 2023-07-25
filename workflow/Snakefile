@@ -13,6 +13,8 @@ import os
 wkdir = os.getcwd()
 
 include: "rules/common.smk"	
+welcome(version="v0.1.0")
+
 include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
