@@ -155,3 +155,19 @@ def AmpSeekerOutputs(wildcards):
     
     return inputs
 
+
+
+
+
+
+
+
+def welcome(version):
+    import datetime
+
+    print("---------------------------- AmpSeeker ----------------------------")
+    print(f"Running AmpSeeker snakemake workflow in {workflow.basedir}\n")
+    print(f"Authors:   Sanjay Curtis Nagi, Trevor Mugoya, Edward Lukyamezi")
+    print(f"Workflow Version: {version}")
+    print("Execution time: ", datetime.datetime.now())
+    print(f"Dataset: {config['dataset']}", "\n")
