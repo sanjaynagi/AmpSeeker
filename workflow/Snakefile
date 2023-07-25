@@ -8,6 +8,7 @@ dataset = config['dataset']
 metadata = pd.read_csv(config['metadata'], sep="\t")
 plate_info = np.isin(['plate', 'well_letter', 'well_number'], metadata.columns).all()
 samples = metadata['sampleID']
+call_types = ['targets', 'amplicons'] if config['whole_amplicon_calling'] else ['targets']
 
 import os
 wkdir = os.getcwd()

@@ -74,7 +74,7 @@ rule bam_index:
         "samtools index {input} {output} 2> {log}"
 
 
-rule mpileup_call:
+rule mpileup_call_targets:
     """
     Get pileup of reads at target loci and pipe output to bcftoolsCall
     """
@@ -83,10 +83,10 @@ rule mpileup_call:
         index = "results/alignments/{sample}.bam.bai",
         reference = config['reference-fasta']
     output:
-        calls = "results/bcfs/{sample}.calls.vcf"
+        calls = "results/vcfs/targets/{sample}.calls.vcf"
     log:
-        mpileup = "logs/mpileup/{sample}.log",
-        call = "logs/bcftools_call/{sample}.log"
+        mpileup = "logs/mpileup/targets/{sample}.log",
+        call = "logs/bcftools_call/targets/{sample}.log"
     conda:
         "../envs/AmpSeeker-cli.yaml"
     params:
@@ -96,5 +96,30 @@ rule mpileup_call:
     shell:
         """
         bcftools mpileup -Ov -f {params.ref} -R {params.regions} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
+        bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
+        """
+
+
+rule mpileup_call_amplicons:
+    """
+    Get pileup of reads at target loci and pipe output to bcftoolsCall
+    """
+    input:
+        bam = "results/alignments/{sample}.bam",
+        index = "results/alignments/{sample}.bam.bai",
+        reference = config['reference-fasta']
+    output:
+        calls = "results/vcfs/amplicons/{sample}.calls.vcf"
+    log:
+        mpileup = "logs/mpileup/amplicons/{sample}.log",
+        call = "logs/bcftools_call/amplicons/{sample}.log"
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    params:
+        ref = config['reference-fasta'],
+        depth = 2000
+    shell:
+        """
+        bcftools mpileup -Ov -f {params.ref} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
         bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """

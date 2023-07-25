@@ -24,7 +24,7 @@ rule read_qc:
     input:
         nb = f"{workflow.basedir}/notebooks/read-quality.ipynb",
         kernel = "results/.kernel.set",
-        fastp = expand("results/fastp_reports/{sample}.json", sample=samples),
+        fastp = expand("results/qc/fastp_reports/{sample}.json", sample=samples),
         metadata = config["metadata"],
     output:
         nb = "results/notebooks/read-quality.ipynb",

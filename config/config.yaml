@@ -17,7 +17,7 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 targets: config/AgamDao.bed
 
 # Specify whether to convert bcl files to fastq
-bcl-convert: True
+bcl-convert: False
 
 # Specify whether to run quality-control analyses
 quality-control:
@@ -37,6 +37,9 @@ analysis:
   allele-frequencies:
     activate: True
     cohort-column: location
+
+# Specify whether to run variant calling on whole amplicons as well as target SNPs
+whole_amplicon_calling: True
 
 # Specify whether to build jupyter results book
 build-jupyter-book: True

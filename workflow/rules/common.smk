@@ -43,19 +43,18 @@ def AmpSeekerOutputs(wildcards):
                 ),
     )
     
-                
-
+            
     if config['bcl-convert']:
-        inputs.extend(["results/index-read-qc/I1.html", "results/index-read-qc/I2.html"])
+        inputs.extend(["results/qc/index-read-qc/I1.html", "results/qc/index-read-qc/I2.html"])
 
     if plate_info:
         inputs.extend(["results/notebooks/reads-per-well.ipynb", 
                         "docs/ampseeker-results/notebooks/reads-per-well.ipynb"])
  
     if large_sample_size:
-        inputs.extend(expand("results/vcfs/{dataset}.complete.merge_vcfs", dataset=config['dataset']))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.complete.merge_vcfs", dataset=config['dataset'], call_type=call_types))
     else:
-        inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", dataset=config['dataset']))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.merged.vcf", dataset=config['dataset'], call_type=call_types))
 
     if config['quality-control']['coverage']:
             inputs.extend(
@@ -72,7 +71,7 @@ def AmpSeekerOutputs(wildcards):
         inputs.extend(
             expand(
                 [
-                    "results/fastp_reports/{sample}.html",
+                    "results/qc/fastp_reports/{sample}.html",
                     "results/notebooks/read-quality.ipynb",
                     "docs/ampseeker-results/notebooks/read-quality.ipynb"
                 ],
@@ -85,7 +84,7 @@ def AmpSeekerOutputs(wildcards):
         inputs.extend(               
             expand(
                 [
-                    "results/qualimap/{sample}",
+                    "results/qc/qualimap/{sample}",
                 ],
                 sample=samples,
             )
@@ -95,7 +94,7 @@ def AmpSeekerOutputs(wildcards):
         inputs.extend(
             expand(
                 [
-                    "results/multiqc/multiqc_report.html",
+                    "results/qc/multiqc/multiqc_report.html",
                 ],
             )
         )
@@ -105,7 +104,7 @@ def AmpSeekerOutputs(wildcards):
             expand(
                 [
                     "results/alignments/bamStats/{sample}.flagstat",
-                    "results/vcfs/stats/{dataset}.merged.vcf.txt",
+                    "results/qc/{dataset}.merged.vcf.txt",
                 ],
                 sample=samples, 
                 dataset=config['dataset'],
