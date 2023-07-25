@@ -43,8 +43,7 @@ def AmpSeekerOutputs(wildcards):
                 ),
     )
     
-                
-
+            
     if config['bcl-convert']:
         inputs.extend(["results/index-read-qc/I1.html", "results/index-read-qc/I2.html"])
 
@@ -53,9 +52,9 @@ def AmpSeekerOutputs(wildcards):
                         "docs/ampseeker-results/notebooks/reads-per-well.ipynb"])
  
     if large_sample_size:
-        inputs.extend(expand("results/vcfs/{dataset}.complete.merge_vcfs", dataset=config['dataset']))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.complete.merge_vcfs", dataset=config['dataset'], call_type=call_types))
     else:
-        inputs.extend(expand("results/vcfs/{dataset}.merged.vcf", dataset=config['dataset']))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.merged.vcf", dataset=config['dataset'], call_type=call_types))
 
     if config['quality-control']['coverage']:
             inputs.extend(
@@ -105,7 +104,7 @@ def AmpSeekerOutputs(wildcards):
             expand(
                 [
                     "results/alignments/bamStats/{sample}.flagstat",
-                    "results/vcfs/stats/{dataset}.merged.vcf.txt",
+                    "results/vcfs/targets/stats/{dataset}.merged.vcf.txt",
                 ],
                 sample=samples, 
                 dataset=config['dataset'],

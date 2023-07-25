@@ -37,7 +37,7 @@ rule multiQC:
     input:
         expand("results/fastp_reports/{sample}.json", sample=samples) if config['quality-control']['fastp'] else [],
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples) if config['quality-control']['stats'] else [],
-        expand("results/vcfs/stats/{dataset}.merged.vcf.txt", dataset=dataset) if config['quality-control']['stats'] else [],
+        expand("results/vcfs/targets/stats/{dataset}.merged.vcf.txt", dataset=dataset) if config['quality-control']['stats'] else [],
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples) if config['quality-control']['coverage'] else [],
         expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples) if config['quality-control']['coverage'] else [],
         expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples) if config['quality-control']['coverage'] else [],
@@ -113,9 +113,9 @@ rule qualimap:
 
 rule vcf_stats:
     input:
-        vcf = "results/vcfs/{dataset}.merged.vcf"
+        vcf = "results/vcfs/targets/{dataset}.merged.vcf"
     output:
-        stats = "results/vcfs/stats/{dataset}.merged.vcf.txt"
+        stats = "results/vcfs/targets/stats/{dataset}.merged.vcf.txt"
     log:
         "logs/vcfStats/{dataset}.log"
     conda:

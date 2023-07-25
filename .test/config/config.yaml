@@ -37,5 +37,6 @@ analysis:
     activate: True
     cohort-column: location 
 
+whole_amplicon_calling: True
 # Specify whether to build jupyter results book
 build-jupyter-book: False
