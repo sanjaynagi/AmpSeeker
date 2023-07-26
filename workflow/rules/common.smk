@@ -41,7 +41,7 @@ rule process_notebooks:
     output:
         out_nb = "results/notebooks/process-notebooks.ipynb",
     conda:
-        f'{workflow.basedir}/envs/pythonGenomics.yaml'
+        f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
     log:
         "logs/notebooks/process_notebooks.log"
     params:
