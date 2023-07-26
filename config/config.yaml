@@ -12,6 +12,7 @@ illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
 reference-name: AgamP4
 reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
+reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
 targets: config/AgamDao.bed
@@ -37,9 +38,6 @@ analysis:
   allele-frequencies:
     activate: True
     cohort-column: location
-
-# Specify whether to run variant calling on whole amplicons as well as target SNPs
-whole_amplicon_calling: True
 
 # Specify whether to build jupyter results book
 build-jupyter-book: True

@@ -1,6 +1,8 @@
 rule jupyterbook:
     input:
         pages = "docs/ampseeker-results",
+        process_notebooks = "results/notebooks/process-notebooks.ipynb",
+        snp_df = "docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         igv = "docs/ampseeker-results/notebooks/IGV-explore.ipynb" if config["analysis"]["igv"] else [],
         coverage = "docs/ampseeker-results/notebooks/coverage.ipynb" if config["quality-control"]["coverage"] else [],
         pca = "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb" if config["analysis"]["pca"] else [],

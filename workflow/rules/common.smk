@@ -27,8 +27,29 @@ rule set_kernel:
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
 
-
-
+rule process_notebooks:
+    input:
+        input_nb = f"{workflow.basedir}/notebooks/process-notebooks.ipynb",
+        snp_df = "docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
+        igv = "docs/ampseeker-results/notebooks/IGV-explore.ipynb" if config["analysis"]["igv"] else [],
+        coverage = "docs/ampseeker-results/notebooks/coverage.ipynb" if config["quality-control"]["coverage"] else [],
+        pca = "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb" if config["analysis"]["pca"] else [],
+        af = "docs/ampseeker-results/notebooks/allele-frequencies.ipynb" if config["analysis"]["allele-frequencies"] else [],
+        sample_map = "docs/ampseeker-results/notebooks/sample-map.ipynb" if config["analysis"]["sample-map"] else [],
+        read_quality = "docs/ampseeker-results/notebooks/read-quality.ipynb" if config["quality-control"]["fastp"] else [],
+        reads_per_well = "docs/ampseeker-results/notebooks/reads-per-well.ipynb" if plate_info else [],
+    output:
+        out_nb = "results/notebooks/process-notebooks.ipynb",
+    conda:
+        f'{workflow.basedir}/envs/pythonGenomics.yaml'
+    log:
+        "logs/notebooks/process_notebooks.log"
+    params:
+        wkdir = wkdir
+    shell:
+        """
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} 2> {log}
+        """
 
 
 def AmpSeekerOutputs(wildcards):
@@ -52,9 +73,18 @@ def AmpSeekerOutputs(wildcards):
                         "docs/ampseeker-results/notebooks/reads-per-well.ipynb"])
  
     if large_sample_size:
-        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.complete.merge_vcfs", dataset=config['dataset'], call_type=call_types))
+        inputs.extend(
+            expand(
+                [
+                    "results/vcfs/{call_type}/{dataset}.complete.merge_vcfs",
+                    "results/vcfs/{call_type}/{dataset}.annot.vcf"
+                ],
+                dataset=config['dataset'], 
+                call_type=call_types
+                )
+            )
     else:
-        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.merged.vcf", dataset=config['dataset'], call_type=call_types))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.annot.vcf", dataset=config['dataset'], call_type=call_types))
 
     if config['quality-control']['coverage']:
             inputs.extend(

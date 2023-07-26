@@ -1,0 +1,5 @@
+name: AmpSeeker-snpeff
+channels:
+  - bioconda
+dependencies:
+  - snpeff=5.1

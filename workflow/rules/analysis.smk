@@ -109,3 +109,24 @@ rule allele_frequencies:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p bed_path {input.bed} -p cohort_column {params.cohort_column} -p vcf_path {input.vcf} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+rule snp_dataframe:
+    input:
+        nb = f"{workflow.basedir}/notebooks/snp-dataframe.ipynb",
+        kernel = "results/.kernel.set",
+        vcf = expand("results/vcfs/{call_type}/{dataset}.annot.vcf", dataset=dataset, call_type=call_types),
+    output:
+        nb = "results/notebooks/snp-dataframe.ipynb",
+        docs_nb = "docs/ampseeker-results/notebooks/snp-dataframe.ipynb"
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/snp-dataframe.log"
+    params:
+        dataset = dataset,
+        wkdir = wkdir
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p wkdir {params.wkdir} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """

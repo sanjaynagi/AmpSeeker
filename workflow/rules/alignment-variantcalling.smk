@@ -123,3 +123,45 @@ rule mpileup_call_amplicons:
         bcftools mpileup -Ov -f {params.ref} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
         bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
+
+
+
+rule snpEffDbDownload:
+    """
+    Download the snpEff database for your species
+    """
+    output:
+        touch("results/vcfs/annotations/.db.dl"),
+    log:
+        "logs/snpEff/snpEffDbDownload.log",
+    conda:
+        "../envs/AmpSeeker-snpeff.yaml"
+    params:
+        ref=config["reference-snpeffdb"],
+        dir="results/vcfs/annotations/snpeffdb",
+    shell:
+        "snpEff download {params.ref} -dataDir {params.dir} 2> {log}"
+
+
+rule snpEff:
+    """
+    Run snpEff on the VCFs 
+    """
+    input:
+        calls="results/vcfs/{call_type}/{dataset}.merged.vcf",
+        dl="results/vcfs/annotations/.db.dl",
+    output:
+        calls="results/vcfs/{call_type}/{dataset}.annot.vcf",
+        csvStats="results/vcfs/{call_type}/{dataset}.summary.csv",
+    log:
+        "logs/snpEff/{dataset}_{call_type}.log",
+    conda:
+        "../envs/AmpSeeker-snpeff.yaml"
+    params:
+        db=config["reference-snpeffdb"],
+        prefix=lambda w, output: os.path.splitext(output[0])[0],
+        dir="results/vcfs/annotations/snpeffdb",
+    shell:
+        """
+        snpEff eff {params.db} -dataDir {params.dir} -csvStats {output.csvStats} {input.calls} > {output.calls} 2> {log}
+        """
