@@ -13,5 +13,6 @@ parts:
   - file: notebooks/sample-map
   - file: notebooks/coverage
   - file: notebooks/principal-component-analysis
+  - file: notebooks/snp-dataframe
   - file: notebooks/allele-frequencies
 

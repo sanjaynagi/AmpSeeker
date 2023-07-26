@@ -27,10 +27,6 @@ rule set_kernel:
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
 
-
-
-
-
 def AmpSeekerOutputs(wildcards):
     inputs = []
     
@@ -52,9 +48,18 @@ def AmpSeekerOutputs(wildcards):
                         "docs/ampseeker-results/notebooks/reads-per-well.ipynb"])
  
     if large_sample_size:
-        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.complete.merge_vcfs", dataset=config['dataset'], call_type=call_types))
+        inputs.extend(
+            expand(
+                [
+                    "results/vcfs/{call_type}/{dataset}.complete.merge_vcfs",
+                    "results/vcfs/{call_type}/{dataset}.annot.vcf"
+                ],
+                dataset=config['dataset'], 
+                call_type=call_types
+                )
+            )
     else:
-        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.merged.vcf", dataset=config['dataset'], call_type=call_types))
+        inputs.extend(expand("results/vcfs/{call_type}/{dataset}.annot.vcf", dataset=config['dataset'], call_type=call_types))
 
     if config['quality-control']['coverage']:
             inputs.extend(

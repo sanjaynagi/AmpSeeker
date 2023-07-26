@@ -11,6 +11,7 @@ illumina-dir: ""
 reference-name: 'AgamP4'
 reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
+reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
 targets: "config/AgamDao_test2L.bed"
@@ -37,6 +38,5 @@ analysis:
     activate: True
     cohort-column: location 
 
-whole_amplicon_calling: True
 # Specify whether to build jupyter results book
 build-jupyter-book: False
