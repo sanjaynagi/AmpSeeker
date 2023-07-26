@@ -14,11 +14,14 @@
 
 AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is a work in progress, however, it currently implements:
 
-- BCL to FastQ conversion
+- BCL to Fastq conversion
 - Genome alignment
-- Coverage calculation
-- Visualisation of reads in IGV-notebook
 - Variant calling
+- Quality control
+- Coverage
+- Visualisation of reads in IGV
+- VCF to DataFrame/.xlsx 
+- Allele frequency calculation
 - Principal component analysis
 - Geographic sample maps
 
