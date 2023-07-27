@@ -5,7 +5,16 @@ import numpy as np
 
 configfile:"config/config.yaml"
 dataset = config['dataset']
-metadata = pd.read_csv(config['metadata'], sep="\t")
+
+if config['metadata'].endswith('.xlsx'):
+	metadata = pd.read_excel(config['metadata'], engine='openpyxl')
+elif config['metadata'].endswith('.tsv'):
+	metadata = pd.read_csv(config['metadata'], sep="\t")
+elif config['metadata'].endswith('.csv'):
+	metadata = pd.read_csv(config['metadata'], sep=",")
+else:
+	raise ValueError("Metadata file must be .xlsx or .csv")
+
 plate_info = np.isin(['plate', 'well_letter', 'well_number'], metadata.columns).all()
 samples = metadata['sampleID']
 call_types = ['targets', 'amplicons']
