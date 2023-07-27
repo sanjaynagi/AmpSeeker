@@ -57,7 +57,7 @@ rule bwa_align:
         tag="'@RG\\tID:{sample}\\tSM:{sample}\\tPU:nye\\tPL:nye\\tLB:{sample}_lb{sample}'"
     shell:
         """
-        bwa mem -t {threads} {input.ref} {input.reads} -R {params.tag} 2> {log.align} |
+        bwa mem -t {threads} -R {params.tag} {input.ref} {input.reads} 2> {log.align} |
         samtools sort -@{threads} -o {output} 2> {log.sort}
         """
 
