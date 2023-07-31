@@ -116,7 +116,7 @@ rule multiQC:
     output:
         "results/qc/multiqc/multiqc_report.html"
     params:
-        extra="--config config/multiqc.yaml"
+        extra="--config resources/multiqc.yaml"
     log:
         "logs/multiqc/multiqc.log"
     conda:
