@@ -401,14 +401,14 @@ document.write(`
 <h1>Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">#</a></h1>
 <p>AmpSeeker requires only:</p>
 <ul class="simple">
-<li><p>Sample metadata file <code class="docutils literal notranslate"><span class="pre">.tsv</span></code></p></li>
-<li><p>Bed file of amplicon coordinates <code class="docutils literal notranslate"><span class="pre">.bed</span></code></p></li>
+<li><p>Sample metadata file <code class="docutils literal notranslate"><span class="pre">.tsv,</span> <span class="pre">.csv,</span> <span class="pre">.xlsx</span></code></p></li>
+<li><p>Bed file of amplicon SNP coordinates <code class="docutils literal notranslate"><span class="pre">.bed</span></code></p></li>
 <li><p>Paired-end Amplicon-Seq data <code class="docutils literal notranslate"><span class="pre">.fastq.gz</span></code></p></li>
 <li><p>Reference genome files</p></li>
 </ul>
 <p><strong>Sample metadata file</strong></p>
-<p>The user must provide a tab-separated sample metadata file, which should be placed in the config/ folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span><span class="o">.</span><span class="n">tsv</span><span class="p">:</span>
+<p>The user must provide a sample metadata file, in .tsv, .csv, or excel format which should be placed in the config/ folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span><span class="o">.</span><span class="n">tsv</span><span class="p">:</span>
 
 <span class="o">|</span><span class="n">sampleID</span><span class="o">|</span> <span class="n">location</span> <span class="o">|</span>  <span class="n">taxon</span>  <span class="o">|</span> <span class="n">latitude</span><span class="o">|</span> <span class="n">longitude</span> <span class="o">|</span> 
 <span class="o">|--------|----------|---------|--------</span> <span class="o">|</span> <span class="o">---------</span> <span class="o">|</span>
@@ -438,7 +438,7 @@ document.write(`
 </div>
 <hr class="docutils" />
 <p><strong>Illumina run folders or Paired-end Amplicon-Sequencing fastq reads</strong></p>
-<p>Users can either provide the path to an Illumina MiSeq run folder, or provide paired-end fastq reads. If converting BCL files to fastq within the workflow, a <code class="docutils literal notranslate"><span class="pre">SampleSheet.csv</span></code> must be placed in the Illumina run folder, with sampleIDs that match the <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code> file.</p>
+<p>Users can either provide the path to an Illumina MiSeq run folder, or provide paired-end fastq reads. If converting BCL files to fastq within the workflow, a <code class="docutils literal notranslate"><span class="pre">SampleSheet.csv</span></code> must be placed in the Illumina run folder, with sampleIDs that match the sample metadata.tsv file.</p>
 <p>If providing fastq files, two gzipped fastq files for each sample are required, one for each pair of paired-end reads. Reads can be already trimmed or AmpSeeker can trim them, using the fastp module.</p>
 <p>The read location may be specified as follows:</p>
 <p><code class="docutils literal notranslate"><span class="pre">ampseeker_dir/resources/reads/</span></code></p>
