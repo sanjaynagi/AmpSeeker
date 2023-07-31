@@ -52,7 +52,7 @@ rule coverage:
     output:
         nb = "results/notebooks/coverage.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/coverage.ipynb",
-        excel = "results/coverage/amplicon_by_sample_read_depth.xlsx"
+        excel = "results/coverage/amplicon_by_sample_depth.xlsx"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
