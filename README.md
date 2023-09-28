@@ -12,7 +12,7 @@
 
 **Documentation**: https://sanjaynagi.github.io/AmpSeeker/ 
 
-AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is a work in progress, however, it currently implements:
+AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is generic and can work on any data, but is tailored towards gene drive and insecticide resistance monitoring. The pipeline is a work in progress, however, it currently implements:
 
 - BCL to Fastq conversion
 - Genome alignment
