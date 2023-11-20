@@ -1,4 +1,4 @@
-name: AmpSeq
+name: AmpSeeker-fastqauto
 
 on: pull_request
 

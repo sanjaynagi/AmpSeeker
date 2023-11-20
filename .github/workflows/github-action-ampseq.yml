@@ -1,4 +1,4 @@
-name: AmpSeq
+name: AmpSeeker-fastqmetadata
 
 on: pull_request
 
