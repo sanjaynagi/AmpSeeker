@@ -1,4 +1,3 @@
-from snakemake.utils import validate
 import pandas as pd
 
 # Split into two sample sets as bcftools merge cant take over 1000 files
@@ -14,6 +13,20 @@ else:
     samples1 = []
     samples2 = []
 
+
+def load_metadata(metadata_path):
+    # load panel metadata
+    if metadata_path.endswith('.xlsx'):
+        metadata = pd.read_excel(metadata_path, engine='openpyxl')
+    elif metadata_path.endswith('.tsv'):
+        metadata = pd.read_csv(metadata_path, sep="\t")
+    elif metadata_path.endswith('.csv'):
+        metadata = pd.read_csv(metadata_path, sep=",")
+    else:
+        raise ValueError("Metadata file must be .xlsx or .csv")
+    return metadata
+
+
 rule set_kernel:
     input:
         f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
@@ -26,6 +39,47 @@ rule set_kernel:
         """
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
+
+
+def get_fastqs(wildcards):
+    """
+    Get FASTQ files from metadata sheet.
+    """
+    metadata = load_metadata(config["metadata"])
+    fastq_cols = ["fq1", "fq2"]
+
+    if config["fastq"]["auto"]:
+        for i, col in enumerate(fastq_cols):
+            metadata = metadata.assign(**{col: f"resources/reads/" + metadata["sampleID"] + f"_{i+1}.fastq.gz"})     
+        metadata = metadata.set_index("sampleID")
+    else:
+        assert (
+            "fq1" in metadata.columns
+        ), f"The fq1 column in the metadata does not seem to exist. Please create one, or use the 'auto' option and name the fastq files as specified in the config/README.md"
+        assert (
+            "fq2" in metadata.columns
+        ), f"The fq2 column in the metadata does not seem to exist. Please create one, or use the 'auto' option and name the fastq files as specified in the config/README.md"
+    
+        metadata = metadata.set_index("sampleID")
+    
+    u = metadata.loc[wildcards.sample, fastq_cols].dropna()
+    return [u.fq1, u.fq2]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def AmpSeekerOutputs(wildcards):
     inputs = []
