@@ -10,7 +10,7 @@ illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
 reference-name: AgamP4
-reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
+reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
