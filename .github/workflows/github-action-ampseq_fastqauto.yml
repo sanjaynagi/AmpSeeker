@@ -22,7 +22,7 @@ jobs:
         with:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
-          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config_fastqauto.yaml'
+          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_fastqauto.yaml'
           stagein: 
             "
             cp -r docs/ .test/docs/ &&
