@@ -18,7 +18,10 @@ reference-snpeffdb: Anopheles_gambiae
 targets: config/AgamDao.bed
 
 # Specify whether to convert bcl files to fastq
+# or whether we provide fastq data in the metadata / or auto naming 
 bcl-convert: False
+fastq:
+  auto: False
 
 # Specify whether to run quality-control analyses
 quality-control:

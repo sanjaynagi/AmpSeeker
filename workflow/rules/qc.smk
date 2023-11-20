@@ -21,7 +21,7 @@ rule index_read_fastqc:
 
 rule fastp:
     input:
-        sample=["resources/reads/{sample}_1.fastq.gz", "resources/reads/{sample}_2.fastq.gz"]
+        sample=get_fastqs
     output:
         trimmed=["results/trimmed-reads/{sample}_1.fastq.gz", "results/trimmed-reads/{sample}_2.fastq.gz"],
         html="results/qc/fastp_reports/{sample}.html",
