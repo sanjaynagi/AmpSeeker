@@ -33,15 +33,17 @@ rule fastp:
         "v1.25.0/bio/fastp"
 
 
-rule mosdepthCoverage:
+rule mosdepth_coverage:
   """
   Target per-base coverage with mosdepth
   """
     input:
         bam="results/alignments/{sample}.bam",
-        idx="results/alignments/{sample}.bam.bai"
+        idx="results/alignments/{sample}.bam.bai",
+        panel = config['targets']
     output:
         "results/coverage/{sample}.per-base.bed.gz",
+        "results/coverage/{sample}.regions.bed.gz",
         "results/coverage/{sample}.mosdepth.summary.txt",
         "results/coverage/{sample}.mosdepth.global.dist.txt",
     log:
@@ -53,7 +55,7 @@ rule mosdepthCoverage:
         prefix="results/coverage/{sample}",
     shell:
         """
-        mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}
+        mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
         """
 
 rule bam_stats:
