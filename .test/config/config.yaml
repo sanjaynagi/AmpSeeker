@@ -18,6 +18,8 @@ targets: "config/AgamDao_test2L.bed"
 
 # Specify whether to convert bcl files to fastq
 bcl-convert: False
+fastq:
+  auto: False
 
 # Specify whether to run quality-control analyses
 quality-control:
