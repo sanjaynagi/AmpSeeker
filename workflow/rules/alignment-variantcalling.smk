@@ -120,7 +120,7 @@ rule mpileup_call_amplicons:
         depth = 2000
     shell:
         """
-        bcftools mpileup -Ov -f {params.ref} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
+        bcftools mpileup -Ov -I -f {params.ref} --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
         bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
 
