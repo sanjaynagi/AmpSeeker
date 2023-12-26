@@ -1,6 +1,10 @@
+toc = "docs/ampseeker-results/_toc.yml"
+if config['panel'] == 'ag-vampir':
+    toc = "docs/ampseeker-results/_toc-ag-vampir.yml"
+
 rule jupyterbook:
     input:
-        toc = "docs/ampseeker-results/_toc-ag-vampir.yml" if config['panel'] == 'ag-vampir' else "docs/ampseeker-results/_toc.yml",
+        toc = toc,
         pages = "docs/ampseeker-results",
         process_notebooks = "results/notebooks/process-notebooks.ipynb",
         snp_df = "docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
