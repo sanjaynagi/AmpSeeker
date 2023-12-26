@@ -31,7 +31,7 @@ rule process_toc:
     conda:
         f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
     log:
-        "logs/notebooks/process-toc.log"
+        "logs/notebooks/ag-vampir/process-toc.log"
     params:
         wkdir = wkdir
     shell:
