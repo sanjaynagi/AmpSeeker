@@ -25,6 +25,7 @@ rule process_toc:
     input:
         input_nb = f"{workflow.basedir}/notebooks/ag-vampir/process-toc.ipynb",
         toc = "docs/ampseeker-results/_toc.yml",
+        kernel = "results/.kernel.set",
     output:
         out_nb = "results/notebooks/ag-vampir/process-toc.ipynb",
         toc_complete = touch("results/.toc.ag-vampir.complete"),
