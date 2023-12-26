@@ -1,28 +1,26 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: gaard-sanger
-metadata: config/metadata.tsv
+dataset: "AgamDao"
+metadata: "config/metadata.tsv"
 
 # Directory of Illumina Miseq Run
-illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
+illumina-dir: ""
 
-# Specify whether reference  provided is amplicon or wholegenome sequence data
-# Genome fasta reference files
-reference-name: AgamP4
+# Genome fasta reference files 
+reference-name: 'AgamP4'
 reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
-targets: config/AgamDao_test2L.bed
-panel: generic
+targets: "config/AgamDao_test2L.bed"
+panel: ag-vampir
 
 # Specify whether to convert bcl files to fastq
-# or whether we provide fastq data in the metadata / or auto naming 
 bcl-convert: False
 fastq:
-  auto: True
+  auto: False
 
 # Specify whether to run quality-control analyses
 quality-control:
@@ -35,13 +33,13 @@ quality-control:
 # Specify whether to run generic analyses
 analysis:  
   igv: True
-  sample-map: False # needs lat and longs
+  sample-map: True
   pca: 
     activate: True
     colour-column: taxon
   allele-frequencies:
     activate: True
-    cohort-column: location
+    cohort-column: location 
 
 # Specify whether to build jupyter results book
 build-jupyter-book: True

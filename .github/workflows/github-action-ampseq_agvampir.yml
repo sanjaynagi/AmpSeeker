@@ -1,4 +1,4 @@
-name: AmpSeeker-fastqauto
+name: AmpSeeker-ag-vampir
 
 on: pull_request
 
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9']
+        python-version: ['3.10', '3.11']
     steps:
       - name: Set up python3
         uses: actions/setup-python@v2
@@ -22,7 +22,7 @@ jobs:
         with:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
-          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_fastqauto.yaml'
+          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_agvampir.yaml'
           stagein: 
             "
             cp -r docs/ .test/docs/ &&

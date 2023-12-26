@@ -28,7 +28,7 @@ rule pca:
     input:
         nb = f"{workflow.basedir}/notebooks/principal-component-analysis.ipynb",
         kernel = "results/.kernel.set",
-        vcf = expand("results/vcfs/targets/{dataset}.merged.vcf", dataset=dataset),
+        vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata = config["metadata"],
     output:
         nb = "results/notebooks/principal-component-analysis.ipynb",
@@ -73,7 +73,7 @@ rule allele_frequencies:
         kernel = "results/.kernel.set",
         metadata = config["metadata"],
         bed = config['targets'],
-        vcf = expand("results/vcfs/targets/{dataset}.merged.vcf", dataset=dataset),
+        vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
     output:
         nb = "results/notebooks/allele-frequencies.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/allele-frequencies.ipynb"

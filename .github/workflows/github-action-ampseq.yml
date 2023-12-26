@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.11']
+        python-version: ['3.8']
     steps:
       - name: Set up python3
         uses: actions/setup-python@v2
@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Test workflow 
-        uses: snakemake/snakemake-github-action@v1.23.0
+        uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
