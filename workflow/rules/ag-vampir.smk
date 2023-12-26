@@ -19,3 +19,22 @@ rule species_id:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p bed_targets_path {input.bed} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+
+rule process_toc:
+    input:
+        input_nb = f"{workflow.basedir}/notebooks/ag-vampir/process-toc.ipynb",
+        toc = "docs/ampseeker-results/_toc.yml",
+    output:
+        out_nb = "results/notebooks/ag-vampir/process-toc.ipynb",
+        toc_complete = touch("results/.toc.ag-vampir.complete"),
+    conda:
+        f'{workflow.basedir}/envs/AmpSeeker-python.yaml'
+    log:
+        "logs/notebooks/process-toc.log"
+    params:
+        wkdir = wkdir
+    shell:
+        """
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} 2> {log}
+        """

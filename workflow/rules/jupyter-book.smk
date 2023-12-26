@@ -1,6 +1,7 @@
 rule jupyterbook:
     input:
-        toc = "docs/ampseeker-results/_toc-ag-vampir.yml" if config['panel'] == 'ag-vampir' else "docs/ampseeker-results/_toc.yml",
+        toc = "docs/ampseeker-results/_toc.yml",
+        ag_toc = "results/.toc.ag-vampir.complete" if config["panel"] == "ag-vampir" else [],
         pages = "docs/ampseeker-results",
         process_notebooks = "results/notebooks/process-notebooks.ipynb",
         snp_df = "docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
@@ -18,14 +19,11 @@ rule jupyterbook:
         "logs/jupyterbook/jupyterbook.log"
     conda:
         "../envs/AmpSeeker-jupyterbook.yaml"
-    params:
-        toc = lambda w, input: os.path.basename(input.toc)
     shell:
         """
-        jupyter-book build --all {input.pages} --toc {params.toc} --path-output results/ampseeker-results &&
+        jupyter-book build --all {input.pages} --path-output results/ampseeker-results &&
         ln -sf results/ampseeker-results/_build/html/index.html AmpSeeker-results.html
         """
-
 
 rule process_notebooks:
     input:
