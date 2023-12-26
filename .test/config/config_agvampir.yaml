@@ -42,4 +42,4 @@ analysis:
     cohort-column: location 
 
 # Specify whether to build jupyter results book
-build-jupyter-book: False
+build-jupyter-book: True
