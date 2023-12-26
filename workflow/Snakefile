@@ -32,6 +32,8 @@ include: "rules/alignment-variantcalling.smk"
 include: "rules/qc-notebooks.smk"
 include: "rules/analysis.smk"
 include: "rules/jupyter-book.smk"
+if config['panel'] == 'ag-vampir':
+	include: "rules/ag-vampir.smk"
 
 rule all:
 	input:

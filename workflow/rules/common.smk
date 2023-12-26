@@ -210,7 +210,19 @@ def AmpSeekerOutputs(wildcards):
 
     if config['build-jupyter-book']:
         inputs.extend(["results/ampseeker-results/_build/html/index.html"])
-    
+
+
+    # ag-vampir/species-id notebook
+    if config['panel'] == 'ag-vampir':
+        inputs.extend(
+            expand(
+                [
+                    "results/notebooks/ag-vampir/species-id.ipynb",
+                    "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb"
+                ],
+            )
+        )
+
     return inputs
 
 
