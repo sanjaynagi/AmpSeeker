@@ -215,18 +215,12 @@ def AmpSeekerOutputs(wildcards):
     # ag-vampir/species-id notebook
     if config['panel'] == 'ag-vampir':
         inputs.extend(
-            expand(
                 [
                     "results/notebooks/ag-vampir/species-id.ipynb",
-                    "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb"
+                    "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb",
+                	"results/notebooks/ag-vampir/kdr-origins.ipynb",
+				    "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb"
                 ],
-            )
-        )
-        inputs.extend(
-            [
-                "results/notebooks/kdr-origins.ipynb",
-                "docs/ampseeker-results/notebooks/kdr-origins.ipynb"
-            ]
         )
 
 

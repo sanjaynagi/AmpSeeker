@@ -22,19 +22,19 @@ rule species_id:
 
 rule kdr_origin:
     input:
-        nb = f"{workflow.basedir}/notebooks/ag-vampir/kdr-origin.ipynb",
+        nb = f"{workflow.basedir}/notebooks/ag-vampir/kdr-origins.ipynb",
         kernel = "results/.kernel.set",
         vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata = config["metadata"],
     output:
-        nb = "results/notebooks/ag-vampir/kdr-origin.ipynb",
-        docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origin.ipynb"
-        kdr_origins = "results/kdr-origins/kdr_origins.csv"
-        kdr_genhap_origins = "results/kdr-origins/kdr_genhap_origins.csv"
+        nb = "results/notebooks/ag-vampir/kdr-origins.ipynb",
+        docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
+        kdr_origins = "results/kdr-origins/kdr_origins.csv",
+        kdr_genhap_origins = "results/kdr-origins/kdr_genhap_origins.csv",
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
-        "logs/notebooks/ag-vampir/kdr-origin.log"
+        "logs/notebooks/ag-vampir/kdr-origins.log"
     params:
         dataset = dataset,
         cohort_column = config["kdr-origin-cohort-column"],
