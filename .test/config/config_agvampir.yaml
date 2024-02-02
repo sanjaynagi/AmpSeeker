@@ -16,6 +16,7 @@ reference-snpeffdb: Anopheles_gambiae
 # .bed file of target SNPs
 targets: "config/AgamDao_test2L.bed"
 panel: ag-vampir
+kdr-origin-cohort-column: location
 
 # Specify whether to convert bcl files to fastq
 bcl-convert: False
