@@ -29,16 +29,19 @@ rule kdr_origin:
     output:
         nb = "results/notebooks/ag-vampir/kdr-origin.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origin.ipynb"
+        kdr_origins = "results/kdr-origins/kdr_origins.csv"
+        kdr_genhap_origins = "results/kdr-origins/kdr_genhap_origins.csv"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
         "logs/notebooks/ag-vampir/kdr-origin.log"
     params:
         dataset = dataset,
-        cohort_column = config["panel"]["kdr-origin-cohort-column"]
+        cohort_column = config["kdr-origin-cohort-column"],
+        wkdir = wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_column {params.cohort_column} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_column {params.cohort_column} -p wkdir {params.wkdir} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 

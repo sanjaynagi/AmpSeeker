@@ -18,7 +18,7 @@ reference-snpeffdb: Anopheles_gambiae
 targets: config/AgamDao.bed
 
 panel: ag-vampir
-    kdr-origin-cohort-column: location
+kdr-origin-cohort-column: location
 
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
