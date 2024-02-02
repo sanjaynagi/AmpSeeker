@@ -222,6 +222,13 @@ def AmpSeekerOutputs(wildcards):
                 ],
             )
         )
+		inputs.extend(
+			[
+				"results/notebooks/kdr-origins.ipynb",
+				"docs/ampseeker-results/notebooks/kdr-origins.ipynb"
+			]
+		)
+
 
     return inputs
 

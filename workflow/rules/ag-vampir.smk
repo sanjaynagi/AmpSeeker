@@ -20,6 +20,28 @@ rule species_id:
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
+rule kdr_origin:
+    input:
+        nb = f"{workflow.basedir}/notebooks/ag-vampir/kdr-origin.ipynb",
+        kernel = "results/.kernel.set",
+        vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        metadata = config["metadata"],
+    output:
+        nb = "results/notebooks/ag-vampir/kdr-origin.ipynb",
+        docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origin.ipynb"
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/ag-vampir/kdr-origin.log"
+    params:
+        dataset = dataset,
+        cohort_column = config["panel"]["kdr-origin-cohort-column"]
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_column {params.cohort_column} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """
+
 
 rule process_toc:
     input:
