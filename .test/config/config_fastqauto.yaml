@@ -40,6 +40,9 @@ analysis:
   pca: 
     activate: True
     colour-column: taxon
+  genetic-diversity:
+    activate: True
+    cohort-column: location 
   allele-frequencies:
     activate: True
     cohort-column: location
