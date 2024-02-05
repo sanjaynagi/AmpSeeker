@@ -116,3 +116,26 @@ rule snp_dataframe:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p wkdir {params.wkdir} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+rule genetic_diversity:
+    input:
+        nb=f"{workflow.basedir}/notebooks/genetic-diversity.ipynb",
+        kernel="results/.kernel.set",
+        vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
+        metadata = config["metadata"],
+    output:
+        nb="results/notebooks/genetic-diversity.ipynb",
+        docs_nb="docs/ampseeker-results/notebooks/genetic-diversity.ipynb",
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/genetic-diversity.log",
+    params:
+        dataset=dataset,
+        wkdir=wkdir,
+        cohort_column=config["analysis"]["genetic-diversity"]["cohort-column"],
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p cohort_column {params.cohort_column} -p metadata_path {input.metadata} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """
