@@ -26,11 +26,12 @@ rule kdr_origin:
         kernel = "results/.kernel.set",
         vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata = config["metadata"],
+        kdr_origin_SNPs = config["kdr-marker-snps"]
     output:
         nb = "results/notebooks/ag-vampir/kdr-origins.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
         kdr_origins = "results/kdr-origins/kdr_origins.csv",
-        kdr_genhap_origins = "results/kdr-origins/kdr_genhap_origins.csv",
+        kdr_genhap_origins = "results/kdr-origins/kdr_genhap_origins.csv"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
