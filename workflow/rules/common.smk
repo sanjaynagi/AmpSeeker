@@ -215,18 +215,16 @@ def AmpSeekerOutputs(wildcards):
     # ag-vampir/species-id notebook
     if config['panel'] == 'ag-vampir':
         inputs.extend(
-            expand(
                 [
                     "results/notebooks/ag-vampir/species-id.ipynb",
-                    "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb"
+                    "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb",
+                	"results/notebooks/ag-vampir/kdr-origins.ipynb",
+				    "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb"
                 ],
-            )
         )
 
+
     return inputs
-
-
-
 
 
 
@@ -237,7 +235,7 @@ def welcome(version):
 
     print("---------------------------- AmpSeeker ----------------------------")
     print(f"Running AmpSeeker snakemake workflow in {workflow.basedir}\n")
-    print(f"Authors:   Sanjay Curtis Nagi, Trevor Mugoya, Edward Lukyamezi")
+    print(f"Authors:   Sanjay Curtis Nagi, Trevor Mugoya, Edward Lukyamezi, Eric Lucas")
     print(f"Workflow Version: {version}")
     print("Execution time: ", datetime.datetime.now())
     print(f"Dataset: {config['dataset']}", "\n")

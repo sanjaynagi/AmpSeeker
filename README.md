@@ -32,6 +32,7 @@ The workflow uses a combination of papermill and jupyter book, so that users can
 * Sanjay C Nagi (@sanjaynagi)
 * Trevor Mugoya (@ChabbyTMD)
 * Edward Lukyamuzi (@eddUG) 
+* Eric R Lucas (@EricRLucas)
 
 ## Usage
 
