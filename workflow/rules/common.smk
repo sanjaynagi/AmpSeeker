@@ -230,9 +230,6 @@ def AmpSeekerOutputs(wildcards):
 
 
 
-
-
-
 def welcome(version):
     import datetime
 
