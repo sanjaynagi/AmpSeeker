@@ -26,7 +26,7 @@ rule kdr_origin:
         kernel = "results/.kernel.set",
         vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata = config["metadata"],
-        kdr_origin_SNPs = config["kdr-marker-snps"]
+        kdr_origin_SNPs = "resources/Kdr_marker_SNPS.csv
     output:
         nb = "results/notebooks/ag-vampir/kdr-origins.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
@@ -42,7 +42,7 @@ rule kdr_origin:
         wkdir = wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_column {params.cohort_column} -p wkdir {params.wkdir} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_column {params.cohort_column} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
