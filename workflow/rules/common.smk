@@ -180,6 +180,16 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
+    if config["analysis"]["genetic-diversity"]["activate"]:
+        inputs.extend(
+            expand(
+                [
+                    "results/notebooks/genetic-diversity.ipynb",
+                    "docs/ampseeker-results/notebooks/genetic-diversity.ipynb",
+                ],
+            )
+        )
+
     if config["analysis"]["allele-frequencies"]["activate"]:
         inputs.extend(
             expand(
