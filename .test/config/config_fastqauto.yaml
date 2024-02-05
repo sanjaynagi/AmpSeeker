@@ -10,12 +10,12 @@ illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
 reference-name: AgamP4
-reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
+reference-fasta: resources/reference/AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
-targets: config/AgamDao_test2L.bed
+targets: config/AgamDao.bed
 panel: generic
 kdr-origin-cohort-column: location
 
