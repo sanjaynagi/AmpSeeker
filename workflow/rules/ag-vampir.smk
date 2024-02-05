@@ -26,7 +26,7 @@ rule kdr_origin:
         kernel = "results/.kernel.set",
         vcf = expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata = config["metadata"],
-        kdr_origin_SNPs = "resources/Kdr_marker_SNPs.csv"
+        kdr_origin_SNPs = "resources/ag-vampir/Kdr_marker_SNPs.csv"
     output:
         nb = "results/notebooks/ag-vampir/kdr-origins.ipynb",
         docs_nb = "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
