@@ -19,7 +19,6 @@ targets: config/AgamDao.bed
 
 panel: ag-vampir
 kdr-origin-cohort-column: location
-kdr-marker-snps: resources/ag-vampir/Kdr_marker_SNPs.csv
 
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
