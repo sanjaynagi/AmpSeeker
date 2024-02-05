@@ -15,7 +15,7 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
-targets: config/AgamDao.bed
+targets: config/ag-vampir.bed
 
 panel: ag-vampir
 kdr-origin-cohort-column: location
