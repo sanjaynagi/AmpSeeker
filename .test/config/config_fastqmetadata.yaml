@@ -1,7 +1,7 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: "AgamDao"
+dataset: "test-fastqmetadata"
 metadata: "config/metadata.tsv"
 
 # Directory of Illumina Miseq Run
@@ -9,12 +9,12 @@ illumina-dir: ""
 
 # Genome fasta reference files 
 reference-name: 'AgamP4'
-reference-fasta: resources/reference/AGAMP4_2L_2_3mb.fa
+reference-fasta: resources/reference/AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
 # .bed file of target SNPs
-targets: "config/AgamDao_test2L.bed"
+targets: "config/ag-vampir.bed"
 panel: generic
 kdr-origin-cohort-column: location
 

@@ -1,29 +1,37 @@
 # The main entry point of your workflow.
 # After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
-import pandas as pd 
+import pandas as pd
 import numpy as np
 
-configfile:"config/config.yaml"
-dataset = config['dataset']
 
-if config['metadata'].endswith('.xlsx'):
-	metadata = pd.read_excel(config['metadata'], engine='openpyxl')
-elif config['metadata'].endswith('.tsv'):
-	metadata = pd.read_csv(config['metadata'], sep="\t")
-elif config['metadata'].endswith('.csv'):
-	metadata = pd.read_csv(config['metadata'], sep=",")
+configfile: "config/config.yaml"
+
+
+dataset = config["dataset"]
+
+if config["metadata"].endswith(".xlsx"):
+    metadata = pd.read_excel(config["metadata"], engine="openpyxl")
+elif config["metadata"].endswith(".tsv"):
+    metadata = pd.read_csv(config["metadata"], sep="\t")
+elif config["metadata"].endswith(".csv"):
+    metadata = pd.read_csv(config["metadata"], sep=",")
 else:
-	raise ValueError("Metadata file must be .xlsx or .csv")
+    raise ValueError("Metadata file must be .xlsx or .csv")
 
-plate_info = np.isin(['plate', 'well_letter', 'well_number'], metadata.columns).all()
-samples = metadata['sampleID']
-call_types = ['targets', 'amplicons']
+plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
+samples = metadata["sampleID"]
+call_types = ["targets", "amplicons"]
 
 import os
+
 wkdir = os.getcwd()
 
-include: "rules/common.smk"	
+
+include: "rules/common.smk"
+
+
 welcome(version="v0.1.0")
+
 
 include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
@@ -32,10 +40,14 @@ include: "rules/alignment-variantcalling.smk"
 include: "rules/qc-notebooks.smk"
 include: "rules/analysis.smk"
 include: "rules/jupyter-book.smk"
-if config['panel'] == 'ag-vampir':
-	include: "rules/ag-vampir.smk"
+
+
+if config["panel"] == "ag-vampir":
+
+    include: "rules/ag-vampir.smk"
+
 
 rule all:
-	input:
-		# The first rule should define the default target files
-		AmpSeekerOutputs,
+    input:
+        # The first rule should define the default target files
+        AmpSeekerOutputs,
