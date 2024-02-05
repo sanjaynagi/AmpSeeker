@@ -7,7 +7,7 @@ rule index_read_fastqc:
     conda:
         "../envs/AmpSeeker-qc.yaml"
     log:
-        "logs/index-read-quality.log"
+        "logs/index-read-quality.log",
     shell:
         """
         zcat resources/bcl_output/*I1*.fastq.gz | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
@@ -19,70 +19,76 @@ rule index_read_fastqc:
         mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I2.zip 2>> {log}
         """
 
+
 rule fastp:
     input:
-        sample=get_fastqs
+        sample=get_fastqs,
     output:
-        trimmed=["results/trimmed-reads/{sample}_1.fastq.gz", "results/trimmed-reads/{sample}_2.fastq.gz"],
+        trimmed=[
+            "results/trimmed-reads/{sample}_1.fastq.gz",
+            "results/trimmed-reads/{sample}_2.fastq.gz",
+        ],
         html="results/qc/fastp_reports/{sample}.html",
         json="results/qc/fastp_reports/{sample}.json",
     log:
-        "logs/fastp/{sample}.log"
+        "logs/fastp/{sample}.log",
     threads: 4
     wrapper:
         "v1.25.0/bio/fastp"
 
 
 rule mosdepth_coverage:
-  """
-  Target per-base coverage with mosdepth
-  """
-    input:
-        bam="results/alignments/{sample}.bam",
-        idx="results/alignments/{sample}.bam.bai",
-        panel = config['targets']
-    output:
-        "results/coverage/{sample}.per-base.bed.gz",
-        "results/coverage/{sample}.regions.bed.gz",
-        "results/coverage/{sample}.mosdepth.summary.txt",
-        "results/coverage/{sample}.mosdepth.global.dist.txt",
-    log:
-        "logs/coverage/{sample}.log"
-    threads:4
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    params:
-        prefix="results/coverage/{sample}",
-    shell:
         """
+        Target per-base coverage with mosdepth
+        """
+        input:
+            bam="results/alignments/{sample}.bam",
+            idx="results/alignments/{sample}.bam.bai",
+            panel=config["targets"],
+        output:
+            "results/coverage/{sample}.per-base.bed.gz",
+            "results/coverage/{sample}.regions.bed.gz",
+            "results/coverage/{sample}.mosdepth.summary.txt",
+            "results/coverage/{sample}.mosdepth.global.dist.txt",
+        log:
+            "logs/coverage/{sample}.log",
+        threads: 4
+        conda:
+            "../envs/AmpSeeker-cli.yaml"
+        params:
+            prefix="results/coverage/{sample}",
+        shell:
+            """
         mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
         """
 
+
 rule bam_stats:
-  """
-  Calculate mapping statistics with samtools flagstat
-  """
-    input:
-        bam = "results/alignments/{sample}.bam",
-        idx = "results/alignments/{sample}.bam.bai"
-    output:
-        stats = "results/alignments/bamStats/{sample}.flagstat"
-    conda:
-        "../envs/AmpSeeker-cli.yaml"
-    log:
-        "logs/BamStats/{sample}.log"
-    shell:
         """
+        Calculate mapping statistics with samtools flagstat
+        """
+        input:
+            bam="results/alignments/{sample}.bam",
+            idx="results/alignments/{sample}.bam.bai",
+        output:
+            stats="results/alignments/bamStats/{sample}.flagstat",
+        conda:
+            "../envs/AmpSeeker-cli.yaml"
+        log:
+            "logs/BamStats/{sample}.log",
+        shell:
+            """
         samtools flagstat {input.bam} > {output} 2> {log}
         """
 
-# qualimap analysis for alignment QC 
+
+# qualimap analysis for alignment QC
 rule qualimap:
     input:
         bam="results/alignments/{sample}.bam",
     output:
-        folder = directory("results/qc/qualimap/{sample}"),
-        txt = "results/qc/qualimap/{sample}/genome_results.txt",
+        folder=directory("results/qc/qualimap/{sample}"),
+        txt="results/qc/qualimap/{sample}/genome_results.txt",
     log:
         "logs/qualimap/bamqc/{sample}.log",
     conda:
@@ -92,13 +98,14 @@ rule qualimap:
         qualimap bamqc -bam {input.bam} -outdir {output.folder} 2> {log}
         """
 
+
 rule vcf_stats:
     input:
-        vcf = "results/vcfs/targets/{dataset}.merged.vcf"
+        vcf="results/vcfs/targets/{dataset}.merged.vcf",
     output:
-        stats = "results/qc/{dataset}.merged.vcf.txt"
+        stats="results/qc/{dataset}.merged.vcf.txt",
     log:
-        "logs/vcfStats/{dataset}.log"
+        "logs/vcfStats/{dataset}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
     shell:
@@ -106,22 +113,37 @@ rule vcf_stats:
         bcftools stats {input.vcf} > {output.stats} 2> {log}
         """
 
+
 rule multiQC:
     input:
-        expand("results/qc/fastp_reports/{sample}.json", sample=samples) if config['quality-control']['fastp'] else [],
-        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples) if config['quality-control']['stats'] else [],
-        expand("results/qc/{dataset}.merged.vcf.txt", dataset=dataset) if config['quality-control']['stats'] else [],
-        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples) if config['quality-control']['coverage'] else [],
-        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples) if config['quality-control']['coverage'] else [],
-        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples) if config['quality-control']['coverage'] else [],
-        expand("results/qc/qualimap/{sample}/genome_results.txt", sample=samples) if config['quality-control']['qualimap'] else [],
+        expand("results/qc/fastp_reports/{sample}.json", sample=samples)
+        if config["quality-control"]["fastp"]
+        else [],
+        expand("results/alignments/bamStats/{sample}.flagstat", sample=samples)
+        if config["quality-control"]["stats"]
+        else [],
+        expand("results/qc/{dataset}.merged.vcf.txt", dataset=dataset)
+        if config["quality-control"]["stats"]
+        else [],
+        expand("results/coverage/{sample}.per-base.bed.gz", sample=samples)
+        if config["quality-control"]["coverage"]
+        else [],
+        expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples)
+        if config["quality-control"]["coverage"]
+        else [],
+        expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples)
+        if config["quality-control"]["coverage"]
+        else [],
+        expand("results/qc/qualimap/{sample}/genome_results.txt", sample=samples)
+        if config["quality-control"]["qualimap"]
+        else [],
     output:
-        "results/qc/multiqc/multiqc_report.html"
+        "results/qc/multiqc/multiqc_report.html",
     params:
-        extra="--config resources/multiqc.yaml"
+        extra="--config resources/multiqc.yaml",
     log:
-        "logs/multiqc/multiqc.log"
+        "logs/multiqc/multiqc.log",
     conda:
         "../envs/AmpSeeker-qc.yaml"
-    wrapper: 
+    wrapper:
         "v2.2.1/bio/multiqc"

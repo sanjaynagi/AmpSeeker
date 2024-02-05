@@ -15,3 +15,6 @@ resources/rev_comp.ipynb*
 config/metadata.tsv
 docs/ampseeker-results/_build/
 docs/ampseeker-results/notebooks/
+.test/docs/
+html*
+_build/

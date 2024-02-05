@@ -1,14 +1,14 @@
 rule bcl_convert:
     input:
-        sample_csv = config["illumina-dir"] + "SampleSheet.csv",
-        illumina_in_dir = config["illumina-dir"]
-    output: 
-        reads_dir = directory("resources/bcl_output"),
-        fastq_list = "resources/bcl_output/Reports/fastq_list.csv"
+        sample_csv=config["illumina-dir"] + "SampleSheet.csv",
+        illumina_in_dir=config["illumina-dir"],
+    output:
+        reads_dir=directory("resources/bcl_output"),
+        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
     singularity:
         "docker://nfcore/bclconvert"
     log:
-        "logs/bcl_convert.log"
+        "logs/bcl_convert.log",
     shell:
         "bcl-convert --bcl-input-directory {input.illumina_in_dir} --output-directory {output.reads_dir} --sample-sheet {input.sample_csv} --force 2> {log}"
 
@@ -18,17 +18,19 @@ rule rename_fastq:
     If users demultiplex from BCL than rename, otherwise symlink to results
     """
     input:
-        reads = "resources/bcl_output/",
-        read_dir = rules.bcl_convert.output,
-        fastq_list = "resources/bcl_output/Reports/fastq_list.csv",
+        reads="resources/bcl_output/",
+        read_dir=rules.bcl_convert.output,
+        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
     output:
-        output_reads = expand("resources/reads/{sample}_{n}.fastq.gz", n=[1,2], sample=samples)
+        output_reads=expand(
+            "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
+        ),
     log:
-        "logs/rename_fastq.log"
+        "logs/rename_fastq.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
     params:
-        wd = wkdir
+        wd=wkdir,
     shell:
         """
         while IFS="," read -r _ sample_id _ _ read1 read2; do
