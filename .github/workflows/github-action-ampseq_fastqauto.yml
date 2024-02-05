@@ -25,7 +25,7 @@ jobs:
           args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_fastqauto.yaml'
           stagein: 
             "
-            wget https://vectorbase.org/common/downloads/release-66/AgambiaePEST/fasta/data/VectorBase-66_AgambiaePEST_Genome.fasta -q -O - | sed 's/AgamP4_//g' > .test/resources/AgamP4.fa &&
+            wget https://vectorbase.org/common/downloads/release-66/AgambiaePEST/fasta/data/VectorBase-66_AgambiaePEST_Genome.fasta -q -O - | sed 's/AgamP4_//g' > .test/resources/reference/AgamP4.fa &&
             cp -r docs/ .test/docs/ &&
             conda config --set channel_priority flexible
             "
