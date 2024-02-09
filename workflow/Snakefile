@@ -43,7 +43,6 @@ include: "rules/jupyter-book.smk"
 
 
 if config["panel"] == "ag-vampir":
-
     include: "rules/ag-vampir.smk"
 
 
