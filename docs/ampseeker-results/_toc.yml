@@ -8,6 +8,7 @@ parts:
   chapters:
   - file: notebooks/read-quality
   - file: notebooks/reads-per-well
+  - file: notebooks/sample-quality-control
 - caption: Results
   chapters:
   - file: notebooks/sample-map

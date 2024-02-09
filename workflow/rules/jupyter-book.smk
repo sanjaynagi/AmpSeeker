@@ -7,6 +7,7 @@ rule jupyterbook:
         pages="docs/ampseeker-results",
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
+        sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
         igv=(
             "docs/ampseeker-results/notebooks/IGV-explore.ipynb"
             if config["analysis"]["igv"]

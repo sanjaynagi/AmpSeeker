@@ -24,6 +24,7 @@ AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pip
 - Allele frequency calculation
 - Principal component analysis
 - Geographic sample maps
+- Genetic diversity
 
 The workflow uses a combination of papermill and jupyter book, so that users can visually explore the results in a local webpage for convenience.
 

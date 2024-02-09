@@ -66,3 +66,29 @@ rule coverage:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p wkdir {params.wkdir} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+
+rule sample_filtering:
+    input:
+        nb=f"{workflow.basedir}/notebooks/sample-quality-control.ipynb",
+        kernel="results/.kernel.set",
+        region=expand("results/coverage/{sample}.regions.bed.gz", sample=samples),
+        vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        metadata=config["metadata"],
+        targets=config["targets"],
+    output:
+        nb="results/notebooks/sample-quality-control.ipynb",
+        docs_nb="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
+        qcpass_metadata = "results/config/metadata.qcpass.tsv"
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/sample-quality-control.log",
+    params:
+        wkdir=wkdir,
+        sample_threshold = config['quality-control']['sample-total-reads-threshold']
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p sample_total_read_threshold {params.sample_threshold} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """
