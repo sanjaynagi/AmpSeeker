@@ -86,7 +86,7 @@ rule sample_filtering:
         "logs/notebooks/sample-quality-control.log",
     params:
         wkdir=wkdir,
-        sample_threshold = config['quality-control']['sample-total-read-threshold']
+        sample_threshold = config['quality-control']['sample-total-reads-threshold']
     shell:
         """
         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p sample_total_read_threshold {params.sample_threshold} 2> {log}
