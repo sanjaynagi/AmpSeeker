@@ -4,7 +4,7 @@ rule species_id:
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         bed=config["targets"],
-        metadata=config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
     output:
         nb="results/notebooks/ag-vampir/species-id.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb",
@@ -26,7 +26,7 @@ rule kdr_origin:
         nb=f"{workflow.basedir}/notebooks/ag-vampir/kdr-origins.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
         kdr_origin_SNPs="resources/ag-vampir/Kdr_marker_SNPs.csv",
     output:
         nb="results/notebooks/ag-vampir/kdr-origins.ipynb",

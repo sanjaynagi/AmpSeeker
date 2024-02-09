@@ -33,6 +33,9 @@ quality-control:
   qualimap: False
   stats: True
   multiqc: True
+  
+  sample-total-reads-threshold: 250
+  amplicon-total-reads-threshold: 1000
 
 # Specify whether to run generic analyses
 analysis:  

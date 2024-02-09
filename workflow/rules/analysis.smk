@@ -29,7 +29,7 @@ rule pca:
         nb=f"{workflow.basedir}/notebooks/principal-component-analysis.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
     output:
         nb="results/notebooks/principal-component-analysis.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/principal-component-analysis.ipynb",
@@ -51,7 +51,7 @@ rule sample_map:
     input:
         nb=f"{workflow.basedir}/notebooks/sample-map.ipynb",
         kernel="results/.kernel.set",
-        metadata=config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
     output:
         nb="results/notebooks/sample-map.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/sample-map.ipynb",
@@ -72,7 +72,7 @@ rule allele_frequencies:
     input:
         nb=f"{workflow.basedir}/notebooks/allele-frequencies.ipynb",
         kernel="results/.kernel.set",
-        metadata=config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
         bed=config["targets"],
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
     output:
@@ -122,7 +122,7 @@ rule genetic_diversity:
         nb=f"{workflow.basedir}/notebooks/genetic-diversity.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
-        metadata = config["metadata"],
+        metadata="results/config/metadata.qcpass.tsv",
     output:
         nb="results/notebooks/genetic-diversity.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/genetic-diversity.ipynb",

@@ -30,7 +30,7 @@ wkdir = os.getcwd()
 include: "rules/common.smk"
 
 
-welcome(version="v0.1.0")
+welcome(version="v0.2.0")
 
 
 include: "rules/utilities.smk"
