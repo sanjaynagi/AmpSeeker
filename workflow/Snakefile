@@ -3,10 +3,7 @@
 import pandas as pd
 import numpy as np
 
-
 configfile: "config/config.yaml"
-
-
 dataset = config["dataset"]
 
 if config["metadata"].endswith(".xlsx"):
@@ -23,15 +20,10 @@ samples = metadata["sampleID"]
 call_types = ["targets", "amplicons"]
 
 import os
-
 wkdir = os.getcwd()
 
-
 include: "rules/common.smk"
-
-
 welcome(version="v0.2.0")
-
 
 include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
