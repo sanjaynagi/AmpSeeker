@@ -2,7 +2,13 @@
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
 dataset: ampseq-gsu
+panel: ag-vampir
 metadata: config/metadata.tsv
+cohort-columns:
+  - taxon
+  - location
+targets: config/ag-vampir.bed
+
 
 # Directory of Illumina Miseq Run
 illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
@@ -14,12 +20,6 @@ reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.f
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
-# .bed file of target SNPs
-targets: config/ag-vampir.bed
-
-panel: ag-vampir
-kdr-origin-cohort-column: location
-
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
 bcl-convert: False
@@ -28,28 +28,22 @@ fastq:
 
 # Specify whether to run quality-control analyses
 quality-control:
+  sample-total-reads-threshold: 250
+  amplicon-total-reads-threshold: 1000
+
   fastp: True
   coverage: True
   qualimap: False
   stats: True
   multiqc: True
-  
-  sample-total-reads-threshold: 250
-  amplicon-total-reads-threshold: 1000
 
 # Specify whether to run generic analyses
 analysis:  
   igv: True
   sample-map: False # needs lat and longs
-  pca: 
-    activate: True
-    colour-column: taxon
-  genetic-diversity:
-    activate: True
-    cohort-column: location 
-  allele-frequencies:
-    activate: True
-    cohort-column: location
+  pca: True
+  genetic-diversity: True
+  allele-frequencies: True
 
 # Specify whether to build jupyter results book
 build-jupyter-book: True
