@@ -2,9 +2,12 @@
 # After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
 import pandas as pd
 import numpy as np
+import os
+wkdir = os.getcwd()
 
 configfile: "config/config.yaml"
 dataset = config["dataset"]
+cohort_cols = ','.join(config['cohort-columns'])
 
 if config["metadata"].endswith(".xlsx"):
     metadata = pd.read_excel(config["metadata"], engine="openpyxl")
@@ -19,12 +22,8 @@ plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).
 samples = metadata["sampleID"]
 call_types = ["targets", "amplicons"]
 
-import os
-wkdir = os.getcwd()
-
 include: "rules/common.smk"
 welcome(version="v0.2.0")
-
 include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
@@ -33,10 +32,8 @@ include: "rules/qc-notebooks.smk"
 include: "rules/analysis.smk"
 include: "rules/jupyter-book.smk"
 
-
 if config["panel"] == "ag-vampir":
     include: "rules/ag-vampir.smk"
-
 
 rule all:
     input:

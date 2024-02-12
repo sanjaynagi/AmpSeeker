@@ -1,8 +1,13 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: "test-fastqmetadata"
-metadata: "config/metadata.tsv"
+dataset: test-fastqmetadata
+metadata: config/metadata.tsv
+cohort-columns:
+   - location
+   - taxon
+targets: "config/ag-vampir.bed"
+panel: generic
 
 # Directory of Illumina Miseq Run
 illumina-dir: ""
@@ -13,10 +18,6 @@ reference-fasta: resources/reference/AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
 
-# .bed file of target SNPs
-targets: "config/ag-vampir.bed"
-panel: generic
-kdr-origin-cohort-column: location
 
 # Specify whether to convert bcl files to fastq
 bcl-convert: False
@@ -38,15 +39,9 @@ quality-control:
 analysis:  
   igv: True
   sample-map: True
-  pca: 
-    activate: True
-    colour-column: taxon
-  genetic-diversity:
-    activate: True
-    cohort-column: location 
-  allele-frequencies:
-    activate: True
-    cohort-column: location 
+  pca: True
+  genetic-diversity: True
+  allele-frequencies: True
 
 # Specify whether to build jupyter results book
 build-jupyter-book: False

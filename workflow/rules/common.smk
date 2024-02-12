@@ -170,7 +170,7 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["analysis"]["pca"]["activate"]:
+    if config["analysis"]["pca"]:
         inputs.extend(
             expand(
                 [
@@ -180,7 +180,7 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["analysis"]["genetic-diversity"]["activate"]:
+    if config["analysis"]["genetic-diversity"]:
         inputs.extend(
             expand(
                 [
@@ -190,7 +190,7 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["analysis"]["allele-frequencies"]["activate"]:
+    if config["analysis"]["allele-frequencies"]:
         inputs.extend(
             expand(
                 [
