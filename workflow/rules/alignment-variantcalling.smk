@@ -166,5 +166,5 @@ rule snpEff:
         dir="results/vcfs/annotations/snpeffdb",
     shell:
         """
-        snpEff eff {params.db} -dataDir {params.dir} -csvStats {output.csvStats} {input.calls} > {output.calls} 2> {log}
+        snpEff eff {params.db} -dataDir {params.dir} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
         """
