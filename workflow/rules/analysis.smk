@@ -126,7 +126,8 @@ rule genetic_diversity:
     output:
         nb="results/notebooks/genetic-diversity.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/genetic-diversity.ipynb",
-        table = expand("results/genetic-diversity/{coh}_pi.tsv", coh=cohort_cols.split(","))
+        table = expand("results/genetic-diversity/{coh}.pi.tsv", coh=cohort_cols.split(","))
+        samples_table = "results/genetic-diversit/samples.pi.tsv"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
