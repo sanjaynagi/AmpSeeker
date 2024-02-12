@@ -3,7 +3,7 @@
 
 title: AmpSeeker results book
 author: Trevor Mugoya, Edward Lukyamuzi & Sanjay C Nagi
-logo: logo.png
+logo: logo-results.png
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
