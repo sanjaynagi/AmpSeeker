@@ -7,6 +7,7 @@ wkdir = os.getcwd()
 
 configfile: "config/config.yaml"
 dataset = config["dataset"]
+panel = config["panel"]
 cohort_cols = ','.join(config['cohort-columns'])
 
 if config["metadata"].endswith(".xlsx"):
@@ -32,7 +33,7 @@ include: "rules/qc-notebooks.smk"
 include: "rules/analysis.smk"
 include: "rules/jupyter-book.smk"
 
-if config["panel"] == "ag-vampir":
+if panel == "ag-vampir":
     include: "rules/ag-vampir.smk"
 
 rule all:

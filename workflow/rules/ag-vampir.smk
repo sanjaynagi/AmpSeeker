@@ -8,6 +8,7 @@ rule species_id:
     output:
         nb="results/notebooks/ag-vampir/species-id.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb",
+        taxon_complete=touch("results/.taxon.complete"),
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
@@ -28,6 +29,7 @@ rule kdr_origin:
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         kdr_origin_SNPs="resources/ag-vampir/Kdr_marker_SNPs.csv",
+        taxon_complete="results/.taxon.complete",
     output:
         nb="results/notebooks/ag-vampir/kdr-origins.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
