@@ -31,6 +31,7 @@ rule pca:
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
+        taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/principal-component-analysis.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/principal-component-analysis.ipynb",
@@ -76,6 +77,7 @@ rule allele_frequencies:
         metadata="results/config/metadata.qcpass.tsv",
         bed=config["targets"],
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/allele-frequencies.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/allele-frequencies.ipynb",
@@ -125,6 +127,7 @@ rule genetic_diversity:
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
+        taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/genetic-diversity.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/genetic-diversity.ipynb",
