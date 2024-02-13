@@ -1,8 +1,4 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
-root: intro
 parts:
 - caption: QC
   chapters:
@@ -16,4 +12,7 @@ parts:
   - file: notebooks/principal-component-analysis
   - file: notebooks/snp-dataframe
   - file: notebooks/allele-frequencies
-
+- caption: Ag-vampIR
+  chapters:
+  - file: notebooks/ag-vampir/kdr-origins
+root: intro

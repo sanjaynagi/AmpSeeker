@@ -23,7 +23,7 @@ samples = metadata["sampleID"]
 call_types = ["targets", "amplicons"]
 
 include: "rules/common.smk"
-welcome(version="v0.2.0")
+welcome(version="v0.3.0")
 include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
