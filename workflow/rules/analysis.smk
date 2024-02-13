@@ -17,9 +17,10 @@ rule igv_notebook:
         "logs/notebooks/IGV-explore.log",
     params:
         reference_name=config["reference-name"],
+        wkdir = wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p wkdir {params.wkdir} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -85,9 +86,10 @@ rule allele_frequencies:
     params:
         dataset=dataset,
         cohort_cols=cohort_cols,
+        wkdir = wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p bed_path {input.bed} -p cohort_cols {params.cohort_cols} -p vcf_path {input.vcf} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p wkdir {params.wkdir} -p bed_path {input.bed} -p cohort_cols {params.cohort_cols} -p vcf_path {input.vcf} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 

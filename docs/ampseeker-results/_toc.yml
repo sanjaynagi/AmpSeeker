@@ -1,8 +1,4 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
 format: jb-book
-root: intro
 parts:
 - caption: QC
   chapters:
@@ -15,5 +11,6 @@ parts:
   - file: notebooks/coverage
   - file: notebooks/principal-component-analysis
   - file: notebooks/snp-dataframe
+  - file: notebooks/genetic-diversity
   - file: notebooks/allele-frequencies
-
+root: intro

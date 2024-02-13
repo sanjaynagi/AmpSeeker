@@ -86,6 +86,11 @@ rule process_notebooks:
             if config["analysis"]["sample-map"]
             else []
         ),
+        genetic_diversity=(
+            "docs/ampseeker-results/notebooks/genetic-diversity.ipynb"
+            if config["analysis"]["genetic-diversity"]
+            else []
+        ),
         read_quality=(
             "docs/ampseeker-results/notebooks/read-quality.ipynb"
             if config["quality-control"]["fastp"]
@@ -104,7 +109,8 @@ rule process_notebooks:
         "logs/notebooks/process_notebooks.log",
     params:
         wkdir=wkdir,
+        panel=config["panel"],
     shell:
         """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} 2> {log}
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p panel {params.panel} 2> {log}
         """
