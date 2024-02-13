@@ -6,7 +6,7 @@ channels:
 dependencies:
   - python=3.9
   - numpy
-  - pandas
+  - pandas=2.1.4
   - plotly
   - bokeh
   - scipy 
