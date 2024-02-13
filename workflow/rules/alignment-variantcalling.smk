@@ -155,6 +155,7 @@ rule snpEff:
         dl="results/vcfs/annotations/.db.dl",
     output:
         calls="results/vcfs/{call_type}/{dataset}.annot.vcf",
+        stats="results/vcfs/{call_type}/{dataset}.summary.html",
         csvStats="results/vcfs/{call_type}/{dataset}.summary.csv",
     log:
         "logs/snpEff/{dataset}_{call_type}.log",
@@ -166,5 +167,5 @@ rule snpEff:
         dir="results/vcfs/annotations/snpeffdb",
     shell:
         """
-        snpEff eff {params.db} -dataDir {params.dir} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
+        snpEff eff {params.db} -dataDir {params.dir} -stats {output.stats} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
         """
