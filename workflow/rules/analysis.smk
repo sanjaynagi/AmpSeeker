@@ -17,9 +17,10 @@ rule igv_notebook:
         "logs/notebooks/IGV-explore.log",
     params:
         reference_name=config["reference-name"],
+        wkdir = wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p wkdir {params.wkdir} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
