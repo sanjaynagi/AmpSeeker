@@ -1,7 +1,6 @@
 format: jb-book
-root: intro
 parts:
-- caption: Run information
+- caption: Sequencing and workflow
   chapters:
   - file: notebooks/run-information
 - caption: Quality control
@@ -17,3 +16,4 @@ parts:
   - file: notebooks/snp-dataframe
   - file: notebooks/genetic-diversity
   - file: notebooks/allele-frequencies
+root: intro

@@ -85,7 +85,11 @@ def AmpSeekerOutputs(wildcards):
 
     if config["bcl-convert"]:
         inputs.extend(
-            ["results/qc/index-read-qc/I1.html", "results/qc/index-read-qc/I2.html"]
+            [
+            "results/qc/index-read-qc/I1.html", 
+            "results/qc/index-read-qc/I2.html",
+            "results/notebooks/run-statistics.ipynb",
+            "docs/ampseeker-results/notebooks/run-statistics.ipynb",            ]
         )
 
     if plate_info:
