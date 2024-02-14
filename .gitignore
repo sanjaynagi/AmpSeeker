@@ -18,4 +18,6 @@ docs/ampseeker-results/notebooks/
 .test/docs/
 html*
 _build/
-resources/bcl_output/
+resources/bcl_output*
+resources/14*
+results_vigg002*
