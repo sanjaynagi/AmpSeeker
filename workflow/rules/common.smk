@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
 if len(metadata) > 1000:
@@ -84,7 +85,11 @@ def AmpSeekerOutputs(wildcards):
 
     if config["bcl-convert"]:
         inputs.extend(
-            ["results/qc/index-read-qc/I1.html", "results/qc/index-read-qc/I2.html"]
+            [
+            "results/qc/index-read-qc/I1.html", 
+            "results/qc/index-read-qc/I2.html",
+            "results/notebooks/run-statistics.ipynb",
+            "docs/ampseeker-results/notebooks/run-statistics.ipynb",            ]
         )
 
     if plate_info:

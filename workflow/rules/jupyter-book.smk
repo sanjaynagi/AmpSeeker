@@ -1,10 +1,10 @@
 rule jupyterbook:
     input:
         toc="docs/ampseeker-results/_toc.yml",
-        ag_toc=(
-            "results/.toc.ag-vampir.complete" if config["panel"] == "ag-vampir" else []
-        ),
+        toc_update="results/.toc.update.complete",
         pages="docs/ampseeker-results",
+        run_info="docs/ampseeker-results/notebooks/run-information.ipynb",
+        run_statistics="docs/ampseeker-results/notebooks/run-statistics.ipynb" if config['bcl-convert'] else [],
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
@@ -54,6 +54,27 @@ rule jupyterbook:
         """
         jupyter-book build --all {input.pages} --path-output results/ampseeker-results &&
         ln -sf results/ampseeker-results/_build/html/index.html AmpSeeker-results.html
+        """
+
+rule process_toc:
+    input:
+        input_nb=f"{workflow.basedir}/notebooks/process-toc.ipynb",
+        toc="docs/ampseeker-results/_toc.yml",
+        kernel="results/.kernel.set",
+    output:
+        out_nb="results/notebooks/process-toc.ipynb",
+        toc_complete=touch("results/.toc.update.complete"),
+    conda:
+        f"{workflow.basedir}/envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/process-toc.log",
+    params:
+        wkdir=wkdir,
+        bcl_convert = config['bcl-convert'],
+        panel=config["panel"],
+    shell:
+        """
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p bcl_convert {params.bcl_convert} -p panel {params.panel} 2> {log}
         """
 
 

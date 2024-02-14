@@ -1,6 +1,9 @@
 format: jb-book
 parts:
-- caption: QC
+- caption: Sequencing and workflow
+  chapters:
+  - file: notebooks/run-information
+- caption: Quality control
   chapters:
   - file: notebooks/read-quality
   - file: notebooks/reads-per-well

@@ -52,21 +52,3 @@ rule kdr_origin:
         """
 
 
-rule process_toc:
-    input:
-        input_nb=f"{workflow.basedir}/notebooks/ag-vampir/process-toc.ipynb",
-        toc="docs/ampseeker-results/_toc.yml",
-        kernel="results/.kernel.set",
-    output:
-        out_nb="results/notebooks/ag-vampir/process-toc.ipynb",
-        toc_complete=touch("results/.toc.ag-vampir.complete"),
-    conda:
-        f"{workflow.basedir}/envs/AmpSeeker-python.yaml"
-    log:
-        "logs/notebooks/ag-vampir/process-toc.log",
-    params:
-        wkdir=wkdir,
-    shell:
-        """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} 2> {log}
-        """
