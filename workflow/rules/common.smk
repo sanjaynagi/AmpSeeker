@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
 if len(metadata) > 1000:

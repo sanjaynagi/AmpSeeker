@@ -1,6 +1,10 @@
 format: jb-book
+root: intro
 parts:
-- caption: QC
+- caption: Run information
+  chapters:
+  - file: notebooks/run-information
+- caption: Quality control
   chapters:
   - file: notebooks/read-quality
   - file: notebooks/reads-per-well
@@ -13,4 +17,3 @@ parts:
   - file: notebooks/snp-dataframe
   - file: notebooks/genetic-diversity
   - file: notebooks/allele-frequencies
-root: intro

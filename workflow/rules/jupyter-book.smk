@@ -1,10 +1,8 @@
 rule jupyterbook:
     input:
         toc="docs/ampseeker-results/_toc.yml",
-        ag_toc=(
-            "results/.toc.ag-vampir.complete" if config["panel"] == "ag-vampir" else []
-        ),
         pages="docs/ampseeker-results",
+        run_info="docs/ampseeker-results/notebooks/run-information.ipynb",
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",

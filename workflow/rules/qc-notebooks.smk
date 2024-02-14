@@ -1,4 +1,30 @@
 
+rule run_information:
+    input:
+        nb=f"{workflow.basedir}/notebooks/run-information.ipynb",
+        kernel="results/.kernel.set",
+        metadata=config["metadata"],
+        targets=config["targets"],
+    output:
+        nb="results/notebooks/run-information.ipynb",
+        docs_nb="docs/ampseeker-results/notebooks/run-information.ipynb",
+    conda:
+        "../envs/AmpSeeker-python.yaml"
+    log:
+        "logs/notebooks/run-information.log",
+    params:
+        wkdir=wkdir,
+        dataset=dataset,
+        panel=panel,
+        cohort_cols=cohort_cols,
+        config_path = workflow.configfiles[0]
+    shell:
+        """
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p config_path {params.config_path} -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p panel {params.panel} -p dataset {params.dataset} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} 2> {log}
+        cp {output.nb} {output.docs_nb} 2>> {log}
+        """
+
+
 rule reads_per_well:
     input:
         nb=f"{workflow.basedir}/notebooks/reads-per-well.ipynb",
