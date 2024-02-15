@@ -5,7 +5,6 @@ rule bcl_convert:
     output:
         reads_dir=directory("resources/bcl_output"),
         fastq_list="resources/bcl_output/Reports/fastq_list.csv",
-        demultiplex_stats = "resources/bcl_output/Reports/Demultiplex_Stats.csv",
     singularity:
         "docker://nfcore/bclconvert"
     log:
