@@ -77,6 +77,7 @@ rule allele_frequencies:
         metadata="results/config/metadata.qcpass.tsv",
         bed=config["targets"],
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        whole_amp_vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/allele-frequencies.ipynb",
