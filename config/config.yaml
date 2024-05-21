@@ -9,8 +9,7 @@ cohort-columns:
   - location
 targets: config/ag-vampir.bed
 
-
-# Directory of Illumina Miseq Run
+# Directory of Illumina Miseq Run, can be empty 
 illumina-dir: resources/230629_M05658_0009_000000000-DL7P9/
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
