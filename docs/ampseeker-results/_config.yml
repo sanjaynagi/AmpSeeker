@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: AmpSeeker results book
-author: Trevor Mugoya, Edward Lukyamuzi & Sanjay C Nagi
+author: Sanjay Curtis Nagi
 logo: logo-results.png
 
 # Force re-execution of notebooks on each build.
