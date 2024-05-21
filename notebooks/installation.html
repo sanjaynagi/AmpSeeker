@@ -422,7 +422,7 @@ document.write(`
 <p><a class="reference external" href="https://snakemake.readthedocs.io/en/stable/getting_started/installation.html">https://snakemake.readthedocs.io/en/stable/getting_started/installation.html</a></p>
 <p>You may also need <a class="reference external" href="https://pandas.pydata.org/">pandas</a>, which you can install with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
 <p><strong>bcl-convert</strong></p>
-<p>Unfortunately, bcl-convert is not available via conda, so if you wish to demultiplex from bcl files, we must either install singularity and specify <code class="docutils literal notranslate"><span class="pre">--use-singularity</span></code> at the command line when running snakemake (recommended), or install bcl-convert directly from Illumina manually.</p>
+<p>Unfortunately, bcl-convert is not available via conda, so if you wish to demultiplex from bcl files, we must either install singularity and specify <code class="docutils literal notranslate"><span class="pre">--use-singularity</span></code> at the command line when running snakemake (recommended), or install bcl-convert directly from Illumina manually. We recommend installing with singularity, as not all versions of bcl-convert can generate index fastq reads, which are required.</p>
 <p>To install singularity, please use the command below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">singularity</span>
 </pre></div>
