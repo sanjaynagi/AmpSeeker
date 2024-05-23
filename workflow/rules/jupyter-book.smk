@@ -1,7 +1,6 @@
 rule jupyterbook:
     input:
         toc="docs/ampseeker-results/_toc.yml",
-        toc_update="results/.toc.update.complete",
         pages="docs/ampseeker-results",
         run_info="docs/ampseeker-results/notebooks/run-information.ipynb",
         run_statistics="docs/ampseeker-results/notebooks/run-statistics.ipynb" if config['bcl-convert'] else [],
@@ -59,11 +58,11 @@ rule jupyterbook:
 rule process_toc:
     input:
         input_nb=f"{workflow.basedir}/notebooks/process-toc.ipynb",
-        toc="docs/ampseeker-results/_toc.yml",
+        toc="docs/ampseeker-results/_toc_skeleton.yml",
         kernel="results/.kernel.set",
     output:
         out_nb="results/notebooks/process-toc.ipynb",
-        toc_complete=touch("results/.toc.update.complete"),
+        toc="docs/ampseeker-results/_toc.yml",
     conda:
         f"{workflow.basedir}/envs/AmpSeeker-python.yaml"
     log:
