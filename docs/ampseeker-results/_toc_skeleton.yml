@@ -1,4 +1,5 @@
 format: jb-book
+root: intro
 parts:
 - caption: Sequencing and workflow
   chapters:
@@ -17,8 +18,3 @@ parts:
   - file: notebooks/snp-dataframe
   - file: notebooks/genetic-diversity
   - file: notebooks/allele-frequencies
-- caption: Ag-vampIR
-  chapters:
-  - file: notebooks/ag-vampir/species-id
-  - file: notebooks/ag-vampir/kdr-origins
-root: intro
