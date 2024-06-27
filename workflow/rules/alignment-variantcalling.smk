@@ -191,7 +191,7 @@ rule snpEff:
     params:
         db=config["reference-snpeffdb"] if not config['custom-snpeffdb'] else "mysnpeffdb",
         prefix=lambda w, output: os.path.splitext(output[0])[0],
-        dataDir=lambda x: wkdir + "results/vcfs/annotations/",
+        dataDir=lambda x: wkdir + "/results/vcfs/annotations/",
     shell:
         """
         snpEff eff {params.db} -dataDir {params.dataDir} -configOption mysnpeffdb.genome=mysnpeffdb -stats {output.stats} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
