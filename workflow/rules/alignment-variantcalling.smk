@@ -135,7 +135,7 @@ rule snpEffDbDownload:
     Download the snpEff database for your species
     """
     output:
-        touch("results/vcfs/annotations/mysnpeffdbe.db.dl"),
+        touch("results/vcfs/annotations/mysnpeffdb/.db.dl"),
     log:
         "logs/snpEff/snpEffDbDownload.log",
     conda:
@@ -161,7 +161,7 @@ rule createCustomSnpEffDb:
     log:
         "logs/snpEff/createCustomSnpEffDb.log",
     conda:
-        "../envs/Ampseeker-snpeff.yaml"
+        "../envs/AmpSeeker-snpeff.yaml"
     params:
         dataDir=lambda x: wkdir + "/results/vcfs/annotations/",
         wkdir=wkdir
