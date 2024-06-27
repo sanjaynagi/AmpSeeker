@@ -194,5 +194,5 @@ rule snpEff:
         dataDir=lambda x: wkdir + "results/vcfs/annotations/",
     shell:
         """
-        snpEff eff {params.db} -dataDir {params.dataDir} -stats {output.stats} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
+        snpEff eff {params.db} -dataDir {params.dataDir} -configOption mysnpeffdb.genome=mysnpeffdb -stats {output.stats} -csvStats {output.csvStats} -ud 0 {input.calls} > {output.calls} 2> {log}
         """
