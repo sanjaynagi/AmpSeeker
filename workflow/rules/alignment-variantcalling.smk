@@ -135,7 +135,7 @@ rule snpEffDbDownload:
     Download the snpEff database for your species
     """
     output:
-        touch("results/vcfs/annotations/.db.dl"),
+        touch("results/vcfs/annotations/mysnpeffdbe.db.dl"),
     log:
         "logs/snpEff/snpEffDbDownload.log",
     conda:
