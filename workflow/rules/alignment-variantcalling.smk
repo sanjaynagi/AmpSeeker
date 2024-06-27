@@ -153,7 +153,7 @@ rule createCustomSnpEffDb:
     """
     input:
         fa=config['reference-fasta'],
-        gff=config['reference-gff'],
+        gff=config['reference-gff3'],
     output:
         "results/vcfs/annotations/mysnpeffdb/sequences.fa",
         "results/vcfs/annotations/mysnpeffdb/genes.gff",
