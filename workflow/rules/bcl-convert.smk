@@ -26,7 +26,7 @@ rule rename_fastq:
         fastq_list="results/bcl_output/Reports/fastq_list.csv",
     output:
         output_reads=expand(
-            "results/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
+            "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
         ),
     log:
         "logs/rename_fastq.log",
@@ -43,7 +43,7 @@ rule rename_fastq:
             fi
             
             echo renaming $read1 and $read2 to ${{sample_id}}_1.fastq.gz and ${{sample_id}}_2.fastq.gz 
-            mv $read1 results/reads/${{sample_id}}_1.fastq.gz
-            mv $read2 results/reads/${{sample_id}}_2.fastq.gz
+            mv $read1 resources/reads/${{sample_id}}_1.fastq.gz
+            mv $read2 resources/reads/${{sample_id}}_2.fastq.gz
         done < {input.fastq_list}
         """
