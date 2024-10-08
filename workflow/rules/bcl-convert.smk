@@ -1,10 +1,13 @@
+import os 
+
 rule bcl_convert:
     input:
-        sample_csv=config["illumina-dir"] + "SampleSheet.csv",
+        sample_csv=os.path.join(config["illumina-dir"], "SampleSheet.csv"),
         illumina_in_dir=config["illumina-dir"],
     output:
-        reads_dir=directory("resources/bcl_output"),
-        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
+        reads_dir=directory("results/bcl_output"),
+        fastq_list="results/bcl_output/Reports/fastq_list.csv",
+        demultiplex_stats = "results/bcl_output/Reports/Demultiplex_Stats.csv",
     singularity:
         "docker://nfcore/bclconvert"
     log:
@@ -18,9 +21,9 @@ rule rename_fastq:
     If users demultiplex from BCL than rename, otherwise symlink to results
     """
     input:
-        reads="resources/bcl_output/",
+        reads="results/bcl_output/",
         read_dir=rules.bcl_convert.output,
-        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
+        fastq_list="results/bcl_output/Reports/fastq_list.csv",
     output:
         output_reads=expand(
             "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
