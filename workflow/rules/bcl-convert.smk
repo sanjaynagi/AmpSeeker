@@ -1,10 +1,13 @@
+import os 
+
 rule bcl_convert:
     input:
-        sample_csv=config["illumina-dir"] + "SampleSheet.csv",
+        sample_csv=os.path.join(config["illumina-dir"], "SampleSheet.csv"),
         illumina_in_dir=config["illumina-dir"],
     output:
-        reads_dir=directory("resources/bcl_output"),
-        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
+        reads_dir=directory("results/bcl_output"),
+        fastq_list="results/bcl_output/Reports/fastq_list.csv",
+        demultiplex_stats = "results/bcl_output/Reports/Demultiplex_Stats.csv",
     singularity:
         "docker://nfcore/bclconvert"
     log:
@@ -18,12 +21,12 @@ rule rename_fastq:
     If users demultiplex from BCL than rename, otherwise symlink to results
     """
     input:
-        reads="resources/bcl_output/",
+        reads="results/bcl_output/",
         read_dir=rules.bcl_convert.output,
-        fastq_list="resources/bcl_output/Reports/fastq_list.csv",
+        fastq_list="results/bcl_output/Reports/fastq_list.csv",
     output:
         output_reads=expand(
-            "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
+            "results/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
         ),
     log:
         "logs/rename_fastq.log",
@@ -40,7 +43,7 @@ rule rename_fastq:
             fi
             
             echo renaming $read1 and $read2 to ${{sample_id}}_1.fastq.gz and ${{sample_id}}_2.fastq.gz 
-            mv $read1 resources/reads/${{sample_id}}_1.fastq.gz
-            mv $read2 resources/reads/${{sample_id}}_2.fastq.gz
+            mv $read1 results/reads/${{sample_id}}_1.fastq.gz
+            mv $read2 results/reads/${{sample_id}}_2.fastq.gz
         done < {input.fastq_list}
         """
