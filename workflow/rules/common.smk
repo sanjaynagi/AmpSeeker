@@ -175,12 +175,12 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["analysis"]["pca"]:
+    if config["analysis"]["population-structure"]:
         inputs.extend(
             expand(
                 [
-                    "results/notebooks/principal-component-analysis.ipynb",
-                    "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb",
+                    "results/notebooks/population-structure.ipynb",
+                    "docs/ampseeker-results/notebooks/population-structure.ipynb",
                 ],
             )
         )

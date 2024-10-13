@@ -42,7 +42,7 @@ quality-control:
 analysis:  
   igv: True
   sample-map: False # needs lat and longs
-  pca:  True
+  population-structure:  True
   genetic-diversity: True
   allele-frequencies: True
 

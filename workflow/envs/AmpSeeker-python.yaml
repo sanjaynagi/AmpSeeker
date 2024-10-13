@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  - python=3.9
+  - python>=3.10,<3.13
   - numpy
   - pandas=2.1.4
   - plotly
@@ -18,3 +18,4 @@ dependencies:
     - papermill
     - scikit-allel
     - pysam
+    - anjl
