@@ -25,20 +25,20 @@ rule igv_notebook:
         """
 
 
-rule pca:
+rule population_structure:
     input:
-        nb=f"{workflow.basedir}/notebooks/principal-component-analysis.ipynb",
+        nb=f"{workflow.basedir}/notebooks/population-structure.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:
-        nb="results/notebooks/principal-component-analysis.ipynb",
-        docs_nb="docs/ampseeker-results/notebooks/principal-component-analysis.ipynb",
+        nb="results/notebooks/population-structure.ipynb",
+        docs_nb="docs/ampseeker-results/notebooks/population-structure.ipynb",
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
-        "logs/notebooks/principal-component-analysis.log",
+        "logs/notebooks/population-structure.log",
     params:
         dataset=dataset,
         cohort_cols=cohort_cols,

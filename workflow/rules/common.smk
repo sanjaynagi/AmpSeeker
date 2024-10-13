@@ -179,8 +179,8 @@ def AmpSeekerOutputs(wildcards):
         inputs.extend(
             expand(
                 [
-                    "results/notebooks/principal-component-analysis.ipynb",
-                    "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb",
+                    "results/notebooks/population-structure.ipynb",
+                    "docs/ampseeker-results/notebooks/population-structure.ipynb",
                 ],
             )
         )
