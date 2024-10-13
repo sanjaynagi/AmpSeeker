@@ -18,3 +18,4 @@ dependencies:
     - papermill
     - scikit-allel
     - pysam
+    - anjl
