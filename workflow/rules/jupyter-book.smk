@@ -17,9 +17,9 @@ rule jupyterbook:
             if config["quality-control"]["coverage"]
             else []
         ),
-        pca=(
-            "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb"
-            if config["analysis"]["pca"]
+        pop_structure=(
+            "docs/ampseeker-results/notebooks/population-structure.ipynb"
+            if config["analysis"]["population-structure"]
             else []
         ),
         af=(
@@ -91,9 +91,9 @@ rule process_notebooks:
             if config["quality-control"]["coverage"]
             else []
         ),
-        pca=(
-            "docs/ampseeker-results/notebooks/principal-component-analysis.ipynb"
-            if config["analysis"]["pca"]
+        pop_structure=(
+            "docs/ampseeker-results/notebooks/population-structure.ipynb"
+            if config["analysis"]["population-structure"]
             else []
         ),
         af=(

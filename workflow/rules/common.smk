@@ -175,7 +175,7 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["analysis"]["pca"]:
+    if config["analysis"]["population-structure"]:
         inputs.extend(
             expand(
                 [
