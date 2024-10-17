@@ -58,7 +58,7 @@ rule mosdepth_coverage:
         params:
             prefix="results/coverage/{sample}",
         shell:
-            """
+        """
         mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
         """
 
