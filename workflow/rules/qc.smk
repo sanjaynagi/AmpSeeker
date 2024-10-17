@@ -56,11 +56,11 @@ rule mosdepth_coverage:
         conda:
             "../envs/AmpSeeker-cli.yaml"
         params:
-            prefix="results/coverage/{sample}",
+            prefix="results/coverage/{sample}"
         shell:
-        """
-        mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
-        """
+            """
+            mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
+            """
 
 
 rule bam_stats:
