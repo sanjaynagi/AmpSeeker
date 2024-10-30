@@ -140,6 +140,6 @@ rule sample_quality_control:
         dataset=dataset
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python - dataset {params.dataset} -p panel {params.panel} -p metadata_path {input.metadata} -p cohort_cols {params.cohort_cols} -p bed_targets_path {input.targets} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p sample_total_read_threshold {params.sample_threshold} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p panel {params.panel} -p metadata_path {input.metadata} -p cohort_cols {params.cohort_cols} -p bed_targets_path {input.targets} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p sample_total_read_threshold {params.sample_threshold} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
