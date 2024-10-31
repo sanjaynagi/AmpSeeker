@@ -122,6 +122,7 @@ rule sample_quality_control:
         kernel="results/.kernel.set",
         region=expand("results/coverage/{sample}.regions.bed.gz", sample=samples),
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        amplicons_vcf = expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata=config["metadata"],
         targets=config["targets"],
     output:

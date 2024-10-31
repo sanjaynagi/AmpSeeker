@@ -9,7 +9,7 @@ cohort-columns:
 targets: config/ag-vampir.bed
 
 # Directory of Illumina Miseq Run, can be empty 
-illumina-dir: resources/240909_M05658_0026_000000000-L7LFB
+illumina-dir: resources/14_02_2024_MiSeq_output/
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
