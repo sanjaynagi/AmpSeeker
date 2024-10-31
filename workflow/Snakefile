@@ -20,7 +20,7 @@ else:
     raise ValueError("Metadata file must be .xlsx or .csv")
 
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
-samples = metadata["sampleID"]
+samples = metadata["sample_id"]
 call_types = ["targets", "amplicons"]
 
 include: "rules/common.smk"
