@@ -29,7 +29,7 @@ rule population_structure:
     input:
         nb=f"{workflow.basedir}/notebooks/population-structure.ipynb",
         kernel="results/.kernel.set",
-        vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
     output:

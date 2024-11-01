@@ -28,8 +28,6 @@ rule rename_fastq:
         output_reads=expand(
             "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
         ),
-    log:
-        "logs/rename_fastq.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
     params:

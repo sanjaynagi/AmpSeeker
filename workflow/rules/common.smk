@@ -7,8 +7,8 @@ if len(metadata) > 1000:
     large_sample_size = True
     n_samples = len(metadata)
     half = int(n_samples / 2)
-    samples1 = metadata["sampleID"][:half]
-    samples2 = metadata["sampleID"][half:]
+    samples1 = metadata["sample_id"][:half]
+    samples2 = metadata["sample_id"][half:]
 else:
     large_sample_size = False
     samples1 = []
@@ -53,9 +53,9 @@ def get_fastqs(wildcards):
     if config["fastq"]["auto"]:
         for i, col in enumerate(fastq_cols):
             metadata = metadata.assign(
-                **{col: f"resources/reads/" + metadata["sampleID"] + f"_{i+1}.fastq.gz"}
+                **{col: f"resources/reads/" + metadata["sample_id"] + f"_{i+1}.fastq.gz"}
             )
-        metadata = metadata.set_index("sampleID")
+        metadata = metadata.set_index("sample_id")
     else:
         assert (
             "fq1" in metadata.columns
@@ -64,7 +64,7 @@ def get_fastqs(wildcards):
             "fq2" in metadata.columns
         ), f"The fq2 column in the metadata does not seem to exist. Please create one, or use the 'auto' option and name the fastq files as specified in the config/README.md"
 
-        metadata = metadata.set_index("sampleID")
+        metadata = metadata.set_index("sample_id")
 
     u = metadata.loc[wildcards.sample, fastq_cols].dropna()
     return [u.fq1, u.fq2]

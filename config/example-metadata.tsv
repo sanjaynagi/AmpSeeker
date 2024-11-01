@@ -1,4 +1,4 @@
-sampleID	taxon	location	country	plate	well_letter	well_number	latitude	longitude
+sample_id	taxon	location	country	plate	well_letter	well_number	latitude	longitude
 sample577	gambiae	LSTM	UK	1	A	1	53.408563	-2.969135
 sample578	gambiae	LSTM	UK	1	A	2	53.408563	-2.969135
 sample579	gambiae	LSTM	UK	1	A	3	53.408563	-2.969135

@@ -1,4 +1,4 @@
-sampleID	country	location	taxon	latitude	longitude	fq1	fq2
+sample_id	country	location	taxon	latitude	longitude	fq1	fq2
 ERR3058522	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058522_1.fastq.gz	resources/reads/ERR3058522_2.fastq.gz
 ERR3058532	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058532_1.fastq.gz	resources/reads/ERR3058532_2.fastq.gz
 ERR3058542	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058542_1.fastq.gz	resources/reads/ERR3058542_2.fastq.gz
@@ -6,6 +6,6 @@ ERR3058552	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058552_1.
 ERR3058562	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058562_1.fastq.gz	resources/reads/ERR3058562_2.fastq.gz
 ERR3058572	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058572_1.fastq.gz	resources/reads/ERR3058572_2.fastq.gz
 ERR3058582	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058582_1.fastq.gz	resources/reads/ERR3058582_2.fastq.gz
-ERR3058982	Ghana	Madina_North	gambiae	5.668	-0.167	resources/reads/ERR3058982_1.fastq.gz	resources/reads/ERR3058982_2.fastq.gz
+ERR3058982	Benin	Avrankou	coluzzii	5.668	-0.167	resources/reads/ERR3058982_1.fastq.gz	resources/reads/ERR3058982_2.fastq.gz
 ERR3058992	Benin	Avrankou	coluzzii	6.45	2.25	resources/reads/ERR3058992_1.fastq.gz	resources/reads/ERR3058992_2.fastq.gz
 ERR3059002	Benin	Avrankou	coluzzii	6.45	2.25	resources/reads/ERR3059002_1.fastq.gz	resources/reads/ERR3059002_2.fastq.gz

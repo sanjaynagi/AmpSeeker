@@ -4,6 +4,7 @@ rule species_id:
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         bed=config["targets"],
+        qc_nb="results/notebooks/sample-quality-control.ipynb",
         metadata="results/config/metadata.qcpass.tsv",
     output:
         nb="results/notebooks/ag-vampir/species-id.ipynb",
