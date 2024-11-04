@@ -62,9 +62,11 @@ rule reads_per_well:
         "../envs/AmpSeeker-python.yaml"
     log:
         "logs/notebooks/reads-per-well.log",
+    params:
+        wkdir=wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p wkdir {params.wkdir} -p metadata_path {input.metadata} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 

@@ -42,6 +42,70 @@ rule set_kernel:
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
 
+def generate_distinct_colors(n):
+    """
+    Generate n visually distinct colors using HSV color space.
+    """
+    import colorsys
+    colors = []
+    for i in range(n):
+        # Use golden ratio to space hues evenly
+        hue = i * 0.618033988749895 % 1
+        # Use fixed saturation and value for consistency
+        saturation = 0.7
+        value = 0.95
+        # Convert HSV to RGB
+        rgb = colorsys.hsv_to_rgb(hue, saturation, value)
+        # Convert RGB to hex
+        hex_color = "#{:02x}{:02x}{:02x}".format(
+            int(rgb[0] * 255),
+            int(rgb[1] * 255),
+            int(rgb[2] * 255)
+        )
+        colors.append(hex_color)
+    return colors
+
+def create_plotly_color_mapping(
+    df_samples,
+    columns,
+    color_sequence='Plotly',
+):
+    """
+    Create color mappings for categorical columns using Plotly color sequences.
+    """
+    import plotly.express as px
+    # Get the color sequence
+    if isinstance(color_sequence, str):
+        if hasattr(px.colors.qualitative, color_sequence):
+            colors = getattr(px.colors.qualitative, color_sequence)
+        else:
+            raise ValueError(f"Unknown color sequence: {color_sequence}. "
+                           f"Available sequences: {dir(px.colors.qualitative)}")
+    else:
+        colors = color_sequence
+    
+    color_mappings = {}
+    for col in columns:
+        unique_values = df_samples[col].unique()
+        n_categories = len(unique_values)
+        n_colors = len(colors)
+        
+        if n_categories > n_colors:
+            raise ValueError(
+                f"Column '{col}' has {n_categories} categories but color sequence "
+                f"only has {n_colors} colors. Either use a different color sequence "
+                "or set repeated_colors=True"
+            )
+        
+        # Create color mapping for this column
+        column_colors = {}
+        for i, value in enumerate(unique_values):
+            color_idx = i % n_colors
+            column_colors[value] = colors[color_idx]
+            
+        color_mappings[col] = column_colors
+    
+    return color_mappings
 
 def get_fastqs(wildcards):
     """

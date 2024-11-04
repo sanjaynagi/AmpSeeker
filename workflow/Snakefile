@@ -1,7 +1,6 @@
-# The main entry point of your workflow.
-# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
 import pandas as pd
 import numpy as np
+import json
 import os
 wkdir = os.getcwd()
 
@@ -35,6 +34,10 @@ include: "rules/jupyter-book.smk"
 
 if panel == "ag-vampir":
     include: "rules/ag-vampir.smk"
+
+color_mappings = create_plotly_color_mapping(metadata, color_sequence=config['palette'], columns=config['cohort-columns'])
+with open(f"config/metadata_colours.json", 'w') as f:
+    json.dump(color_mappings, f, indent=2)
 
 rule all:
     input:
