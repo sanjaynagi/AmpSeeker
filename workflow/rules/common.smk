@@ -42,30 +42,16 @@ rule set_kernel:
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
 
-def generate_distinct_colors(n):
-    """
-    Generate n visually distinct colors using HSV color space.
-    """
-    import colorsys
-    colors = []
-    for i in range(n):
-        # Use golden ratio to space hues evenly
-        hue = i * 0.618033988749895 % 1
-        # Use fixed saturation and value for consistency
-        saturation = 0.7
-        value = 0.95
-        # Convert HSV to RGB
-        rgb = colorsys.hsv_to_rgb(hue, saturation, value)
-        # Convert RGB to hex
-        hex_color = "#{:02x}{:02x}{:02x}".format(
-            int(rgb[0] * 255),
-            int(rgb[1] * 255),
-            int(rgb[2] * 255)
-        )
-        colors.append(hex_color)
-    return colors
+import pandas as pd
 
-
+# Predefined color palettes
+PALETTES = {
+    'Plotly': ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'],
+    'Safe': ['#88CCEE', '#CC6677', '#DDCC77', '#117733', '#332288', '#AA4499', '#44AA99', '#999933', '#882255', '#661100', '#6699CC', '#888888'],
+    'Vivid': ['#E58606', '#5D69B1', '#52BCA3', '#99C945', '#CC61B0', '#24796C', '#DAA51B', '#2F8AC4', '#764E9F', '#ED645A', '#CC3A8E', '#A5AA99'],
+    'Pastel': ['#B6B6F2', '#FFB6B6', '#BFFFBF', '#FFE2BF', '#BFE2FF', '#FFB6FF', '#E2FFB6', '#FFD9B6', '#B6FFE2', '#D9B6FF'],
+    'Dark2': ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
+}
 
 def create_color_mapping(df, columns, repeated_colors=True):
     """
@@ -79,24 +65,14 @@ def create_color_mapping(df, columns, repeated_colors=True):
     Returns:
         Dictionary of color mappings for each column
     """
-
-    # Predefined plotly color palettes
-    PALETTES = {
-        'Plotly': ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'],
-        'Dark24': ['#2E91E5', '#E15F99', '#1CA71C', '#FB0D0D', '#DA16FF', '#222A2A', '#B68100', '#750D86', '#EB663B', '#511CFB', 
-                '#00A08B', '#FB00D1', '#FC0080', '#B2828D', '#6C7C32', '#778AAE', '#862A16', '#A777F1', '#620042', '#1616A7', 
-                '#DA60CA', '#6C4516', '#0D2A63', '#AF0038'],
-        'Vivid': ['#E58606', '#5D69B1', '#52BCA3', '#99C945', '#CC61B0', '#24796C', '#DAA51B', '#2F8AC4', '#764E9F', '#ED645A', 
-                '#CC3A8E', '#A5AA99']
-    }
-
     color_mappings = {}
+    
     for i, col in enumerate(columns):
         # Cycle through palettes
         palette_name = list(PALETTES.keys())[i % len(PALETTES)]
         colors = PALETTES[palette_name]
         
-        unique_values = sorted(df[col].unique())
+        unique_values = df[col].unique()
         n_categories = len(unique_values)
         n_colors = len(colors)
         
