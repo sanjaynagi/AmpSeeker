@@ -1,12 +1,10 @@
-# This file should contain everything to configure the workflow on a global scale.
-# In case of sample based data, it should be complemented by a samples.tsv file that contains
-# one row per sample. It can be parsed easily via pandas.
-dataset: "test-agvampir"
-metadata: "config/metadata.tsv"
+dataset: test-agvampir
+metadata: config/metadata.tsv
+palette: Plotly
 cohort-columns:
   - taxon
   - location
-targets: "config/ag-vampir.bed"
+targets: config/ag-vampir.bed
 panel: ag-vampir
 
 # Directory of Illumina Miseq Run
