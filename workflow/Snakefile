@@ -35,7 +35,7 @@ include: "rules/jupyter-book.smk"
 if panel == "ag-vampir":
     include: "rules/ag-vampir.smk"
 
-color_mappings = create_plotly_color_mapping(metadata, color_sequence=config['palette'], columns=config['cohort-columns'])
+color_mappings = create_color_mapping(metadata, columns=config['cohort-columns'])
 with open(f"config/metadata_colours.json", 'w') as f:
     json.dump(color_mappings, f, indent=2)
 

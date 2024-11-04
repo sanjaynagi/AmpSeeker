@@ -1,6 +1,5 @@
 dataset: test-fastqauto
 metadata: config/metadata.tsv
-palette: Plotly
 cohort-columns:
   - taxon
   - location

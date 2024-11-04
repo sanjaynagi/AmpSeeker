@@ -1,6 +1,5 @@
 dataset: test-agvampir
 metadata: config/metadata.tsv
-palette: Plotly
 cohort-columns:
   - taxon
   - location

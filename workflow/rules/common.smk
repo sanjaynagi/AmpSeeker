@@ -65,42 +65,45 @@ def generate_distinct_colors(n):
         colors.append(hex_color)
     return colors
 
-def create_plotly_color_mapping(
-    df_samples,
-    columns,
-    color_sequence='Plotly',
-):
+
+
+def create_color_mapping(df, columns, repeated_colors=True):
     """
-    Create color mappings for categorical columns using Plotly color sequences.
-    """
-    import plotly.express as px
-    # Get the color sequence
-    if isinstance(color_sequence, str):
-        if hasattr(px.colors.qualitative, color_sequence):
-            colors = getattr(px.colors.qualitative, color_sequence)
-        else:
-            raise ValueError(f"Unknown color sequence: {color_sequence}. "
-                           f"Available sequences: {dir(px.colors.qualitative)}")
-    else:
-        colors = color_sequence
+    Create color mappings using different palettes for each column.
     
+    Args:
+        df: Input dataframe
+        columns: List of column names to create color mappings for
+        repeated_colors: If True, colors will repeat if there are more categories than colors
+            
+    Returns:
+        Dictionary of color mappings for each column
+    """
+
+    # Predefined plotly color palettes
+    PALETTES = {
+        'Plotly': ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'],
+        'Dark24': ['#2E91E5', '#E15F99', '#1CA71C', '#FB0D0D', '#DA16FF', '#222A2A', '#B68100', '#750D86', '#EB663B', '#511CFB', 
+                '#00A08B', '#FB00D1', '#FC0080', '#B2828D', '#6C7C32', '#778AAE', '#862A16', '#A777F1', '#620042', '#1616A7', 
+                '#DA60CA', '#6C4516', '#0D2A63', '#AF0038'],
+        'Vivid': ['#E58606', '#5D69B1', '#52BCA3', '#99C945', '#CC61B0', '#24796C', '#DAA51B', '#2F8AC4', '#764E9F', '#ED645A', 
+                '#CC3A8E', '#A5AA99']
+    }
+
     color_mappings = {}
-    for col in columns:
-        unique_values = df_samples[col].unique()
+    for i, col in enumerate(columns):
+        # Cycle through palettes
+        palette_name = list(PALETTES.keys())[i % len(PALETTES)]
+        colors = PALETTES[palette_name]
+        
+        unique_values = sorted(df[col].unique())
         n_categories = len(unique_values)
         n_colors = len(colors)
         
-        if n_categories > n_colors:
-            raise ValueError(
-                f"Column '{col}' has {n_categories} categories but color sequence "
-                f"only has {n_colors} colors. Either use a different color sequence "
-                "or set repeated_colors=True"
-            )
-        
         # Create color mapping for this column
         column_colors = {}
-        for i, value in enumerate(unique_values):
-            color_idx = i % n_colors
+        for j, value in enumerate(unique_values):
+            color_idx = j % n_colors if repeated_colors else j
             column_colors[value] = colors[color_idx]
             
         color_mappings[col] = column_colors
