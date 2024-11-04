@@ -42,6 +42,49 @@ rule set_kernel:
         python -m ipykernel install --user --name=AmpSeq_python 2> {log}
         """
 
+import pandas as pd
+
+# Predefined color palettes
+PALETTES = {
+    'Plotly': ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'],
+    'Safe': ['#88CCEE', '#CC6677', '#DDCC77', '#117733', '#332288', '#AA4499', '#44AA99', '#999933', '#882255', '#661100', '#6699CC', '#888888'],
+    'Vivid': ['#E58606', '#5D69B1', '#52BCA3', '#99C945', '#CC61B0', '#24796C', '#DAA51B', '#2F8AC4', '#764E9F', '#ED645A', '#CC3A8E', '#A5AA99'],
+    'Pastel': ['#B6B6F2', '#FFB6B6', '#BFFFBF', '#FFE2BF', '#BFE2FF', '#FFB6FF', '#E2FFB6', '#FFD9B6', '#B6FFE2', '#D9B6FF'],
+    'Dark2': ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
+}
+
+def create_color_mapping(df, columns, repeated_colors=True):
+    """
+    Create color mappings using different palettes for each column.
+    
+    Args:
+        df: Input dataframe
+        columns: List of column names to create color mappings for
+        repeated_colors: If True, colors will repeat if there are more categories than colors
+            
+    Returns:
+        Dictionary of color mappings for each column
+    """
+    color_mappings = {}
+    
+    for i, col in enumerate(columns):
+        # Cycle through palettes
+        palette_name = list(PALETTES.keys())[i % len(PALETTES)]
+        colors = PALETTES[palette_name]
+        
+        unique_values = df[col].unique()
+        n_categories = len(unique_values)
+        n_colors = len(colors)
+        
+        # Create color mapping for this column
+        column_colors = {}
+        for j, value in enumerate(unique_values):
+            color_idx = j % n_colors if repeated_colors else j
+            column_colors[value] = colors[color_idx]
+            
+        color_mappings[col] = column_colors
+    
+    return color_mappings
 
 def get_fastqs(wildcards):
     """
