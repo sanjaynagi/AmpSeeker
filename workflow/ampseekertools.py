@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import allel
 
-
 def load_vcf(vcf_path, metadata):
     """
     Load VCF and filter poor-quality samples
@@ -24,8 +23,31 @@ def load_vcf(vcf_path, metadata):
     geno = geno.compress(~indel, axis=0)
     pos = pos[~indel]
     contig = contig[~indel]
-    
+
+    ref = vcf['variants/REF'][~indel]
+    alt = vcf['variants/ALT'][~indel]
+    ann = read_ANN_field(vcf_path)[~indel]
+
     metadata = metadata.set_index('sample_id')
     samples = samples[sample_mask]
-    
-    return geno, pos, contig, metadata.loc[samples, :].reset_index() ,vcf['variants/REF'][~indel], vcf['variants/ALT'][~indel]
+
+    return geno, pos, contig, metadata.loc[samples, :].reset_index() , ref, alt, ann
+
+
+def read_ANN_field(vcf_file):
+    anns = []
+    with open(vcf_file, 'r') as f:
+        for line in f:
+            if line.startswith('#'):
+                continue  # Skip header lines
+            fields = line.strip().split('\t')
+            info_field = fields[7]
+            info_pairs = info_field.split(';')
+            ann_value = None
+            for pair in info_pairs:
+                if pair.startswith('ANN='):
+                    ann_value = pair.split('=')[1]
+                    break
+            anns.append(ann_value)
+
+    return np.array(anns)
