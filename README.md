@@ -31,13 +31,6 @@ AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pip
 
 The workflow uses a combination of papermill and jupyter book, so that users can visually explore the results in a local webpage for convenience.
 
-## Authors
-
-* Sanjay C Nagi (@sanjaynagi)
-* Trevor Mugoya (@ChabbyTMD)
-* Edward Lukyamuzi (@eddUG) 
-* Eric R Lucas (@EricRLucas)
-
 ## Usage
 
 Please see the [wiki](https://github.com/sanjaynagi/AmpSeeker/wiki) for more information on running the workflow. If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if available, its DOI (see above).
