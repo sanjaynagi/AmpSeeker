@@ -275,8 +275,8 @@ def AmpSeekerOutputs(wildcards):
             [
                 "results/notebooks/ag-vampir/species-id.ipynb",
                 "docs/ampseeker-results/notebooks/ag-vampir/species-id.ipynb",
-                "results/notebooks/ag-vampir/kdr-origins.ipynb",
-                "docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
+                "results/notebooks/ag-vampir/kdr-analysis.ipynb",
+                "docs/ampseeker-results/notebooks/ag-vampir/kdr-analysis.ipynb",
             ],
         )
 
