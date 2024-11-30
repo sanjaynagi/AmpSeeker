@@ -73,8 +73,12 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
     missing_mask = gn_seg.is_missing().sum(axis=1) > gn_seg.shape[1] * missing_threshold
     gn_seg = gn_seg.compress(~missing_mask, axis=0)
     gn_alt = gn_seg.to_n_alt()
+
+    # remove invariant sites
+    loc_var = np.any(gn_alt != gn_alt[:, 0, np.newaxis], axis=1)
+    gn_var = np.compress(loc_var, gn_alt, axis=0)
     
-    coords, model = allel.pca(gn_alt, n_components=n_components)
+    coords, model = allel.pca(gn_var, n_components=n_components)
 
     # flip axes back so PC1 is same orientation in each window 
     for i in range(n_components):
@@ -92,7 +96,6 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
 
 
 import numba
-
 @numba.njit(parallel=True)
 def multiallelic_diplotype_pdist(X, metric):
     """Optimised implementation of pairwise distance between diplotypes.
