@@ -50,7 +50,7 @@ rule kdr_analysis:
         wkdir=wkdir,
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
