@@ -38,8 +38,8 @@ rule kdr_analysis:
     output:
         nb="results/notebooks/ag-vampir/kdr-analysis.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-analysis.ipynb",
-        kdr_origins="results/kdr-origins/kdr_origins.csv",
-        kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.csv",
+        kdr_origins="results/kdr-origins/kdr_origins.tsv",
+        kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.tsv",
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
