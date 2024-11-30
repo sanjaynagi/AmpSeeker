@@ -26,30 +26,31 @@ rule species_id:
         """
 
 
-rule kdr_origin:
+rule kdr_analysis:
     input:
-        nb=f"{workflow.basedir}/notebooks/ag-vampir/kdr-origins.ipynb",
+        nb=f"{workflow.basedir}/notebooks/ag-vampir/kdr-analysis.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        vcf2=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         kdr_origin_SNPs="resources/ag-vampir/Kdr_marker_SNPs.csv",
         taxon_complete="results/.taxon.complete",
     output:
-        nb="results/notebooks/ag-vampir/kdr-origins.ipynb",
-        docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-origins.ipynb",
-        kdr_origins="results/kdr-origins/kdr_origins.csv",
-        kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.csv",
+        nb="results/notebooks/ag-vampir/kdr-analysis.ipynb",
+        docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-analysis.ipynb",
+        kdr_origins="results/kdr-origins/kdr_origins.tsv",
+        kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.tsv",
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
-        "logs/notebooks/ag-vampir/kdr-origins.log",
+        "logs/notebooks/ag-vampir/kdr-analysis.log",
     params:
         dataset=dataset,
         cohort_cols=cohort_cols,
         wkdir=wkdir,
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
