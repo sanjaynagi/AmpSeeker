@@ -29,5 +29,6 @@ jobs:
             cp config/ag-vampir.bed .test/config/ag-vampir.bed &&
             cp -r docs/ .test/docs/ &&
             conda config --set channel_priority flexible &&
-            mkdir -pv .test/workflow && cp workflow/ampseekertools.py .test/workflow/ampseekertools.py &&
+            mkdir -pv .test/workflow && 
+            cp workflow/ampseekertools.py .test/workflow/ampseekertools.py &&
             "
