@@ -31,6 +31,7 @@ rule kdr_analysis:
         nb=f"{workflow.basedir}/notebooks/ag-vampir/kdr-analysis.ipynb",
         kernel="results/.kernel.set",
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        vcf2=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         kdr_origin_SNPs="resources/ag-vampir/Kdr_marker_SNPs.csv",
         taxon_complete="results/.taxon.complete",
