@@ -40,6 +40,8 @@ rule kdr_analysis:
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-analysis.ipynb",
         kdr_origins="results/kdr-origins/kdr_origins.tsv",
         kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.tsv",
+        kdr_origins_counts="results/kdr-origins/kdr_origin_counts.xlsx",
+        kdr_origin_freqs="results/kdr-origins/kdr_origin_freqs.xlsx"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
@@ -53,5 +55,3 @@ rule kdr_analysis:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p metadata_path {input.metadata} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} -p kdr_marker_snps_path {input.kdr_origin_SNPs} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
-
-
