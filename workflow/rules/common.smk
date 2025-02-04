@@ -187,16 +187,6 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["quality-control"]["qualimap"]:
-        inputs.extend(
-            expand(
-                [
-                    "results/qc/qualimap/{sample}",
-                ],
-                sample=samples,
-            )
-        )
-
     if config["quality-control"]["multiqc"]:
         inputs.extend(
             expand(

@@ -82,23 +82,6 @@ rule bam_stats:
         """
 
 
-# qualimap analysis for alignment QC
-rule qualimap:
-    input:
-        bam="results/alignments/{sample}.bam",
-    output:
-        folder=directory("results/qc/qualimap/{sample}"),
-        txt="results/qc/qualimap/{sample}/genome_results.txt",
-    log:
-        "logs/qualimap/bamqc/{sample}.log",
-    conda:
-        "../envs/AmpSeeker-qualimap.yaml"
-    shell:
-        """
-        qualimap bamqc -bam {input.bam} -outdir {output.folder} 2> {log}
-        """
-
-
 rule vcf_stats:
     input:
         vcf="results/vcfs/targets/{dataset}.merged.vcf",
@@ -133,9 +116,6 @@ rule multiQC:
         else [],
         expand("results/coverage/{sample}.mosdepth.global.dist.txt", sample=samples)
         if config["quality-control"]["coverage"]
-        else [],
-        expand("results/qc/qualimap/{sample}/genome_results.txt", sample=samples)
-        if config["quality-control"]["qualimap"]
         else [],
     output:
         "results/qc/multiqc/multiqc_report.html",
