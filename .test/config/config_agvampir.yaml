@@ -28,7 +28,6 @@ quality-control:
 
   fastp: True
   coverage: True
-  qualimap: False
   stats: True
   multiqc: True
 

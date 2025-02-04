@@ -8,7 +8,6 @@ dependencies:
   - numpy
   - pandas
   - plotly
-  - bokeh
   - scipy 
   - ipyleaflet
   - openpyxl
