@@ -195,7 +195,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_data.html">Input files</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring the workflow</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="running_the_workflow.html">Running the workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="snakemake.html">Snakemake</a></li>
 </ul>
@@ -396,9 +395,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker-configuration-guide">AmpSeeker Configuration Guide</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-structure">Configuration File Structure</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-panel-configuration">Dataset and Panel Configuration</a></li>
@@ -407,13 +403,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-settings">Quality Control Settings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-configuration">Output Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -424,16 +417,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="configuring-the-workflow">
+  <section class="tex2jax_ignore mathjax_ignore" id="configuring-the-workflow">
 <h1>Configuring the workflow<a class="headerlink" href="#configuring-the-workflow" title="Permalink to this headline">#</a></h1>
 <p>Before running AmpSeeker, we need to select which analyses we want to run (configuration). This is done by editing the file <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory. The config file contains a number of options and parameters.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="ampseeker-configuration-guide">
-<h1>AmpSeeker Configuration Guide<a class="headerlink" href="#ampseeker-configuration-guide" title="Permalink to this headline">#</a></h1>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
-<p>AmpSeeker’s configuration is primarily managed through the <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file located in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory. This document is guide to configuring the pipeline for your specific needs.</p>
-</section>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">#</a></h2>
 <p>Before running AmpSeeker from BCL files, users must prepare a sample sheet. An example template containing all possible i5 and i7 combinations can be found at:</p>
@@ -540,9 +526,8 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">build-jupyter-book</span></code>: Generate an interactive HTML report using Jupyter Book</p></li>
 </ul>
 </section>
-</section>
 <section id="usage-notes">
-<h2>Usage Notes<a class="headerlink" href="#usage-notes" title="Permalink to this headline">#</a></h2>
+<h3>Usage Notes<a class="headerlink" href="#usage-notes" title="Permalink to this headline">#</a></h3>
 <ol class="arabic simple">
 <li><p><strong>File Paths</strong>: All paths in the configuration file should be relative to the AmpSeeker root directory.</p></li>
 <li><p><strong>Sample Sheet Requirements</strong>: When running from BCL files (<code class="docutils literal notranslate"><span class="pre">bcl-convert:</span> <span class="pre">True</span></code>), ensure your sample sheet follows the format specified in <code class="docutils literal notranslate"><span class="pre">AmpSeeker/resources/exampleSampleSheet.csv</span></code>.</p></li>
@@ -552,6 +537,7 @@ document.write(`
 </ol>
 <p><strong>If the example config is out of date, up to data versions are stored in the .test/config folder</strong><br />
 <strong>If you have any issues configuring the pipeline, please watch the video walkthrough first, and raise an issue on github or <a class="reference external" href="mailto:sanjay&#46;c&#46;nagi&#37;&#52;&#48;gmail&#46;com">email me</a>.</strong></p>
+</section>
 </section>
 </section>
 
@@ -622,9 +608,6 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker-configuration-guide">AmpSeeker Configuration Guide</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-structure">Configuration File Structure</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-panel-configuration">Dataset and Panel Configuration</a></li>
@@ -633,13 +616,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-settings">Quality Control Settings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-configuration">Output Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
