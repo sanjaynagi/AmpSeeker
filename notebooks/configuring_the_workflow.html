@@ -195,6 +195,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_data.html">Input files</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring the workflow</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="running_the_workflow.html">Running the workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="snakemake.html">Snakemake</a></li>
 </ul>
@@ -372,7 +373,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -388,6 +391,30 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker-configuration-guide">AmpSeeker Configuration Guide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-structure">Configuration File Structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-panel-configuration">Dataset and Panel Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-data-configuration">Input Data Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-configuration">Reference Genome Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-settings">Quality Control Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-configuration">Output Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -400,7 +427,132 @@ document.write(`
   <section id="configuring-the-workflow">
 <h1>Configuring the workflow<a class="headerlink" href="#configuring-the-workflow" title="Permalink to this headline">#</a></h1>
 <p>Before running AmpSeeker, we need to select which analyses we want to run (configuration). This is done by editing the file <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory. The config file contains a number of options and parameters.</p>
-<p><strong>If you have any issues configuring the pipeline, please watch the video walkthrough first, and raise an issue on github or <a class="reference external" href="mailto:sanjay&#46;c&#46;nagi&#37;&#52;&#48;gmail&#46;com">email me</a>.</strong></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ampseeker-configuration-guide">
+<h1>AmpSeeker Configuration Guide<a class="headerlink" href="#ampseeker-configuration-guide" title="Permalink to this headline">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">#</a></h2>
+<p>AmpSeeker’s configuration is primarily managed through the <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file located in the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory. This document is guide to configuring the pipeline for your specific needs.</p>
+</section>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">#</a></h2>
+<p>Before running AmpSeeker from BCL files, users must prepare a sample sheet. An example template containing all possible i5 and i7 combinations can be found at:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">AmpSeeker</span><span class="o">/</span><span class="n">resources</span><span class="o">/</span><span class="n">exampleSampleSheet</span><span class="o">.</span><span class="n">csv</span>
+</pre></div>
+</div>
+<p>The sample sheet should be placed in the directory of the Illumina run folder. If running AmpSeeker directly from fastq files, no sample sheet is required.</p>
+</section>
+<section id="configuration-file-structure">
+<h2>Configuration File Structure<a class="headerlink" href="#configuration-file-structure" title="Permalink to this headline">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file is organized into several main sections:</p>
+<section id="dataset-and-panel-configuration">
+<h3>Dataset and Panel Configuration<a class="headerlink" href="#dataset-and-panel-configuration" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dataset</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ag-vampir-002</span>
+<span class="nt">panel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ag-vampir</span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/metadata_ms.tsv</span>
+<span class="nt">cohort-columns</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">location</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">taxon</span>
+<span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/ag-vampir.bed</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code>: Unique identifier for your dataset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">panel</span></code>: Specifies the sequencing panel being used (e.g., ag-vampir for Anopheles gambiae vampIR panel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata</span></code>: Path to the metadata file containing sample information</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code>: List of columns from the metadata file used to define cohorts for analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">targets</span></code>: BED file defining the target regions</p></li>
+</ul>
+</section>
+<section id="input-data-configuration">
+<h3>Input Data Configuration<a class="headerlink" href="#input-data-configuration" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/14_02_2024_MiSeq_output/</span>
+<span class="nt">bcl-convert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="nt">fastq</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code>: Directory containing the Illumina MiSeq output. If starting the workflow from FASTQ, this is not required.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bcl-convert</span></code>: Boolean flag indicating whether BCL files need to be converted to FASTQ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fastq.auto</span></code>: When set to True, enables automatic FASTQ file naming based on metadata. When False, fq1 and fq2 columns are expected in the metadata, which allow users to add the path to the FASTQ files.</p></li>
+</ul>
+</section>
+<section id="reference-genome-configuration">
+<h3>Reference Genome Configuration<a class="headerlink" href="#reference-genome-configuration" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">reference-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AgamP4</span>
+<span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa</span>
+<span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3</span>
+<span class="nt">reference-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Anopheles_gambiae</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reference-name</span></code>: Name identifier for the reference genome</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reference-fasta</span></code>: Path to the reference genome FASTA file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reference-gff3</span></code>: Path to the GFF3 annotation file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reference-snpeffdb</span></code>: Name of the SNPEff database for variant annotation</p></li>
+</ul>
+</section>
+<section id="quality-control-settings">
+<h3>Quality Control Settings<a class="headerlink" href="#quality-control-settings" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">quality-control</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sample-total-reads-threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">250</span>
+<span class="w">  </span><span class="nt">amplicon-total-reads-threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">  </span><span class="nt">fastp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">coverage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">stats</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">multiqc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample-total-reads-threshold</span></code>: Minimum number of reads required per sample</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">amplicon-total-reads-threshold</span></code>: Minimum number of reads required per amplicon</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fastp</span></code>: Enable FASTQ quality control and trimming</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coverage</span></code>: Enable coverage analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code>: Enable generation of basic BAM and VCF statistics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">multiqc</span></code>: Enable MultiQC report generation</p></li>
+</ul>
+</section>
+<section id="analysis-configuration">
+<h3>Analysis Configuration<a class="headerlink" href="#analysis-configuration" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">analysis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">igv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">sample-map</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">pca</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">genetic-diversity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">allele-frequencies</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">igv</span></code>: Generate IGV session files for visualization of alignments</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sample-map</span></code>: Generate geographic sample distribution maps (requires latitude and longitude data)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pca</span></code>: Perform Principal Component Analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">genetic-diversity</span></code>: Calculate genetic diversity metrics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allele-frequencies</span></code>: Calculate allele frequencies</p></li>
+</ul>
+</section>
+<section id="output-configuration">
+<h3>Output Configuration<a class="headerlink" href="#output-configuration" title="Permalink to this headline">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">build-jupyter-book</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build-jupyter-book</span></code>: Generate an interactive HTML report using Jupyter Book</p></li>
+</ul>
+</section>
+</section>
+<section id="usage-notes">
+<h2>Usage Notes<a class="headerlink" href="#usage-notes" title="Permalink to this headline">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>File Paths</strong>: All paths in the configuration file should be relative to the AmpSeeker root directory.</p></li>
+<li><p><strong>Sample Sheet Requirements</strong>: When running from BCL files (<code class="docutils literal notranslate"><span class="pre">bcl-convert:</span> <span class="pre">True</span></code>), ensure your sample sheet follows the format specified in <code class="docutils literal notranslate"><span class="pre">AmpSeeker/resources/exampleSampleSheet.csv</span></code>.</p></li>
+<li><p><strong>Cohort Analysis</strong>: The <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> specified must exist in your metadata file for proper cohort-based analyses.</p></li>
+<li><p><strong>Quality Control Thresholds</strong>: Adjust the read thresholds based on your experimental design and expected coverage.</p></li>
+<li><p><strong>Reference Genome</strong>: Ensure all reference files are properly formatted and match each other before running the pipeline.</p></li>
+</ol>
+<p><strong>If the example config is out of date, up to data versions are stored in the .test/config folder</strong><br />
+<strong>If you have any issues configuring the pipeline, please watch the video walkthrough first, and raise an issue on github or <a class="reference external" href="mailto:sanjay&#46;c&#46;nagi&#37;&#52;&#48;gmail&#46;com">email me</a>.</strong></p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -461,6 +613,36 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker-configuration-guide">AmpSeeker Configuration Guide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file-structure">Configuration File Structure</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-and-panel-configuration">Dataset and Panel Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-data-configuration">Input Data Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-configuration">Reference Genome Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-settings">Quality Control Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-configuration">Output Configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage-notes">Usage Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
