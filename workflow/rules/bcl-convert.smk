@@ -5,43 +5,20 @@ rule bcl_convert:
         sample_csv=os.path.join(config["illumina-dir"], "SampleSheet.csv"),
         illumina_in_dir=config["illumina-dir"],
     output:
-        reads_dir=directory("results/bcl_output"),
-        fastq_list="results/bcl_output/Reports/fastq_list.csv",
-        demultiplex_stats = "results/bcl_output/Reports/Demultiplex_Stats.csv",
-    singularity:
-        "docker://nfcore/bclconvert"
-    log:
-        "logs/bcl_convert.log",
-    shell:
-        "bcl-convert --bcl-input-directory {input.illumina_in_dir} --output-directory {output.reads_dir} --sample-sheet {input.sample_csv} --force 2> {log}"
-
-
-rule rename_fastq:
-    """
-    If users demultiplex from BCL than rename, otherwise symlink to results
-    """
-    input:
-        reads="results/bcl_output/",
-        read_dir=rules.bcl_convert.output,
-        fastq_list="results/bcl_output/Reports/fastq_list.csv",
-    output:
         output_reads=expand(
             "resources/reads/{sample}_{n}.fastq.gz", n=[1, 2], sample=samples
         ),
+        demultiplex_stats = "resources/reads/Stats/DemultiplexingStats.xml",
     conda:
-        "../envs/AmpSeeker-cli.yaml"
-    params:
-        wd=wkdir,
+        "../envs/AmpSeeker-bcl2fastq.yaml"
+    log:
+        "logs/bcl2fastq.log",
     shell:
         """
-        while IFS="," read -r _ sample_id _ _ read1 read2; do
-            
-            if [[ $sample_id == "RGSM" ]]; then
-               continue
-            fi
-            
-            echo renaming $read1 and $read2 to ${{sample_id}}_1.fastq.gz and ${{sample_id}}_2.fastq.gz 
-            mv $read1 resources/reads/${{sample_id}}_1.fastq.gz
-            mv $read2 resources/reads/${{sample_id}}_2.fastq.gz
-        done < {input.fastq_list}
+        bcl2fastq --runfolder-dir {input.illumina_in_dir} --output-dir resources/reads/ --sample-sheet {input.sample_csv} 2> {log}
+        rename 's/_S\d+_L001_//; s/R1_001/_1/' resources/reads/*R1_*fastq.gz
+        rename 's/_S\d+_L001_//; s/R2_001/_2/' resources/reads/*R2_*fastq.gz
+        rename 's/_S\d+_L001_//; s/I1_001/_I1/' resources/reads/*I1_*fastq.gz
+        rename 's/_S\d+_L001_//; s/I2_001/_I2/' resources/reads/*I2_*fastq.gz
         """
+

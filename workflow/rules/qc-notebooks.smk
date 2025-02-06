@@ -29,7 +29,7 @@ rule run_statistics:
         nb=f"{workflow.basedir}/notebooks/run-statistics.ipynb",
         kernel="results/.kernel.set",
         metadata=config["metadata"],
-        demultiplex_stats = "results/bcl_output/Reports/Demultiplex_Stats.csv",
+        demultiplex_stats = "resources/reads/Stats/DemultiplexingStats.xml",
     output:
         nb="results/notebooks/run-statistics.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/run-statistics.ipynb",

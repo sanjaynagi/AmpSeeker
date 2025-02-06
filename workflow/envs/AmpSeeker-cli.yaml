@@ -11,4 +11,3 @@ dependencies:
   - bwa
   - bcftools
   - mosdepth
-  - rename
