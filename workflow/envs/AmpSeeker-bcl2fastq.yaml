@@ -1,0 +1,7 @@
+name: AmpSeeker-bcl2fastq
+channels:
+  - dranew
+  - bioconda
+dependencies:
+  - rename
+  - bcl2fastq
