@@ -14,11 +14,6 @@ jobs:
         with:
           python-version:  ${{ matrix.python-version }}
 
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install scikit-allel pandas
-
       - name: Checkout repository
         uses: actions/checkout@v2
       
@@ -30,6 +25,7 @@ jobs:
           args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_fastqauto.yaml'
           stagein: 
             "
+            pip install scikit-allel pandas
             wget https://vectorbase.org/common/downloads/release-66/AgambiaePEST/fasta/data/VectorBase-66_AgambiaePEST_Genome.fasta -q -O - | sed 's/AgamP4_//g' > .test/resources/reference/AgamP4.fa &&
             cp config/ag-vampir.bed .test/config/ag-vampir.bed &&
             cp -r docs/ .test/docs/ &&
