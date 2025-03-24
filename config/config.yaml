@@ -3,7 +3,6 @@
 # one row per sample. It can be parsed easily via pandas.
 dataset: ampseq-colony
 panel: ag-vampir
-metadata: config/metadata.tsv
 cohort-columns:
   - strain
 targets: config/ag-vampir.bed

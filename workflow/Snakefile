@@ -11,7 +11,7 @@ panel = config["panel"]
 cohort_cols = ','.join(config['cohort-columns'])
 
 metadata_path = "config/metadata.tsv" if not config['from-bcl'] else config['illumina-dir'] + "/SampleSheet.csv"
-metadata = load_metadata(metadata_path, write=True)
+metadata = load_metadata(metadata_path, write=True, from_sample_sheet=config['from-bcl'])
 
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 samples = metadata["sample_id"]
@@ -36,6 +36,5 @@ with open(f"config/metadata_colours.json", 'w') as f:
 
 rule all:
     input:
-        # The first rule should define the default target files
         AmpSeekerOutputs,
 
