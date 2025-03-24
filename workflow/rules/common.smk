@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 # Split into two sample sets as bcftools merge cant take over 1000 files
 # So we must do two rounds of merging
 if len(metadata) > 1000:
@@ -13,20 +12,6 @@ else:
     large_sample_size = False
     samples1 = []
     samples2 = []
-
-
-def load_metadata(metadata_path):
-    # load panel metadata
-    if metadata_path.endswith(".xlsx"):
-        metadata = pd.read_excel(metadata_path, engine="openpyxl")
-    elif metadata_path.endswith(".tsv"):
-        metadata = pd.read_csv(metadata_path, sep="\t")
-    elif metadata_path.endswith(".csv"):
-        metadata = pd.read_csv(metadata_path, sep=",")
-    else:
-        raise ValueError("Metadata file must be .xlsx or .csv")
-    return metadata
-
 
 rule set_kernel:
     input:
@@ -90,7 +75,7 @@ def get_fastqs(wildcards):
     """
     Get FASTQ files from metadata sheet.
     """
-    metadata = load_metadata(config["metadata"])
+    metadata = load_metadata("results/config/metadata.tsv")
     fastq_cols = ["fq1", "fq2"]
 
     if config["fastq"]["auto"]:
@@ -126,7 +111,7 @@ def AmpSeekerOutputs(wildcards):
         ),
     )
 
-    if config["bcl-convert"]:
+    if config["from-bcl"]:
         inputs.extend(
             [
             "results/qc/index-read-qc/I1.html", 

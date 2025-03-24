@@ -7,7 +7,7 @@ rule igv_notebook:
         genome=config["reference-fasta"],
         index=config["reference-fasta"] + ".fai",
         gff3=config["reference-gff3"],
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
     output:
         nb="results/notebooks/IGV-explore.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/IGV-explore.ipynb",

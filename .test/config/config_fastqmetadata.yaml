@@ -17,7 +17,7 @@ reference-snpeffdb: Anopheles_gambiae
 custom-snpeffdb: True
 
 # Specify whether to convert bcl files to fastq
-bcl-convert: False
+from-bcl: False
 fastq:
   auto: False
 

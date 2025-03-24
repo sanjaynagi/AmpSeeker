@@ -21,7 +21,7 @@ custom-snpeffdb: False
 
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
-bcl-convert: True
+from-bcl: True
 fastq:
   auto: True
 

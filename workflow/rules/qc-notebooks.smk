@@ -3,7 +3,7 @@ rule run_information:
     input:
         nb=f"{workflow.basedir}/notebooks/run-information.ipynb",
         kernel="results/.kernel.set",
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
         targets=config["targets"],
     output:
         nb="results/notebooks/run-information.ipynb",
@@ -28,7 +28,7 @@ rule run_statistics:
     input:
         nb=f"{workflow.basedir}/notebooks/run-statistics.ipynb",
         kernel="results/.kernel.set",
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
         demultiplex_stats = "resources/reads/Stats/DemultiplexingStats.xml",
     output:
         nb="results/notebooks/run-statistics.ipynb",
@@ -54,7 +54,7 @@ rule reads_per_well:
         bam=expand("results/alignments/{sample}.bam", sample=samples),
         bai=expand("results/alignments/{sample}.bam.bai", sample=samples),
         stats=expand("results/alignments/bamStats/{sample}.flagstat", sample=samples),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
     output:
         nb="results/notebooks/reads-per-well.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/reads-per-well.ipynb",
@@ -76,7 +76,7 @@ rule read_qc:
         nb=f"{workflow.basedir}/notebooks/read-quality.ipynb",
         kernel="results/.kernel.set",
         fastp=expand("results/qc/fastp_reports/{sample}.json", sample=samples),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
     output:
         nb="results/notebooks/read-quality.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/read-quality.ipynb",
@@ -85,7 +85,7 @@ rule read_qc:
     log:
         "logs/notebooks/reads-quality.log",
     params:
-        index_qc=config["bcl-convert"],
+        index_qc=config["from-bcl"],
         wd=wkdir,
     shell:
         """
@@ -99,7 +99,7 @@ rule coverage:
         nb=f"{workflow.basedir}/notebooks/coverage.ipynb",
         kernel="results/.kernel.set",
         per_base=expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
         targets=config["targets"],
     output:
         nb="results/notebooks/coverage.ipynb",
@@ -125,7 +125,7 @@ rule sample_quality_control:
         region=expand("results/coverage/{sample}.regions.bed.gz", sample=samples),
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         amplicons_vcf = expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
-        metadata=config["metadata"],
+        metadata="results/config/metadata.tsv",
         targets=config["targets"],
     output:
         nb="results/notebooks/sample-quality-control.ipynb",
