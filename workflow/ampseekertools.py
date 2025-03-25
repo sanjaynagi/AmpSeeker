@@ -35,7 +35,7 @@ def metadata_from_sample_sheet(sample_sheet_path):
     df['well_letter'] = df['well'].str[0]
     df['well_number'] = df['well'].str[1:].astype(str)
 
-    return df.drop(columns=['well'])
+    return df.drop(columns=['well']).rename(columns={'plate_name':'plate'})
     
 
 def load_vcf(vcf_path, metadata):

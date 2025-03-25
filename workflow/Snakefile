@@ -6,6 +6,7 @@ wkdir = os.getcwd()
 
 include: "ampseekertools.py"
 configfile: "config/config.yaml"
+
 dataset = config["dataset"]
 panel = config["panel"]
 cohort_cols = ','.join(config['cohort-columns'])
