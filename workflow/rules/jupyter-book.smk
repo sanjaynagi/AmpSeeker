@@ -3,7 +3,7 @@ rule jupyterbook:
         toc="docs/ampseeker-results/_toc.yml",
         pages="docs/ampseeker-results",
         run_info="docs/ampseeker-results/notebooks/run-information.ipynb",
-        run_statistics="docs/ampseeker-results/notebooks/run-statistics.ipynb" if config['bcl-convert'] else [],
+        run_statistics="docs/ampseeker-results/notebooks/run-statistics.ipynb" if config['from-bcl'] else [],
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
@@ -69,7 +69,7 @@ rule process_toc:
         "logs/notebooks/process-toc.log",
     params:
         wkdir=wkdir,
-        bcl_convert = config['bcl-convert'],
+        bcl_convert = config['from-bcl'],
         panel=config["panel"],
     shell:
         """

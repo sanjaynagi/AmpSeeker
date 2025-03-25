@@ -3,7 +3,6 @@
 # one row per sample. It can be parsed easily via pandas.
 dataset: ampseq-colony
 panel: ag-vampir
-metadata: config/metadata.tsv
 cohort-columns:
   - strain
 targets: config/ag-vampir.bed
@@ -21,7 +20,7 @@ custom-snpeffdb: False
 
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
-bcl-convert: True
+from-bcl: True
 fastq:
   auto: True
 

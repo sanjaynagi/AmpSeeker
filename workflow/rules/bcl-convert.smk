@@ -14,7 +14,7 @@ rule bcl_convert:
     log:
         "logs/bcl2fastq.log",
     shell:
-        """
+       r"""
         bcl2fastq --runfolder-dir {input.illumina_in_dir} --output-dir resources/reads/ --sample-sheet {input.sample_csv} 2> {log}
         rename 's/_S\d+_L001_//; s/R1_001/_1/' resources/reads/*R1_*fastq.gz 2>> {log}
         rename 's/_S\d+_L001_//; s/R2_001/_2/' resources/reads/*R2_*fastq.gz 2>> {log}
