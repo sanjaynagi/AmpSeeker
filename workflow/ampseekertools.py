@@ -13,6 +13,8 @@ def load_metadata(metadata_path, from_sample_sheet=False, write=False):
     
     if write:
         os.makedirs("results/config", exist_ok=True)
+        if 'sample_ID' in metadata.columns:
+            metadata = metadata.rename(columns={'sample_ID':'sample_id'})
         metadata.to_csv("results/config/metadata.tsv", sep="\t", index=False)
 
     return metadata
