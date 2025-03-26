@@ -1,7 +1,11 @@
 name: AmpSeeker-ag-vampir
 
-on: pull_request
-
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      
 jobs:
   run-workflow:
     runs-on: ubuntu-latest
