@@ -12,6 +12,7 @@ dependencies:
   - ipyleaflet
   - openpyxl
   - scikit-learn
+  - xgboost
   - pip 
   - pip:
     - igv_notebook
