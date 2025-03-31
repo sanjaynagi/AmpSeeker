@@ -32,6 +32,7 @@ rule population_structure:
         vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
+        taxon_colours = "results/.taxon.colour.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/population-structure.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/population-structure.ipynb",
@@ -80,6 +81,7 @@ rule allele_frequencies:
         vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
         whole_amp_vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
+        taxon_colours = "results/.taxon.colour.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/allele-frequencies.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/allele-frequencies.ipynb",
@@ -130,6 +132,7 @@ rule genetic_diversity:
         vcf=expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.qcpass.tsv",
         taxon_complete = "results/.taxon.complete" if panel == "ag-vampir" else [],
+        taxon_colours = "results/.taxon.colour.complete" if panel == "ag-vampir" else [],
     output:
         nb="results/notebooks/genetic-diversity.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/genetic-diversity.ipynb",
