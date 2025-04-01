@@ -33,6 +33,7 @@ jobs:
             pip install scikit-allel numba pandas &&
             wget https://vectorbase.org/common/downloads/release-66/AgambiaePEST/fasta/data/VectorBase-66_AgambiaePEST_Genome.fasta -q -O - | sed 's/AgamP4_//g' > .test/resources/reference/AgamP4.fa &&
             cp config/ag-vampir.bed .test/config/ag-vampir.bed &&
+            cp resources/*npy resources/*csv resources/*pickle .test/resources/. &&
             cp -r docs/ .test/docs/ &&
             conda config --set channel_priority flexible &&
             mkdir -pv .test/workflow && 

@@ -38,7 +38,7 @@ PALETTES = {
     'Dark2': ['#1B9E77', '#D95F02', '#7570B3', '#E7298A', '#66A61E', '#E6AB02', '#A6761D', '#666666']
 }
 
-def create_color_mapping(df, columns, repeated_colors=True):
+def create_color_mapping(df, columns, repeated_colors=True, unassigned_value='unassigned'):
     """
     Create color mappings using different palettes for each column.
     
@@ -46,11 +46,13 @@ def create_color_mapping(df, columns, repeated_colors=True):
         df: Input dataframe
         columns: List of column names to create color mappings for
         repeated_colors: If True, colors will repeat if there are more categories than colors
+        unassigned_value: Value that should be colored grey (default: 'unassigned')
             
     Returns:
         Dictionary of color mappings for each column
     """
     color_mappings = {}
+    grey_color = "#808080"  # Standard grey color
     
     for i, col in enumerate(columns):
         # Cycle through palettes
@@ -64,12 +66,16 @@ def create_color_mapping(df, columns, repeated_colors=True):
         # Create color mapping for this column
         column_colors = {}
         for j, value in enumerate(unique_values):
-            color_idx = j % n_colors if repeated_colors else j
-            column_colors[value] = colors[color_idx]
+            if value == unassigned_value:
+                column_colors[value] = grey_color
+            else:
+                color_idx = j % n_colors if repeated_colors else j
+                column_colors[value] = colors[color_idx]
             
         color_mappings[col] = column_colors
     
     return color_mappings
+
 
 def get_fastqs(wildcards):
     """
