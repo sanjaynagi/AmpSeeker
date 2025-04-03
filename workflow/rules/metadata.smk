@@ -1,5 +1,8 @@
 def load_metadata(metadata_path, from_sample_sheet=False, write=False):
-    import os 
+    import os
+
+    if metadata_path.endswith("SampleSheet.csv"): 
+        from_sample_sheet = True
 
     if not from_sample_sheet:
         metadata = pd.read_csv(metadata_path, sep="\t")
