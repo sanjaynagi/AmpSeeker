@@ -30,7 +30,7 @@ jobs:
           stagein: 
             "
             pip install pandas &&
-            conda config --set channel_priority flexible
+            conda config --set channel_priority flexible &&
             chmod +x resources/copy-resources-for-testing.sh &&
-            ./resources/copy-resources-for-testing.sh &&
+            ./resources/copy-resources-for-testing.sh
             "
