@@ -17,7 +17,7 @@ cp config/ag-vampir.bed .test/config/ag-vampir.bed
 cp resources/*npy resources/*csv resources/*pickle .test/resources/.
 
 # Copy documentation
-cp -r docs/ .test/docs/
+cp -r docs/ .test/.
 
 # Copy workflow tools
 cp workflow/ampseekertools.py .test/workflow/
