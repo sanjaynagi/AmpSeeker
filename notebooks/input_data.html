@@ -402,7 +402,7 @@ document.write(`
 <p>AmpSeeker requires only:</p>
 <ul class="simple">
 <li><p>Sample metadata file <code class="docutils literal notranslate"><span class="pre">.tsv</span></code> or SampleSheet.csv in Illumina run folder containing metadata</p></li>
-<li><p>Bed file of amplicon SNP coordinates <code class="docutils literal notranslate"><span class="pre">.bed</span></code></p></li>
+<li><p>Bed file of amplicon target SNP coordinates <code class="docutils literal notranslate"><span class="pre">.bed</span></code></p></li>
 <li><p>Paired-end Amplicon-Seq data <code class="docutils literal notranslate"><span class="pre">.fastq.gz</span></code></p></li>
 <li><p>Reference genome files</p></li>
 </ul>
@@ -422,10 +422,10 @@ document.write(`
 
 </pre></div>
 </div>
-<p>Latitude and Longitudes are used to plot sample collection locations. If sample maps are not required, these columns can be omitted. Extra metadata columns can be added and used to colour the PCA plots, with configurable options in the <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file.</p>
+<p>Latitude and Longitudes are used to plot sample collection locations. If sample maps are not required, these columns can be omitted. Extra custom metadata columns can be added and used to colour the PCA plots, with configurable options in the <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file.</p>
 <hr class="docutils" />
 <p><strong>Bed file of amplicon targets</strong></p>
-<p>Users should also provide a file in bed format, with 5 columns (chromosome, start, end, target_id, target_label), and no header. The bed file should contain the coordinates of the amplicon targets. The bed file should be placed in the <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">amplicon_targets.bed</span></code>.</p>
+<p>Users should also provide a file in bed format, with 5 columns (chromosome, start, end, target_id, target_label), and <strong>no header</strong>. The bed file should contain the coordinates of the amplicon targets. The bed file should be placed in the <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">amplicon_targets.bed</span></code>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
 <span class="o">|</span><span class="mi">2</span><span class="n">L</span><span class="o">|</span>  <span class="mi">927246</span><span class="o">|</span>  <span class="mi">927247</span><span class="o">|</span> <span class="n">amplicon_id_1</span><span class="o">|</span> <span class="n">snp_label_1</span><span class="o">|</span>
 <span class="o">|</span><span class="mi">2</span><span class="n">L</span><span class="o">|</span> <span class="mi">1274352</span><span class="o">|</span> <span class="mi">1274353</span><span class="o">|</span> <span class="n">amplicon_id_2</span><span class="o">|</span> <span class="n">snp_label_2</span><span class="o">|</span>
