@@ -10,12 +10,12 @@ dependencies:
   - plotly
   - scipy 
   - ipyleaflet
-  - ipykernel
   - openpyxl
   - scikit-learn
   - xgboost
   - pip 
   - pip:
+    - igv_notebook
     - papermill
     - scikit-allel
     - pysam
