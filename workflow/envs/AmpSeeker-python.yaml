@@ -10,6 +10,7 @@ dependencies:
   - plotly
   - scipy 
   - ipyleaflet
+  - ipykernel
   - openpyxl
   - scikit-learn
   - xgboost
