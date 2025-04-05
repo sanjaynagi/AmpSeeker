@@ -7,11 +7,6 @@ rule jupyterbook:
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
-        igv=(
-            "docs/ampseeker-results/notebooks/IGV-explore.ipynb"
-            if config["analysis"]["igv"]
-            else []
-        ),
         coverage=(
             "docs/ampseeker-results/notebooks/coverage.ipynb"
             if config["quality-control"]["coverage"]
@@ -81,11 +76,6 @@ rule process_notebooks:
     input:
         input_nb=f"{workflow.basedir}/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
-        igv=(
-            "docs/ampseeker-results/notebooks/IGV-explore.ipynb"
-            if config["analysis"]["igv"]
-            else []
-        ),
         coverage=(
             "docs/ampseeker-results/notebooks/coverage.ipynb"
             if config["quality-control"]["coverage"]
