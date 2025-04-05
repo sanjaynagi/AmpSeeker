@@ -1,14 +1,17 @@
 # This file should contain everything to configure the workflow on a global scale.
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
-dataset: ampseq-colony
+dataset: lab-strains
 panel: ag-vampir
 cohort-columns:
-  - strain
+  - location
+  - taxon
+  - country
 targets: config/ag-vampir.bed
+metadata: blah
 
 # Directory of Illumina Miseq Run, can be empty 
-illumina-dir: resources/14_02_2024_MiSeq_output/
+illumina-dir: resources/250110_M05658_0028_000000000-LTBV4
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
@@ -36,7 +39,7 @@ quality-control:
 
 # Specify whether to run generic analyses
 analysis:  
-  igv: True
+  igv: False
   sample-map: False # needs lat and longs
   population-structure: True
   genetic-diversity: True

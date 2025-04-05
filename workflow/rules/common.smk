@@ -93,10 +93,10 @@ def get_fastqs(wildcards):
     else:
         assert (
             "fq1" in metadata.columns
-        ), f"The fq1 column in the metadata does not seem to exist. Please create one, or use the 'auto' option and name the fastq files as specified in the config/README.md"
+        ), f"The fq1 column in the metadata does not seem to exist. Please create one, or use the 'auto' option."
         assert (
             "fq2" in metadata.columns
-        ), f"The fq2 column in the metadata does not seem to exist. Please create one, or use the 'auto' option and name the fastq files as specified in the config/README.md"
+        ), f"The fq2 column in the metadata does not seem to exist. Please create one, or use the 'auto' option."
 
         metadata = metadata.set_index("sample_id")
 
