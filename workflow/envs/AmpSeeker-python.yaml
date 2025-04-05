@@ -15,7 +15,6 @@ dependencies:
   - xgboost
   - pip 
   - pip:
-    - igv_notebook
     - papermill
     - scikit-allel
     - pysam

@@ -39,7 +39,6 @@ quality-control:
 
 # Specify whether to run generic analyses
 analysis:  
-  igv: False
   sample-map: False # needs lat and longs
   population-structure: True
   genetic-diversity: True
