@@ -3,8 +3,7 @@
 [<img src="https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png" width="400"/>](https://raw.githubusercontent.com/sanjaynagi/AmpSeeker/main/docs/ampseeker-docs/logo.png)   
 
 
-[![Snakemake](https://img.shields.io/badge/snakemake-≥5.11.0-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![AmpSeq](https://github.com/sanjaynagi/AmpSeeker/workflows/AmpSeq/badge.svg)](https://github.com/sanjaynagi/AmpSeeker/actions?query=workflow:"AmpSeq")
+[![Snakemake](https://img.shields.io/badge/snakemake-≥8.0.0-brightgreen.svg)](https://snakemake.bitbucket.io)
 [![GitHub release](https://img.shields.io/github/release/sanjaynagi/AmpSeeker?include_prereleases=&sort=semver&color=blue)](https://github.com/sanjaynagi/AmpSeeker/releases/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
@@ -12,7 +11,7 @@
 
 **Documentation**: https://sanjaynagi.github.io/AmpSeeker/ 
 
-AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is generic and can work on any data, but is tailored towards gene drive and insecticide resistance monitoring. The pipeline is a work in progress, however, it currently implements:
+AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is generic and can work on any data, but is tailored towards insecticide resistance monitoring. It implements:
 
 - BCL to Fastq conversion
 - Genome alignment
@@ -22,26 +21,31 @@ AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pip
 - Visualisation of reads in IGV
 - VCF to DataFrame/.xlsx 
 - Allele frequency calculation
-- Principal component analysis
+- Population structure
 - Geographic sample maps
 - Genetic diversity
 
-- Kdr origin analysis (ag-vampir)
-- Species assignment (ag-vampir)
+- Kdr origin analysis (Ag-vampIR panel)
+- Species assignment (Ag-vampIR panel)
 
 The workflow uses a combination of papermill and jupyter book, so that users can visually explore the results in a local webpage for convenience.
 
 ## Usage
 
-Please see the [wiki](https://github.com/sanjaynagi/AmpSeeker/wiki) for more information on running the workflow. If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if available, its DOI (see above).
+Please see the [documentation](https://sanjaynagi.github.io/AmpSeeker/) for more information on running the workflow.
+
+## Citation 
+
+**Targeted genomic surveillance of insecticide resistance in African malaria vectors**  
+Nagi, *et al*., 2025. *bioRxiv*. doi: https://doi.org/10.1101/2025.02.14.637727
 
 ## Testing
 
-Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [Github Actions](https://github.com/features/actions).
+Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [GitHub Actions](https://github.com/features/actions).
 
 ## Contributing to AmpSeeker
 
-1. Fork the repository to your own github user account
+1. Fork the repository to your own GitHub user account
 2. Clone your fork
 3. Create a branch to implement the changes or features you would like `git checkout -b my_new_feature-24-03-23`
 4. Implement the changes
