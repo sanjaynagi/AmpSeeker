@@ -15,7 +15,6 @@ illumina-dir: resources/250110_M05658_0028_000000000-LTBV4
 
 # Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
-reference-name: AgamP4
 reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
@@ -39,7 +38,6 @@ quality-control:
 
 # Specify whether to run generic analyses
 analysis:  
-  igv: False
   sample-map: False # needs lat and longs
   population-structure: True
   genetic-diversity: True

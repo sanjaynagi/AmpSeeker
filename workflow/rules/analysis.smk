@@ -1,30 +1,3 @@
-
-rule igv_notebook:
-    input:
-        nb=f"{workflow.basedir}/notebooks/IGV-explore.ipynb",
-        kernel="results/.kernel.set",
-        alignments=expand("results/alignments/{sample}.bam", sample=samples),
-        genome=config["reference-fasta"],
-        index=config["reference-fasta"] + ".fai",
-        gff3=config["reference-gff3"],
-        metadata="results/config/metadata.tsv",
-    output:
-        nb="results/notebooks/IGV-explore.ipynb",
-        docs_nb="docs/ampseeker-results/notebooks/IGV-explore.ipynb",
-    conda:
-        "../envs/AmpSeeker-python.yaml"
-    log:
-        "logs/notebooks/IGV-explore.log",
-    params:
-        reference_name=config["reference-name"],
-        wkdir = wkdir
-    shell:
-        """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p wkdir {params.wkdir} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
-        cp {output.nb} {output.docs_nb} 2>> {log}
-        """
-
-
 rule population_structure:
     input:
         nb=f"{workflow.basedir}/notebooks/population-structure.ipynb",
@@ -151,3 +124,38 @@ rule genetic_diversity:
         papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p cohort_cols {params.cohort_cols} -p metadata_path {input.metadata} 2> {log}
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
+
+
+
+
+
+
+
+
+
+
+
+# rule igv_notebook:
+#     input:
+#         nb=f"{workflow.basedir}/notebooks/IGV-explore.ipynb",
+#         kernel="results/.kernel.set",
+#         alignments=expand("results/alignments/{sample}.bam", sample=samples),
+#         genome=config["reference-fasta"],
+#         index=config["reference-fasta"] + ".fai",
+#         gff3=config["reference-gff3"],
+#         metadata="results/config/metadata.tsv",
+#     output:
+#         nb="results/notebooks/IGV-explore.ipynb",
+#         docs_nb="docs/ampseeker-results/notebooks/IGV-explore.ipynb",
+#     conda:
+#         "../envs/AmpSeeker-python.yaml"
+#     log:
+#         "logs/notebooks/IGV-explore.log",
+#     params:
+#         reference_name=config["reference-name"],
+#         wkdir = wkdir
+#     shell:
+#         """
+#         papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p wkdir {params.wkdir} -p genome_name {params.reference_name} -p reference_fasta {input.genome} -p reference_gff3 {input.gff3} 2> {log}
+#         cp {output.nb} {output.docs_nb} 2>> {log}
+#         """
