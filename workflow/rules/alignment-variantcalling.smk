@@ -139,6 +139,7 @@ rule snpEffDbDownload:
         "logs/snpEff/snpEffDbDownload.log",
     conda:
         "../envs/AmpSeeker-snpeff.yaml"
+    retries: 3
     params:
         ref=config["reference-snpeffdb"],
         dataDir="results/vcfs/annotations/mysnpeffdb",
@@ -187,6 +188,8 @@ rule snpEff:
         "logs/snpEff/{dataset}_{call_type}.log",
     conda:
         "../envs/AmpSeeker-snpeff.yaml"
+    retries:
+        3
     params:
         db=config["reference-snpeffdb"] if not config['custom-snpeffdb'] else "mysnpeffdb",
         prefix=lambda w, output: os.path.splitext(output[0])[0],
