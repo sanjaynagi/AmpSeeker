@@ -10,7 +10,6 @@ panel: generic
 illumina-dir: ""
 
 # Genome fasta reference files 
-reference-name: 'AgamP4'
 reference-fasta: resources/reference/AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
