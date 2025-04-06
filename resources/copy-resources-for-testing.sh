@@ -2,6 +2,7 @@
 
 # Create necessary directories
 mkdir -p .test/resources/reference
+mkdir -p .test/resources/ag-vampir
 mkdir -p .test/config
 mkdir -p .test/workflow
 mkdir -p .test/docs
@@ -14,7 +15,7 @@ curl -L --progress-bar https://vectorbase.org/common/downloads/release-66/Agambi
 cp config/ag-vampir.bed .test/config/ag-vampir.bed
 
 # Copy resource files
-cp resources/*npy resources/*csv resources/*pickle .test/resources/.
+cp resources/ag-vampir/* .test/resources/ag-vampir/.
 
 # Copy documentation
 cp -r docs/ .test/.
