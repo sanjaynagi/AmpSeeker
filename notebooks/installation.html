@@ -195,6 +195,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_data.html">Input files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuring_the_workflow.html">Configuring the workflow</a></li>
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="running_the_workflow.html">Running the workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="snakemake.html">Snakemake</a></li>
 </ul>
@@ -395,11 +398,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker"><em>AmpSeeker</em></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">Installing dependencies</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-setup">Testing the setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-installation">Step-by-step Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-miniforge">1. Install Miniforge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-conda-environment-for-snakemake">2. Create a Conda Environment for Snakemake</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-ampseeker-repository">3. Clone the AmpSeeker Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">4. Installing Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-setup">5. Testing the Setup</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -414,32 +421,67 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
 <p>AmpSeeker does not require installation, however, users must have <a class="reference external" href="https://snakemake.readthedocs.io/">snakemake</a> and <a class="reference external" href="https://conda.io/">conda</a> installed in order to run the workflow.</p>
-<p><strong>Conda</strong></p>
-<p>Conda is an open-source package management system, which allows users to install a variety of packages and programs whilst managing software environments and dependencies. In general, we recommend using the miniconda installation.</p>
-<p><a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html">https://conda.io/projects/conda/en/latest/user-guide/install/index.html</a></p>
-<p><strong>Snakemake</strong></p>
-<p>Snakemake is a workflow management system to create reproducible and scalable computational analyses. AmpSeeker is written in snakemake, which itself is python-based. The Snakemake authors encourage installation through conda.</p>
-<p><a class="reference external" href="https://snakemake.readthedocs.io/en/stable/getting_started/installation.html">https://snakemake.readthedocs.io/en/stable/getting_started/installation.html</a></p>
-<p>You may also need <a class="reference external" href="https://pandas.pydata.org/">pandas</a>, which you can install with conda or <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pandas</span></code>.</p>
-<hr class="docutils" />
-<section id="ampseeker">
-<h2><em>AmpSeeker</em><a class="headerlink" href="#ampseeker" title="Permalink to this headline">#</a></h2>
-<p>The next step is to clone the AmpSeeker github repository to your system. You may use the below command, replacing <code class="docutils literal notranslate"><span class="pre">my_repo_name</span></code> with something of your choice. This may be useful in case you ever use AmpSeeker on multiple datasets.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">sanjaynagi</span><span class="o">/</span><span class="n">AmpSeeker</span><span class="o">.</span><span class="n">git</span> <span class="n">my_repo_name</span>
+<section id="step-by-step-installation">
+<h2>Step-by-step Installation<a class="headerlink" href="#step-by-step-installation" title="Permalink to this headline">#</a></h2>
+<section id="install-miniforge">
+<h3>1. Install Miniforge<a class="headerlink" href="#install-miniforge" title="Permalink to this headline">#</a></h3>
+<p>Miniforge is a minimal installer for conda with preinstalled conda-forge packages. It’s recommended over Miniconda or Anaconda because it uses conda-forge as the default channel, which is important for bioinformatics packages.</p>
+<p>Download and install Miniforge from: <a class="github reference external" href="https://github.com/conda-forge/miniforge">conda-forge/miniforge</a></p>
+<p>For Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash<span class="w"> </span>Miniforge3-Linux-x86_64.sh
 </pre></div>
 </div>
-<p>Alternatively, if you think you may want to contribute to AmpSeeker, you may wish to fork the repository to your github account prior to cloning. For more information, please the <a class="reference external" href="https://sanjaynagi.github.io/AmpSeeker/notebooks/contributing.html">docs on contributing</a>.</p>
+<p>For macOS (Intel):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+bash<span class="w"> </span>Miniforge3-MacOSX-x86_64.sh
+</pre></div>
+</div>
+<p>For macOS (Apple Silicon/M1/M2):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+bash<span class="w"> </span>Miniforge3-MacOSX-arm64.sh
+</pre></div>
+</div>
+</section>
+<section id="create-a-conda-environment-for-snakemake">
+<h3>2. Create a Conda Environment for Snakemake<a class="headerlink" href="#create-a-conda-environment-for-snakemake" title="Permalink to this headline">#</a></h3>
+<p>After installing Miniforge, set up a conda environment specifically for Snakemake and AmpSeeker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>ampseeker<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>-c<span class="w"> </span>bioconda<span class="w"> </span>snakemake<span class="w"> </span>pandas
+conda<span class="w"> </span>activate<span class="w"> </span>ampseeker
+</pre></div>
+</div>
+<p>This creates a dedicated environment called “ampseeker” with Snakemake and pandas installed.</p>
+</section>
+<section id="clone-the-ampseeker-repository">
+<h3>3. Clone the AmpSeeker Repository<a class="headerlink" href="#clone-the-ampseeker-repository" title="Permalink to this headline">#</a></h3>
+<p>Next, clone the AmpSeeker github repository to your system. You may use the below command, replacing <code class="docutils literal notranslate"><span class="pre">my_repo_name</span></code> with something of your choice. This may be useful in case you ever use AmpSeeker on multiple datasets.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/sanjaynagi/AmpSeeker.git<span class="w"> </span>my_repo_name
+<span class="nb">cd</span><span class="w"> </span>my_repo_name
+</pre></div>
+</div>
+<p>Alternatively, if you think you may want to contribute to AmpSeeker, you may wish to fork the repository to your github account prior to cloning. For more information, please see the <a class="reference external" href="https://sanjaynagi.github.io/AmpSeeker/notebooks/contributing.html">docs on contributing</a>.</p>
+</section>
 <section id="installing-dependencies">
-<h3>Installing dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">#</a></h3>
-<p>When we run AmpSeeker, it is important to use the <code class="docutils literal notranslate"><span class="pre">--use-conda</span></code> directive - this will automatically install all necessary packages into isolated software environments, so we do not have to install any other dependencies.</p>
+<h3>4. Installing Dependencies<a class="headerlink" href="#installing-dependencies" title="Permalink to this headline">#</a></h3>
+<p>When we run AmpSeeker, it is important to use the <code class="docutils literal notranslate"><span class="pre">--use-conda</span></code> directive - this will automatically install all necessary packages into isolated software environments, so we do not have to install any other dependencies manually.</p>
+<p>Each snakemake rule in AmpSeeker specifies its own conda environment, which will be created the first time you run the workflow with the <code class="docutils literal notranslate"><span class="pre">--use-conda</span></code> flag.</p>
 </section>
 <section id="testing-the-setup">
-<h3>Testing the setup<a class="headerlink" href="#testing-the-setup" title="Permalink to this headline">#</a></h3>
+<h3>5. Testing the Setup<a class="headerlink" href="#testing-the-setup" title="Permalink to this headline">#</a></h3>
 <p>To test whether AmpSeeker is configured correctly, from the root directory you can perform a dry-run on the test dataset, with the following command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">snakemake</span> <span class="o">--</span><span class="n">cores</span> <span class="mi">1</span> <span class="o">--</span><span class="n">directory</span> <span class="o">.</span><span class="n">test</span><span class="o">/</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">conda</span> <span class="o">--</span><span class="n">configfile</span> <span class="o">.</span><span class="n">test</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">config_fastqauto</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">n</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>ampseeker<span class="w">  </span><span class="c1"># Make sure the environment is activated</span>
+snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>--directory<span class="w"> </span>.test/<span class="w"> </span>--use-conda<span class="w"> </span>--configfile<span class="w"> </span>.test/config/config_fastqauto.yaml<span class="w"> </span>-n
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag performs a dry run, showing which steps would be executed without actually running them.</p>
 </section>
+</section>
+<section id="additional-resources">
+<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">#</a></h2>
+<p><strong>Conda Documentation</strong>
+More information about conda: <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/index.html">https://conda.io/projects/conda/en/latest/user-guide/index.html</a></p>
+<p><strong>Snakemake Documentation</strong>
+Detailed documentation for Snakemake: <a class="reference external" href="https://snakemake.readthedocs.io/">https://snakemake.readthedocs.io/</a></p>
 </section>
 </section>
 
@@ -510,11 +552,15 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ampseeker"><em>AmpSeeker</em></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">Installing dependencies</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-setup">Testing the setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-installation">Step-by-step Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-miniforge">1. Install Miniforge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-conda-environment-for-snakemake">2. Create a Conda Environment for Snakemake</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-ampseeker-repository">3. Clone the AmpSeeker Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies">4. Installing Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-setup">5. Testing the Setup</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
 </ul>
   </nav></div>
 
