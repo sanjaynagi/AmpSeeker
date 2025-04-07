@@ -1,8 +1,8 @@
 dataset: test-fastqauto
 metadata: config/metadata.tsv
 cohort-columns:
-  - taxon
   - location
+  - taxon
 targets: config/ag-vampir.bed
 panel: generic
 
