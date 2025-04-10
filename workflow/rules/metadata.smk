@@ -16,6 +16,9 @@ def load_metadata(metadata_path, from_sample_sheet=False, write=False):
         metadata.to_csv("results/config/metadata.tsv", sep="\t", index=False)
 
     return metadata
+
+
+    
 def metadata_from_sample_sheet(sample_sheet_path):
     with open(sample_sheet_path, 'r') as f:
         content = f.read()
