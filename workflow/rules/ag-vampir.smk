@@ -39,10 +39,10 @@ rule kdr_analysis:
     output:
         nb="results/notebooks/ag-vampir/kdr-analysis.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/ag-vampir/kdr-analysis.ipynb",
-        kdr_origins="results/kdr-origins/kdr_origins.tsv",
-        kdr_genhap_origins="results/kdr-origins/kdr_genhap_origins.tsv",
-        kdr_origins_counts="results/kdr-origins/kdr_origin_counts.xlsx",
-        kdr_origin_freqs="results/kdr-origins/kdr_origin_freqs.xlsx"
+        kdr_origins="results/ag-vampir/kdr-origins/kdr_origins.tsv",
+        kdr_genhap_origins="results/ag-vampir/kdr-origins/kdr_genhap_origins.tsv",
+        kdr_origins_counts="results/ag-vampir/kdr-origins/kdr_origin_counts.xlsx",
+        kdr_origin_freqs="results/ag-vampir/kdr-origins/kdr_origin_freqs.xlsx"
     conda:
         "../envs/AmpSeeker-python.yaml"
     log:
