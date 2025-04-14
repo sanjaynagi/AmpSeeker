@@ -84,7 +84,7 @@ def get_fastqs(wildcards):
     metadata = load_metadata("results/config/metadata.tsv")
     fastq_cols = ["fq1", "fq2"]
 
-    if config["fastq"]["auto"]:
+    if fastq_auto:
         for i, col in enumerate(fastq_cols):
             metadata = metadata.assign(
                 **{col: f"resources/reads/" + metadata["sample_id"] + f"_{i+1}.fastq.gz"}
@@ -262,5 +262,13 @@ def welcome(version):
     print("---------------------------- AmpSeeker ----------------------------")
     print(f"Running AmpSeeker snakemake workflow in {workflow.basedir}\n")
     print(f"Workflow Version: {version}")
-    print("Execution time: ", datetime.datetime.now())
-    print(f"Dataset: {config['dataset']}", "\n")
+    print("Execution time: ", datetime.datetime.now().replace(microsecond=0))
+    print(f"Dataset: {config['dataset']}")
+
+    if config["from-bcl"]:
+        print(f"Input: Illumina Run BCL folder ({config['illumina-dir']})", "\n")
+    elif not config["from-bcl"] and fastq_auto:
+        print(f"Input: fastq files stored in resources/reads/", "\n")
+    elif not config["from-bcl"] and not fastq_auto:
+        print(f"Input: fastq file paths provided in metadata fq1 and fq2 columns", "\n")
+
