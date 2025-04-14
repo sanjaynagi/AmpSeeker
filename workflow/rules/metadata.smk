@@ -5,9 +5,14 @@ def load_metadata(metadata_path, from_sample_sheet=False, write=False):
         from_sample_sheet = True
 
     if not from_sample_sheet:
-        metadata = pd.read_csv(metadata_path, sep="\t")
+        if os.path.exists(metadata_path):
+            metadata = pd.read_csv(metadata_path, sep="\t")
+        else:
+            raise ValueError(f"Metadata file '{metadata_path}' does not exist at the path provided in the config. Is the path correct, or do you mean to run from_bcl=True instead?")
     else:
         metadata = metadata_from_sample_sheet(metadata_path)
+
+    assert all(col in metadata.columns for col in config['cohort-columns']), "Not all provided cohort columns are present in the metadata file" 
     
     if write:
         os.makedirs("results/config", exist_ok=True)
@@ -16,7 +21,6 @@ def load_metadata(metadata_path, from_sample_sheet=False, write=False):
         metadata.to_csv("results/config/metadata.tsv", sep="\t", index=False)
 
     return metadata
-
 
     
 def metadata_from_sample_sheet(sample_sheet_path):

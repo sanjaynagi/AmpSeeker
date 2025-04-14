@@ -29,8 +29,6 @@ rule jupyterbook:
         ),
         read_quality=(
             "docs/ampseeker-results/notebooks/read-quality.ipynb"
-            if config["quality-control"]["fastp"]
-            else []
         ),
         reads_per_well=(
             "docs/ampseeker-results/notebooks/reads-per-well.ipynb"
@@ -103,8 +101,6 @@ rule process_notebooks:
         ),
         read_quality=(
             "docs/ampseeker-results/notebooks/read-quality.ipynb"
-            if config["quality-control"]["fastp"]
-            else []
         ),
         reads_per_well=(
             "docs/ampseeker-results/notebooks/reads-per-well.ipynb"

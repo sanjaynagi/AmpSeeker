@@ -99,9 +99,7 @@ rule vcf_stats:
 
 rule multiQC:
     input:
-        expand("results/qc/fastp_reports/{sample}.json", sample=samples)
-        if config["quality-control"]["fastp"]
-        else [],
+        expand("results/qc/fastp_reports/{sample}.json", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples)
         if config["quality-control"]["stats"]
         else [],
