@@ -166,18 +166,6 @@ def AmpSeekerOutputs(wildcards):
             )
         )
 
-    if config["quality-control"]["fastp"]:
-        inputs.extend(
-            expand(
-                [
-                    "results/qc/fastp_reports/{sample}.html",
-                    "results/notebooks/read-quality.ipynb",
-                    "docs/ampseeker-results/notebooks/read-quality.ipynb",
-                ],
-                sample=samples,
-            )
-        )
-
     if config["quality-control"]["multiqc"]:
         inputs.extend(
             expand(

@@ -23,8 +23,6 @@ reference-snpeffdb: Anopheles_gambiae
 # Specify whether to convert bcl files to fastq
 # or whether we provide fastq data in the metadata / or auto naming 
 bcl-convert: True
-fastq:
-  auto: True
 
 # Specify whether to run quality-control analyses
 quality-control:

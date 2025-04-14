@@ -22,7 +22,6 @@ quality-control:
   sample-total-reads-threshold: 250
   amplicon-total-reads-threshold: 1000
 
-  fastp: True
   coverage: True
   stats: True
   multiqc: True

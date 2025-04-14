@@ -19,7 +19,6 @@ custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:
-  fastp: True
   coverage: True
   stats: True
   multiqc: True
