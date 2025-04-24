@@ -6,6 +6,8 @@ cohort-columns:
 targets: config/ag-vampir.bed
 panel: generic
 
+# Specify whether to convert bcl files to fastq
+from-bcl: False
 # Directory of Illumina Miseq Run
 illumina-dir: ""
 
@@ -15,14 +17,8 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 reference-snpeffdb: Anopheles_gambiae
 custom-snpeffdb: True
 
-# Specify whether to convert bcl files to fastq
-from-bcl: False
-fastq:
-  auto: False
-
 # Specify whether to run quality-control analyses
 quality-control:
-  fastp: True
   coverage: True
   stats: True
   multiqc: True

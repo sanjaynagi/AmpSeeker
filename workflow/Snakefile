@@ -14,6 +14,7 @@ cohort_cols = ','.join(config['cohort-columns'])
 metadata_path = config['metadata'] if not config['from-bcl'] else config['illumina-dir'] + "/SampleSheet.csv"
 metadata = load_metadata(metadata_path, write=True, from_sample_sheet=config['from-bcl'])
 
+fastq_auto = False if all(col in metadata.columns for col in ['fq1', 'fq2']) else True
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 samples = metadata["sample_id"]
 call_types = ["targets", "amplicons"]

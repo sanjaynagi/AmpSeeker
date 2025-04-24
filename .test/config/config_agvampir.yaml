@@ -1,11 +1,13 @@
 dataset: test-agvampir
-metadata: config/metadata.tsv
+metadata: config/metadata-nofq.tsv
 cohort-columns:
   - location
   - taxon
 targets: config/ag-vampir.bed
 panel: ag-vampir
 
+# Specify whether to convert bcl files to fastq
+from-bcl: False
 # Directory of Illumina Miseq Run
 illumina-dir: ""
 
@@ -15,17 +17,11 @@ reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.1
 reference-snpeffdb: Anopheles_gambiae
 custom-snpeffdb: False
 
-# Specify whether to convert bcl files to fastq
-from-bcl: False
-fastq:
-  auto: False
-
 # Specify whether to run quality-control analyses
 quality-control:
   sample-total-reads-threshold: 250
   amplicon-total-reads-threshold: 1000
 
-  fastp: True
   coverage: True
   stats: True
   multiqc: True
