@@ -10,4 +10,4 @@ dependencies:
   - tabix
   - bwa
   - bcftools
-  - mosdepth
+  - mosdepth=0.3.9
