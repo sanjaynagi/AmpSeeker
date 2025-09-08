@@ -77,12 +77,16 @@ def create_color_mapping(df, columns, repeated_colors=True, unassigned_value='un
     return color_mappings
 
 
-def get_fastqs(wildcards):
+def get_fastqs(wildcards, platform):
     """
     Get FASTQ files from metadata sheet.
     """
     metadata = load_metadata("results/config/metadata.tsv")
-    fastq_cols = ["fq1", "fq2"]
+
+    if platform == "illumina":
+        fastq_cols = ["fq1", "fq2"]
+    elif platform in ["nanopore", "ont"]:
+        fastq_cols = ["fq1"]
 
     if fastq_auto:
         for i, col in enumerate(fastq_cols):
@@ -91,17 +95,15 @@ def get_fastqs(wildcards):
             )
         metadata = metadata.set_index("sample_id")
     else:
-        assert (
-            "fq1" in metadata.columns
-        ), f"The fq1 column in the metadata does not seem to exist. Please create one, or use the 'auto' option."
-        assert (
-            "fq2" in metadata.columns
-        ), f"The fq2 column in the metadata does not seem to exist. Please create one, or use the 'auto' option."
+        for col in fastq_cols:
+            assert (
+                col in metadata.columns
+            ), f"The {col} column in the metadata does not seem to exist. Please create one, or use the 'auto' option."
 
         metadata = metadata.set_index("sample_id")
 
     u = metadata.loc[wildcards.sample, fastq_cols].dropna()
-    return [u.fq1, u.fq2]
+    return u.values
 
 
 def AmpSeekerOutputs(wildcards):
@@ -180,10 +182,11 @@ def AmpSeekerOutputs(wildcards):
             expand(
                 [
                     "results/alignments/bamStats/{sample}.flagstat",
-                    "results/qc/{dataset}.merged.vcf.txt",
+                    "results/qc/{dataset}-{call_type}.merged.vcf.txt",
                 ],
                 sample=samples,
                 dataset=config["dataset"],
+                call_type=call_types,
             )
         )
 
@@ -252,11 +255,13 @@ def welcome(version):
     print(f"Workflow Version: {version}")
     print("Execution time: ", datetime.datetime.now().replace(microsecond=0))
     print(f"Dataset: {config['dataset']}")
+    print(f"Platform: {config['platform']}")
 
-    if config["from-bcl"]:
+
+    if config['platform'] == 'illumina' and config["from-bcl"]:
         print(f"Input: Illumina Run BCL folder ({config['illumina-dir']})", "\n")
-    elif not config["from-bcl"] and fastq_auto:
+    elif config['platform'] == 'illumina' and not config["from-bcl"] and fastq_auto:
         print(f"Input: fastq files stored in resources/reads/", "\n")
-    elif not config["from-bcl"] and not fastq_auto:
+    elif config['platform'] == 'illumina' and not config["from-bcl"] and not fastq_auto:
         print(f"Input: fastq file paths provided in metadata fq1 and fq2 columns", "\n")
 

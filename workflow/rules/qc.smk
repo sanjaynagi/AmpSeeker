@@ -19,24 +19,6 @@ rule index_read_fastqc:
         mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I2.zip 2>> {log}
         """
 
-
-rule fastp:
-    input:
-        sample=get_fastqs,
-    output:
-        trimmed=[
-            "results/trimmed-reads/{sample}_1.fastq.gz",
-            "results/trimmed-reads/{sample}_2.fastq.gz",
-        ],
-        html="results/qc/fastp_reports/{sample}.html",
-        json="results/qc/fastp_reports/{sample}.json",
-    log:
-        "logs/fastp/{sample}.log",
-    threads: 4
-    wrapper:
-        "v1.25.0/bio/fastp"
-
-
 rule mosdepth_coverage:
         """
         Target per-base coverage with mosdepth
@@ -44,10 +26,10 @@ rule mosdepth_coverage:
         input:
             bam="results/alignments/{sample}.bam",
             idx="results/alignments/{sample}.bam.bai",
-            panel=config["targets"],
+            #panel=config["targets"],
         output:
             "results/coverage/{sample}.per-base.bed.gz",
-            "results/coverage/{sample}.regions.bed.gz",
+            # "results/coverage/{sample}.regions.bed.gz",
             "results/coverage/{sample}.mosdepth.summary.txt",
             "results/coverage/{sample}.mosdepth.global.dist.txt",
         log:
@@ -59,8 +41,8 @@ rule mosdepth_coverage:
             prefix="results/coverage/{sample}"
         shell:
             """
-            mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}
-            """
+            mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}   
+            """#--by {input.panel}
 
 
 rule bam_stats:
@@ -84,11 +66,11 @@ rule bam_stats:
 
 rule vcf_stats:
     input:
-        vcf="results/vcfs/targets/{dataset}.merged.vcf",
+        vcf="results/vcfs/{call_type}/{dataset}.merged.vcf",
     output:
-        stats="results/qc/{dataset}.merged.vcf.txt",
+        stats="results/qc/{dataset}-{call_type}.merged.vcf.txt",
     log:
-        "logs/vcfStats/{dataset}.log",
+        "logs/vcfStats/{dataset}-{call_type}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
     shell:
@@ -103,11 +85,11 @@ rule multiQC:
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples)
         if config["quality-control"]["stats"]
         else [],
-        expand("results/qc/{dataset}.merged.vcf.txt", dataset=dataset)
+        expand("results/qc/{dataset}-{call_type}.merged.vcf.txt", dataset=dataset, call_type=call_types)
         if config["quality-control"]["stats"]
         else [],
         expand("results/coverage/{sample}.per-base.bed.gz", sample=samples)
-        if config["quality-control"]["coverage"]
+        if config["quality-control"]["coverage"] and config['platform'] == 'illumina'
         else [],
         expand("results/coverage/{sample}.mosdepth.summary.txt", sample=samples)
         if config["quality-control"]["coverage"]

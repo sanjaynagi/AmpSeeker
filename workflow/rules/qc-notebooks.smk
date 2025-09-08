@@ -4,7 +4,7 @@ rule run_information:
         nb=f"{workflow.basedir}/notebooks/run-information.ipynb",
         kernel="results/.kernel.set",
         metadata="results/config/metadata.tsv",
-        targets=config["targets"],
+        targets=config["targets"] if config['platform'] == 'illumina' else [],
     output:
         nb="results/notebooks/run-information.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/run-information.ipynb",
@@ -100,7 +100,7 @@ rule coverage:
         kernel="results/.kernel.set",
         per_base=expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
         metadata="results/config/metadata.tsv",
-        targets=config["targets"],
+        targets=config["targets"] if config['platform'] == 'illumina' else [],
     output:
         nb="results/notebooks/coverage.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/coverage.ipynb",
@@ -122,11 +122,12 @@ rule sample_quality_control:
     input:
         nb=f"{workflow.basedir}/notebooks/sample-quality-control.ipynb",
         kernel="results/.kernel.set",
-        region=expand("results/coverage/{sample}.regions.bed.gz", sample=samples),
-        vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset),
+        per_base=expand("results/coverage/{sample}.per-base.bed.gz", sample=samples),
+        region=expand("results/coverage/{sample}.regions.bed.gz", sample=samples) if config['platform'] == 'illumina' else [],
+        vcf=expand("results/vcfs/targets/{dataset}.annot.vcf", dataset=dataset) if config['platform'] == 'illumina' else [],
         amplicons_vcf = expand("results/vcfs/amplicons/{dataset}.annot.vcf", dataset=dataset),
         metadata="results/config/metadata.tsv",
-        targets=config["targets"],
+        targets=config["targets"] if config['platform'] == 'illumina' else [],
     output:
         nb="results/notebooks/sample-quality-control.ipynb",
         docs_nb="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",

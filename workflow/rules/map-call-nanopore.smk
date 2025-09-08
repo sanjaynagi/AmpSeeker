@@ -21,7 +21,7 @@
 
 rule fastp_nanopore:
     input:
-        sample=get_fastqs,
+        sample=lambda w: get_fastqs(wildcards=w, platform=config['platform']),
     output:
         trimmed="results/trimmed-reads/{sample}.fastq.gz",
         html="results/qc/fastp_reports/{sample}.html",
@@ -75,53 +75,6 @@ rule minimap2_align:
         """
         minimap2 -t {threads} -ax map-ont -R {params.rg} {input.idx} {input.reads} 2> {log.align} | \
         samtools sort -@ {threads} -o {output.bam} 2> {log.sort}
-        """
-
-rule clair3_call_targets:
-    """
-    Variant calling with Clair3 at specific target sites using BED file
-    """
-    input:
-        bam="results/alignments/{sample}.bam",
-        bai="results/alignments/{sample}.bam.bai",
-        ref=config["reference-fasta"],
-        ref_idx=config["reference-fasta"] + ".fai",
-        bed=config["targets"],
-    output:
-        vcf="results/vcfs/targets/{sample}.calls.vcf",
-    params:
-        model_path=config.get("clair3_model", "/opt/models/ont_guppy5_sup"),
-        platform="ont",
-        outdir="results/clair3_tmp/targets/{sample}",
-        min_coverage=config.get("min_coverage", 2),
-        sample_name="{sample}",
-    conda:
-        "../envs/AmpSeeker-nanopore.yaml"
-    log:
-        "logs/clair3/targets/{sample}.log",
-    threads: 8
-    shell:
-        """
-        mkdir -p {params.outdir}
-        
-        run_clair3.sh \
-            --bam_fn={input.bam} \
-            --ref_fn={input.ref} \
-            --threads={threads} \
-            --platform={params.platform} \
-            --model_path={params.model_path} \
-            --output={params.outdir} \
-            --bed_fn={input.bed} \
-            --min_coverage={params.min_coverage} \
-            --sample_name={params.sample_name} 2> {log}
-        
-        # Copy and rename output
-        cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz
-        gunzip {output.vcf}.tmp.gz
-        mv {output.vcf}.tmp {output.vcf}
-        
-        # Clean up temporary directory
-        rm -rf {params.outdir}
         """
 
 
