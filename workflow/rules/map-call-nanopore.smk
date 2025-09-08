@@ -32,7 +32,7 @@ rule fastp_nanopore:
         "../envs/AmpSeeker-nanopore.yaml"
     threads: 4
     shell:
-        "fastplong -i {input.sample} -o {output.trimmed} 2> {log}"
+        "fastplong -i {input.sample} -o {output.trimmed} --html {output.html} --json {output.json} 2> {log}"
 
 rule minimap2_index:
     """

@@ -12,9 +12,9 @@ from-bcl: False
 illumina-dir: ""
 
 # Genome fasta reference files
-reference-fasta: resources/reference/AgamP4.fa
-reference-gff3: resources/reference/AgamP4.gff
-reference-snpeffdb: Anopheles_gambiae
+reference-fasta: resources/reference/PlasmoDB-52_Pfalciparum3D7_Genome.fasta
+reference-gff3: resources/reference/PlasmoDB-52_Pfalciparum3D7.gff
+reference-snpeffdb: Plasmodium_falciparum3D7
 custom-snpeffdb: False
 
 # Specify whether to run quality-control analyses

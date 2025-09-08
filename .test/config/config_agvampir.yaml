@@ -1,3 +1,4 @@
+platform: illumina
 dataset: test-agvampir
 metadata: config/metadata-nofq.tsv
 cohort-columns:
