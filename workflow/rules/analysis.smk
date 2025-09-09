@@ -16,10 +16,19 @@ rule population_structure:
     params:
         dataset=dataset,
         cohort_cols=cohort_cols,
-        wkdir=wkdir
+        wkdir=wkdir,
+        platform = config['platform']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p wkdir {params.wkdir} -p metadata_path {input.metadata} -p dataset {params.dataset} -p vcf_path {input.vcf} -p cohort_cols {params.cohort_cols} 2> {log}
+        papermill {input.nb} {output.nb} \
+            -k AmpSeq_python \
+            -p wkdir {params.wkdir} \
+            -p platform {params.platform} \
+            -p metadata_path {input.metadata} \
+            -p dataset {params.dataset} \
+            -p vcf_path {input.vcf} \
+            -p cohort_cols {params.cohort_cols} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -40,7 +49,11 @@ rule sample_map:
         dataset=dataset,
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} 2> {log}
+        papermill {input.nb} {output.nb} \
+            -k AmpSeq_python \
+            -p metadata_path {input.metadata} \
+            -p dataset {params.dataset} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -65,10 +78,20 @@ rule allele_frequencies:
     params:
         dataset=dataset,
         cohort_cols=cohort_cols,
-        wkdir = wkdir
+        wkdir = wkdir,
+        platform = config['platform']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p dataset {params.dataset} -p wkdir {params.wkdir} -p bed_path {input.bed} -p cohort_cols {params.cohort_cols} -p vcf_path {input.vcf} 2> {log}
+        papermill {input.nb} {output.nb} \
+            -k AmpSeq_python \
+            -p metadata_path {input.metadata} \
+            -p platform {params.platform} \
+            -p dataset {params.dataset} \
+            -p wkdir {params.wkdir} \
+            -p bed_path {input.bed} \
+            -p cohort_cols {params.cohort_cols} \
+            -p vcf_path {input.vcf} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -92,9 +115,15 @@ rule snp_dataframe:
     params:
         dataset=dataset,
         wkdir=wkdir,
+        platform = config['platform']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p wkdir {params.wkdir} 2> {log}
+        papermill {input.nb} {output.nb} \
+            -k AmpSeq_python \
+            -p dataset {params.dataset} \
+            -p platform {params.platform} \
+            -p wkdir {params.wkdir} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -119,9 +148,18 @@ rule genetic_diversity:
         dataset=dataset,
         wkdir=wkdir,
         cohort_cols=cohort_cols,
+        platform = config['platform']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p cohort_cols {params.cohort_cols} -p metadata_path {input.metadata} 2> {log}
+        papermill {input.nb} {output.nb} \
+            -k AmpSeq_python \
+            -p dataset {params.dataset} \
+            -p platform {params.platform} \
+            -p vcf_path {input.vcf} \
+            -p wkdir {params.wkdir} \
+            -p cohort_cols {params.cohort_cols} \
+            -p metadata_path {input.metadata} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 

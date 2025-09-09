@@ -66,7 +66,10 @@ rule process_toc:
         panel=config["panel"],
     shell:
         """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p bcl_convert {params.bcl_convert} -p panel {params.panel} 2> {log}
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} \
+            -p wkdir {params.wkdir} \
+            -p bcl_convert {params.bcl_convert} \
+            -p panel {params.panel} 2> {log}
         """
 
 
@@ -118,5 +121,7 @@ rule process_notebooks:
         panel=config["panel"],
     shell:
         """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p panel {params.panel} 2> {log}
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} \
+            -p wkdir {params.wkdir} 
+            -p panel {params.panel} 2> {log}
         """

@@ -20,7 +20,15 @@ rule run_information:
         config_path = workflow.configfiles[0]
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p config_path {params.config_path} -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p panel {params.panel} -p dataset {params.dataset} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p config_path {params.config_path} \
+            -p metadata_path {input.metadata} \
+            -p bed_targets_path {input.targets} \
+            -p panel {params.panel} \
+            -p dataset {params.dataset} \
+            -p cohort_cols {params.cohort_cols} \
+            -p wkdir {params.wkdir} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -43,7 +51,12 @@ rule run_statistics:
         plate_info=plate_info
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p plate_info {params.plate_info} -p metadata_path {input.metadata} -p cohort_cols {params.cohort_cols} -p wkdir {params.wkdir} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p plate_info {params.plate_info} \
+            -p metadata_path {input.metadata} \
+            -p cohort_cols {params.cohort_cols} \
+            -p wkdir {params.wkdir} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -66,7 +79,10 @@ rule reads_per_well:
         wkdir=wkdir
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p wkdir {params.wkdir} -p metadata_path {input.metadata} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p wkdir {params.wkdir} \
+            -p metadata_path {input.metadata} 2> {log}
+
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -89,7 +105,11 @@ rule read_qc:
         wd=wkdir,
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p index_read_qc {params.index_qc} -p wkdir {params.wd} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p metadata_path {input.metadata} \
+            -p index_read_qc {params.index_qc} \
+            -p wkdir {params.wd} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -113,7 +133,11 @@ rule coverage:
         wkdir=wkdir,
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p metadata_path {input.metadata} -p bed_targets_path {input.targets} -p wkdir {params.wkdir} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p metadata_path {input.metadata} \
+            -p bed_targets_path {input.targets} \
+            -p wkdir {params.wkdir} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
 
@@ -141,9 +165,19 @@ rule sample_quality_control:
         cohort_cols=cohort_cols,
         sample_threshold = config['quality-control']['sample-total-reads-threshold'],
         panel=panel, 
-        dataset=dataset
+        dataset=dataset,
+        platform=config['platform']
     shell:
         """
-        papermill {input.nb} {output.nb} -k AmpSeq_python -p dataset {params.dataset} -p panel {params.panel} -p metadata_path {input.metadata} -p cohort_cols {params.cohort_cols} -p bed_targets_path {input.targets} -p vcf_path {input.vcf} -p wkdir {params.wkdir} -p sample_total_read_threshold {params.sample_threshold} 2> {log}
+        papermill {input.nb} {output.nb} -k AmpSeq_python \
+            -p platform {params.platform} \
+            -p dataset {params.dataset} \
+            -p panel {params.panel} \
+            -p metadata_path {input.metadata} \
+            -p cohort_cols {params.cohort_cols} \
+            -p bed_targets_path {input.targets} \
+            -p vcf_path {input.vcf} -p wkdir {params.wkdir} \
+            -p sample_total_read_threshold {params.sample_threshold} 2> {log}
+        
         cp {output.nb} {output.docs_nb} 2>> {log}
         """

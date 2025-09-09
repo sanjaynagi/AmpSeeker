@@ -1,23 +1,3 @@
-# rule nanoplot_qc:
-#     """
-#     Quality assessment of nanopore reads with NanoPlot
-#     """
-#     input:
-#         fastq="resources/reads/{sample}.fastq.gz",
-#     output:
-#         html="results/qc/nanoplot/{sample}/NanoPlot-report.html",
-#         stats="results/qc/nanoplot/{sample}/NanoStats.txt",
-#     params:
-#         outdir="results/qc/nanoplot/{sample}",
-#     conda:
-#         "../envs/AmpSeeker-nanopore.yaml"
-#     log:
-#         "logs/nanoplot/{sample}.log",
-#     threads: 4
-#     shell:
-#         """
-#         NanoPlot --fastq {input.fastq} --outdir {params.outdir} --threads {threads} 2> {log}
-#         """
 
 rule fastp_nanopore:
     input:
@@ -93,9 +73,9 @@ rule clair3_call_targets:
     output:
         vcf="results/vcfs/targets/{sample}.calls.vcf",
     params:
-        model_path="resources/models/ont_guppy5",
         outdir="results/clair3_tmp/targets/{sample}",
-        min_coverage=2
+        min_coverage=2,
+        ploidy = "--no_phasing_for_fa --haploid_precise" if ploidy == 1 else "",
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
@@ -112,9 +92,10 @@ rule clair3_call_targets:
             --platform=ont \
             --model_path={input.model_path} \
             --output={params.outdir} \
+            --include_all_ctgs \
+            {params.ploidy} \
             --bed_fn={input.bed} \
-            --min_coverage={params.min_coverage} \
-            --sample_name={wildcards.sample} 2> {log}
+            --min_coverage={params.min_coverage} 2> {log}
         
         # Copy and rename output
         cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz
@@ -140,7 +121,8 @@ rule clair3_call_amplicons:
         vcf="results/vcfs/amplicons/{sample}.calls.vcf",
     params:
         outdir="results/clair3_tmp/amplicons/{sample}",
-        min_coverage=2
+        min_coverage=2,
+        phasing = "--no_phasing_for_fa --haploid_precise" if ploidy == 1 else "",
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
@@ -157,8 +139,9 @@ rule clair3_call_amplicons:
             --platform=ont \
             --model_path={input.model_path} \
             --output={params.outdir} \
-            --min_coverage={params.min_coverage} \
-            --sample_name={wildcards.sample} 2>> {log}
+            --include_all_ctgs \
+            {params.phasing} \
+            --min_coverage={params.min_coverage} 2>> {log}
     
         # Copy and rename output
         cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz

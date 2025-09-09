@@ -32,6 +32,7 @@ include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
 
+ploidy = 1
 if config['platform'] == "illumina":
     include: "rules/map-call-illumina.smk"
 elif config['platform'] == "nanopore":
