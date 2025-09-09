@@ -3,6 +3,6 @@ channels:
     - conda-forge
     - bioconda
 dependencies:
-    - python=3.10
+    - python=3.12
     - jupyterlab
-    - jupyter-book==0.15.1
+    - jupyter-book==1.0.4
