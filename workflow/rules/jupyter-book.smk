@@ -122,6 +122,6 @@ rule process_notebooks:
     shell:
         """
         papermill -k AmpSeq_python {input.input_nb} {output.out_nb} \
-            -p wkdir {params.wkdir} 
+            -p wkdir {params.wkdir} \
             -p panel {params.panel} 2> {log}
         """

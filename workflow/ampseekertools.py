@@ -26,12 +26,15 @@ def load_vcf(vcf_path, metadata, platform):
 
     if platform == "illumina": # remove any indels 
         indel = vcf['variants/INDEL']
-        geno = geno.compress(~indel, axis=0)
-        pos = pos[~indel]
-        contig = contig[~indel]
-        ref = ref[~indel]
-        alt = alt[~indel]
-        ann = ann[~indel]
+    elif platform == "nanopore": # remove any indels > 1bp
+        indel = ~vcf['variants/is_snp']
+
+    geno = geno.compress(~indel, axis=0)
+    pos = pos[~indel]
+    contig = contig[~indel]
+    ref = ref[~indel]
+    alt = alt[~indel]
+    ann = ann[~indel]
 
     metadata = metadata.set_index('sample_id')
     samples = samples[sample_mask]

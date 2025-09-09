@@ -74,13 +74,12 @@ rule clair3_call_targets:
         vcf="results/vcfs/targets/{sample}.calls.vcf",
     params:
         outdir="results/clair3_tmp/targets/{sample}",
-        min_coverage=2,
-        ploidy = "--no_phasing_for_fa --haploid_precise" if ploidy == 1 else "",
+        # ploidy = "--no_phasing_for_fa --haploid_sensitive" if ploidy == 1 else "",
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
         "logs/clair3/targets/{sample}.log",
-    threads: 8
+    threads: 1
     shell:
         """
         mkdir -p {params.outdir}
@@ -93,9 +92,8 @@ rule clair3_call_targets:
             --model_path={input.model_path} \
             --output={params.outdir} \
             --include_all_ctgs \
-            {params.ploidy} \
             --bed_fn={input.bed} \
-            --min_coverage={params.min_coverage} 2> {log}
+            --sample_name={wildcards.sample} &> {log}
         
         # Copy and rename output
         cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz
@@ -121,13 +119,12 @@ rule clair3_call_amplicons:
         vcf="results/vcfs/amplicons/{sample}.calls.vcf",
     params:
         outdir="results/clair3_tmp/amplicons/{sample}",
-        min_coverage=2,
-        phasing = "--no_phasing_for_fa --haploid_precise" if ploidy == 1 else "",
+        # ploidy = "--no_phasing_for_fa --haploid_sensitive" if ploidy == 1 else "",
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
         "logs/clair3/amplicons/{sample}.log",
-    threads: 8
+    threads: 1
     shell:
         """
         mkdir -p {params.outdir}
@@ -140,8 +137,7 @@ rule clair3_call_amplicons:
             --model_path={input.model_path} \
             --output={params.outdir} \
             --include_all_ctgs \
-            {params.phasing} \
-            --min_coverage={params.min_coverage} 2>> {log}
+            --sample_name={wildcards.sample} &> {log}
     
         # Copy and rename output
         cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz

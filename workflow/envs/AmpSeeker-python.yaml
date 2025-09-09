@@ -8,7 +8,7 @@ dependencies:
   - numpy
   - pandas
   - ipykernel
-  - plotly
+  - plotly=5.24.1
   - scipy 
   - ipyleaflet
   - openpyxl
