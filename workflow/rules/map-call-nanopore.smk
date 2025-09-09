@@ -78,6 +78,54 @@ rule minimap2_align:
         """
 
 
+
+rule clair3_call_targets:
+    """
+    Variant calling with Clair3 at specific target sites using BED file
+    """
+    input:
+        bam="results/alignments/{sample}.bam",
+        bai="results/alignments/{sample}.bam.bai",
+        ref=config["reference-fasta"],
+        ref_idx=config["reference-fasta"] + ".fai",
+        model_path="resources/models/ont_guppy5",
+        bed=config["targets"]
+    output:
+        vcf="results/vcfs/targets/{sample}.calls.vcf",
+    params:
+        model_path="resources/models/ont_guppy5",
+        outdir="results/clair3_tmp/targets/{sample}",
+        min_coverage=2
+    conda:
+        "../envs/AmpSeeker-nanopore.yaml"
+    log:
+        "logs/clair3/targets/{sample}.log",
+    threads: 8
+    shell:
+        """
+        mkdir -p {params.outdir}
+        
+        run_clair3.sh \
+            --bam_fn={input.bam} \
+            --ref_fn={input.ref} \
+            --threads={threads} \
+            --platform=ont \
+            --model_path={input.model_path} \
+            --output={params.outdir} \
+            --bed_fn={input.bed} \
+            --min_coverage={params.min_coverage} \
+            --sample_name={wildcards.sample} 2> {log}
+        
+        # Copy and rename output
+        cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz
+        gunzip {output.vcf}.tmp.gz
+        mv {output.vcf}.tmp {output.vcf}
+        
+        # Clean up temporary directory
+        rm -rf {params.outdir}
+        """
+
+
 rule clair3_call_amplicons:
     """
     Variant calling with Clair3 across entire amplicon regions (discovery mode)
@@ -87,15 +135,12 @@ rule clair3_call_amplicons:
         bai="results/alignments/{sample}.bam.bai",
         ref=config["reference-fasta"],
         ref_idx=config["reference-fasta"] + ".fai",
+        model_path="resources/models/ont_guppy5",
     output:
         vcf="results/vcfs/amplicons/{sample}.calls.vcf",
     params:
-        model_path=config.get("clair3_model", "/opt/models/ont_guppy5_sup"),
-        platform="ont",
         outdir="results/clair3_tmp/amplicons/{sample}",
-        min_coverage=config.get("min_coverage", 2),
-        amplicon_bed=config.get("amplicon_regions", ""),  # Optional: broader amplicon regions
-        sample_name="{sample}",
+        min_coverage=2
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
@@ -109,11 +154,11 @@ rule clair3_call_amplicons:
             --bam_fn={input.bam} \
             --ref_fn={input.ref} \
             --threads={threads} \
-            --platform={params.platform} \
-            --model_path={params.model_path} \
+            --platform=ont \
+            --model_path={input.model_path} \
             --output={params.outdir} \
             --min_coverage={params.min_coverage} \
-            --sample_name={params.sample_name} 2>> {log}
+            --sample_name={wildcards.sample} 2>> {log}
     
         # Copy and rename output
         cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz

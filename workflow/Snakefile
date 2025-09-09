@@ -17,13 +17,12 @@ metadata = load_metadata(metadata_path, write=True, from_sample_sheet=config['fr
 if config['platform'] == "nanopore":
     assert 'fq1' in metadata.columns, "The fq1 column in the metadata does not seem to exist. For nanopore data, this column is required and should point to FASTQ files."
     fastq_auto = False if all(col in metadata.columns for col in ['fq1']) else True
-    call_types = ["amplicons"]
 elif config['platform'] == "illumina":
     fastq_auto = False if all(col in metadata.columns for col in ['fq1', 'fq2']) else True
-    call_types = ["targets", "amplicons"]
 else:
     raise ValueError(f"Unsupported platform: expected 'illumina' or 'nanopore', got '{platform}'")
 
+call_types = ["targets", "amplicons"]
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 samples = metadata["sample_id"]
 
@@ -33,9 +32,9 @@ include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
 
-if config['platform'] == ["illumina", "miseq"]:
+if config['platform'] == "illumina":
     include: "rules/map-call-illumina.smk"
-elif config['platform'] in ["nanopore", "ont"]:
+elif config['platform'] == "nanopore":
     include: "rules/map-call-nanopore.smk"
 
 include: "rules/qc-notebooks.smk"

@@ -4,7 +4,7 @@ platform: nanopore
 panel: nomads16
 cohort-columns:
   - library_name
-targets: ""
+targets: config/nomads16.bed
 metadata: config/nomads16-metadata.tsv
 
 from-bcl: False
@@ -14,8 +14,8 @@ illumina-dir: ""
 # Genome fasta reference files
 reference-fasta: resources/reference/PlasmoDB-52_Pfalciparum3D7_Genome.fasta
 reference-gff3: resources/reference/PlasmoDB-52_Pfalciparum3D7.gff
-reference-snpeffdb: Plasmodium_falciparum3D7
-custom-snpeffdb: False
+reference-snpeffdb: Plasmodium_falciparum
+custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:

@@ -26,10 +26,10 @@ rule mosdepth_coverage:
         input:
             bam="results/alignments/{sample}.bam",
             idx="results/alignments/{sample}.bam.bai",
-            #panel=config["targets"],
+            panel=config["targets"],
         output:
             "results/coverage/{sample}.per-base.bed.gz",
-            # "results/coverage/{sample}.regions.bed.gz",
+            "results/coverage/{sample}.regions.bed.gz",
             "results/coverage/{sample}.mosdepth.summary.txt",
             "results/coverage/{sample}.mosdepth.global.dist.txt",
         log:
@@ -41,8 +41,8 @@ rule mosdepth_coverage:
             prefix="results/coverage/{sample}"
         shell:
             """
-            mosdepth {params.prefix} {input.bam} --fast-mode --threads {threads} 2> {log}   
-            """#--by {input.panel}
+            mosdepth {params.prefix} {input.bam} --fast-mode --by {input.panel} --threads {threads} 2> {log}   
+            """
 
 
 rule bam_stats:
