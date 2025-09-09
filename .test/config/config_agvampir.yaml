@@ -16,7 +16,7 @@ illumina-dir: ""
 reference-fasta: resources/reference/AgamP4.fa
 reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
 reference-snpeffdb: Anopheles_gambiae
-custom-snpeffdb: False
+custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:
