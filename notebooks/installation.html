@@ -496,6 +496,7 @@ conda<span class="w"> </span>activate<span class="w"> </span>ampseeker
 <h3>5. Testing the Setup<a class="headerlink" href="#testing-the-setup" title="Link to this heading">#</a></h3>
 <p>To test whether AmpSeeker is configured correctly, from the root directory you can perform a dry-run on the test dataset, with the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>ampseeker<span class="w">  </span><span class="c1"># Make sure the environment is activated</span>
+chmod<span class="w"> </span>+x<span class="w"> </span>resources/copy-resources-for-testing.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./resources/copy-resources-for-testing.sh
 snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>--directory<span class="w"> </span>.test/<span class="w"> </span>--use-conda<span class="w"> </span>--configfile<span class="w"> </span>.test/config/config_fastqauto.yaml<span class="w"> </span>-n
 </pre></div>
 </div>
