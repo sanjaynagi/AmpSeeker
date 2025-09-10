@@ -1,3 +1,4 @@
+platform: illumina
 dataset: test-fastqmetadata
 metadata: config/metadata.tsv
 cohort-columns:

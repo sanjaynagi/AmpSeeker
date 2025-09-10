@@ -3,7 +3,11 @@ rule jupyterbook:
         toc="docs/ampseeker-results/_toc.yml",
         pages="docs/ampseeker-results",
         run_info="docs/ampseeker-results/notebooks/run-information.ipynb",
-        run_statistics="docs/ampseeker-results/notebooks/run-statistics.ipynb" if config['from-bcl'] else [],
+        run_statistics=(
+            "docs/ampseeker-results/notebooks/run-statistics.ipynb" 
+            if config['from-bcl'] and config['platform'] == 'illumina' 
+            else [],
+        ),
         process_notebooks="results/notebooks/process-notebooks.ipynb",
         snp_df="docs/ampseeker-results/notebooks/snp-dataframe.ipynb",
         sample_quality_control="docs/ampseeker-results/notebooks/sample-quality-control.ipynb",
@@ -66,7 +70,10 @@ rule process_toc:
         panel=config["panel"],
     shell:
         """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p bcl_convert {params.bcl_convert} -p panel {params.panel} 2> {log}
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} \
+            -p wkdir {params.wkdir} \
+            -p bcl_convert {params.bcl_convert} \
+            -p panel {params.panel} 2> {log}
         """
 
 
@@ -118,5 +125,7 @@ rule process_notebooks:
         panel=config["panel"],
     shell:
         """
-        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} -p wkdir {params.wkdir} -p panel {params.panel} 2> {log}
+        papermill -k AmpSeq_python {input.input_nb} {output.out_nb} \
+            -p wkdir {params.wkdir} \
+            -p panel {params.panel} 2> {log}
         """

@@ -3,6 +3,32 @@ A snakemake rule file which includes rules for bgzipping, tabix indexing, and me
 Kept in a separate rule file due to maintain visibility of the main, analysis rules in analysis.smk
 """
 
+rule reference_index:
+    input:
+        ref=config["reference-fasta"],
+    output:
+        idx=config["reference-fasta"] + ".fai",
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    log:
+        "logs/reference_index.log",
+    shell:
+        """
+        samtools faidx {input.ref} 2> {log}
+        """
+
+rule bam_index:
+    input:
+        "results/alignments/{sample}.bam",
+    output:
+        "results/alignments/{sample}.bam.bai",
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    log:
+        "logs/index_bams/{sample}_index.log",
+    shell:
+        "samtools index {input} {output} 2> {log}"
+
 
 rule bgzip:
     input:

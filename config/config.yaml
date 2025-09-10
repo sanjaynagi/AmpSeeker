@@ -1,22 +1,21 @@
 # Dataset main configurations
-dataset: lab-strains
-panel: ag-vampir
+dataset: nomads16
+panel: nomads16
 cohort-columns:
-  - location
-  - taxon
-  - country
-targets: config/ag-vampir.bed
-metadata: ""
+  - library_name
+targets: config/nomads16.bed
+metadata: config/nomads16-metadata.tsv
 
-from-bcl: True
+platform: nanopore
+from-bcl: False
 # Directory of Illumina Miseq Run, can be empty 
-illumina-dir: resources/250110_M05658_0028_000000000-LTBV4
+illumina-dir: ""
 
 # Genome fasta reference files
-reference-fasta: resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa
-reference-gff3: resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3
-reference-snpeffdb: Anopheles_gambiae
-custom-snpeffdb: False
+reference-fasta: resources/reference/PlasmoDB-52_Pfalciparum3D7_Genome.fasta
+reference-gff3: resources/reference/PlasmoDB-52_Pfalciparum3D7.gff
+reference-snpeffdb: Plasmodium_falciparum
+custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:

@@ -4,7 +4,7 @@ import allel
 import re
     
 
-def load_vcf(vcf_path, metadata):
+def load_vcf(vcf_path, metadata, platform):
     """
     Load VCF and filter poor-quality samples
     """
@@ -19,16 +19,22 @@ def load_vcf(vcf_path, metadata):
     geno = geno.compress(sample_mask, axis=1)
     pos = vcf['variants/POS']
     contig = vcf['variants/CHROM']
-    indel = vcf['variants/INDEL']
-    
-    # remove any indels 
+
+    ref = vcf['variants/REF']
+    alt = vcf['variants/ALT']
+    ann = read_ANN_field(vcf_path)
+
+    if platform == "illumina": # remove any indels 
+        indel = vcf['variants/INDEL']
+    elif platform == "nanopore": # remove any indels > 1bp
+        indel = ~vcf['variants/is_snp']
+
     geno = geno.compress(~indel, axis=0)
     pos = pos[~indel]
     contig = contig[~indel]
-
-    ref = vcf['variants/REF'][~indel]
-    alt = vcf['variants/ALT'][~indel]
-    ann = read_ANN_field(vcf_path)[~indel]
+    ref = ref[~indel]
+    alt = alt[~indel]
+    ann = ann[~indel]
 
     metadata = metadata.set_index('sample_id')
     samples = samples[sample_mask]

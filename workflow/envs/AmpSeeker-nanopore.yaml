@@ -1,0 +1,13 @@
+name: AmpSeeker-nanopore
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  # Core tools
+  - python
+  # Nanopore-specific tools
+  - minimap2
+  - fastplong
+  # Variant calling
+  - clair3
