@@ -27,3 +27,4 @@ workflow/notebooks/misc
 *__pycache*
 ms_results/
 misc/
+old*/
