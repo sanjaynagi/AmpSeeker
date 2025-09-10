@@ -11,7 +11,7 @@
 
 **Documentation**: https://sanjaynagi.github.io/AmpSeeker/ 
 
-AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis. The pipeline is generic and can work on any data, but is tailored towards insecticide resistance monitoring. It implements:
+AmpSeeker is a snakemake workflow for Amplicon Sequencing data analysis for both Illumina and Nanopore amplicon sequencing. The pipeline is generic and can work on any data, but has extra modules tailored towards insecticide resistance monitoring. It implements:
 
 - BCL to Fastq conversion
 - Genome alignment
