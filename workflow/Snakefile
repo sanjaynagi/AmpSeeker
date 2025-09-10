@@ -11,20 +11,29 @@ dataset = config["dataset"]
 panel = config["panel"]
 cohort_cols = ','.join(config['cohort-columns'])
 
+if config['platform'] not in ['illumina', 'nanopore']:
+    raise ValueError("Unsupported platform. Please set platform to either 'illumina' or 'nanopore' in the config file.") 
+if config['platform'] == 'nanopore' and config['from-bcl']:
+    raise ValueError("from-bcl option is only compatible with Illumina data. Please set from-bcl to False for nanopore data.")
+if config['platform'] == 'nanopore' and len(config['metadata']) == 0:
+    raise ValueError("Metadata file must be provided for nanopore data. Please set the metadata field in the config file.")
+if config['platform'] == 'illumina' and config['from-bcl'] and len(config['illumina-dir']) == 0:
+    raise ValueError("When from-bcl is set to True, illumina-dir must be provided in the config file.")
+if config['platform'] == 'illumina' and not config['from-bcl'] and len(config['metadata']) == 0:
+    raise ValueError("When from-bcl is set to False, metadata file must be provided in the config file.")
+
 metadata_path = config['metadata'] if not config['from-bcl'] else config['illumina-dir'] + "/SampleSheet.csv"
 metadata = load_metadata(metadata_path, write=True, from_sample_sheet=config['from-bcl'])
+samples = metadata["sample_id"]
 
 if config['platform'] == "nanopore":
     assert 'fq1' in metadata.columns, "The fq1 column in the metadata does not seem to exist. For nanopore data, this column is required and should point to FASTQ files."
     fastq_auto = False if all(col in metadata.columns for col in ['fq1']) else True
 elif config['platform'] == "illumina":
     fastq_auto = False if all(col in metadata.columns for col in ['fq1', 'fq2']) else True
-else:
-    raise ValueError(f"Unsupported platform: expected 'illumina' or 'nanopore', got '{platform}'")
 
 call_types = ["targets", "amplicons"]
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
-samples = metadata["sample_id"]
 
 include: "rules/common.smk"
 welcome(version="v0.6")
@@ -32,7 +41,6 @@ include: "rules/utilities.smk"
 include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
 
-ploidy = 1
 if config['platform'] == "illumina":
     include: "rules/map-call-illumina.smk"
 elif config['platform'] == "nanopore":

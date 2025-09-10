@@ -1,12 +1,12 @@
 # Dataset main configurations
 dataset: nomads16
-platform: nanopore
 panel: nomads16
 cohort-columns:
   - library_name
 targets: config/nomads16.bed
 metadata: config/nomads16-metadata.tsv
 
+platform: nanopore
 from-bcl: False
 # Directory of Illumina Miseq Run, can be empty 
 illumina-dir: ""
