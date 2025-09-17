@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -86,7 +86,7 @@ var addUtterances = () => {
 commentsRunWhenDOMLoaded(addUtterances);
 </script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -424,7 +424,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-platform-support">Sequencing Platform Support</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-data-input">Sequencing Data Input</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-data">Illumina Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplesheet-csv-structure">SampleSheet.csv Structure</a></li>
@@ -433,7 +432,6 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore-data">Nanopore Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fastq-file-specifications-for-nanopore">FASTQ File Specifications for Nanopore</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-configuration">Platform Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -457,13 +455,6 @@ document.write(`
 <li><p>Bed file of amplicon target SNP coordinates <code class="docutils literal notranslate"><span class="pre">.bed</span></code></p></li>
 <li><p>Paired-end Illumina Amplicon-Seq data <code class="docutils literal notranslate"><span class="pre">.fastq.gz</span></code> OR single-end Nanopore amplicon data <code class="docutils literal notranslate"><span class="pre">.fastq.gz</span></code></p></li>
 <li><p>Reference genome files</p></li>
-</ul>
-<section id="sequencing-platform-support">
-<h2>Sequencing Platform Support<a class="headerlink" href="#sequencing-platform-support" title="Link to this heading">#</a></h2>
-<p>AmpSeeker supports both <strong>Illumina</strong> and <strong>Nanopore</strong> sequencing platforms:</p>
-<ul class="simple">
-<li><p><strong>Illumina</strong>: Paired-end amplicon sequencing data processed through BWA-MEM alignment and BCFtools variant calling</p></li>
-<li><p><strong>Nanopore</strong>: Single-end amplicon sequencing data processed through Minimap2 alignment and Clair3 variant calling</p></li>
 </ul>
 <p><strong>Sample metadata file</strong></p>
 <p>If working directly from the Illumina BCL folder, a SampleSheet (<code class="docutils literal notranslate"><span class="pre">SampleSheet.csv</span></code>) must be placed in the Illumina run folder. An example sample sheet is located at <code class="docutils literal notranslate"><span class="pre">resources/exampleSampleSheet.csv</span></code>.</p>
@@ -577,10 +568,9 @@ document.write(`
 <li><p><strong>Amplicon ID</strong>: Identifier for the amplicon (e.g., “Agam_1”)</p></li>
 <li><p><strong>Target label</strong>: Descriptive name for the target (e.g., “AIM1”)</p></li>
 <li><p><strong>Reference allele</strong>: (Optional) The reference allele at this position</p></li>
-<li><p><strong>Alternative allele(s)</strong>: (Optional) The alternative allele(s) at this position</p></li>
+<li><p><strong>Alternate allele(s)</strong>: (Optional) The alternate allele(s) at this position</p></li>
 </ol>
 <p>The <code class="docutils literal notranslate"><span class="pre">target_label</span></code> column values should be unique for each row of the bed file. The <code class="docutils literal notranslate"><span class="pre">amplicon_id</span></code> column values can be repeated for multiple rows, to indicate that those SNPs are located on the same amplicon.</p>
-</section>
 <hr class="docutils" />
 <section id="sequencing-data-input">
 <h2>Sequencing Data Input<a class="headerlink" href="#sequencing-data-input" title="Link to this heading">#</a></h2>
@@ -665,7 +655,6 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
 </section>
 <section id="nanopore-data">
 <h3>Nanopore Data<a class="headerlink" href="#nanopore-data" title="Link to this heading">#</a></h3>
-<p>For <strong>Nanopore</strong> sequencing data, AmpSeeker supports single-end amplicon data processed through the Minimap2-Clair3 pipeline.</p>
 <section id="fastq-file-specifications-for-nanopore">
 <h4>FASTQ File Specifications for Nanopore<a class="headerlink" href="#fastq-file-specifications-for-nanopore" title="Link to this heading">#</a></h4>
 <p>For Nanopore data, provide single gzipped fastq files for each sample. The metadata file should contain a single column <code class="docutils literal notranslate"><span class="pre">fq1</span></code> with paths to the fastq files, or place files in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code> with the naming pattern <code class="docutils literal notranslate"><span class="pre">{sample_id}.fastq.gz</span></code>.</p>
@@ -698,28 +687,17 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
 <span class="n">ContTia2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span>
 </pre></div>
 </div>
-</section>
-<section id="platform-configuration">
-<h4>Platform Configuration<a class="headerlink" href="#platform-configuration" title="Link to this heading">#</a></h4>
-<p>To use Nanopore data, set the sequencing platform in your <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nanopore</span><span class="w">  </span><span class="c1"># or &quot;illumina&quot; for Illumina data</span>
-</pre></div>
-</div>
 <hr class="docutils" />
 <p><strong>Reference genome files</strong></p>
-<p>AmpSeeker uses different alignment and variant calling approaches depending on the sequencing platform:</p>
-<ul class="simple">
-<li><p><strong>Illumina</strong>: BWA-MEM for alignment, BCFtools mpileup for variant calling</p></li>
-<li><p><strong>Nanopore</strong>: Minimap2 for alignment, Clair3 for variant calling</p></li>
-</ul>
 <p>For both platforms, genome alignment requires a fasta file containing the genome sequence. All input <code class="docutils literal notranslate"><span class="pre">.fa</span></code> files can be gzipped <code class="docutils literal notranslate"><span class="pre">.fa.gz</span></code>.</p>
+<p>Reference genomes can be downloaded from vectorbase with the <code class="docutils literal notranslate"><span class="pre">resources/reference/download-vectorbase-reference.sh</span></code> script. Run it from the root AmpSeeker directory.</p>
 <p>The user provides the path to the reference files in the configuration file (<code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>).</p>
 <ol class="arabic simple">
 <li><p><strong>Genome chromosomes reference file (.fa/.fa.gz)</strong>. Contains the DNA sequence for the genome in fasta format.</p></li>
 <li><p><strong>Genome feature file (.gff3 format)</strong>.</p></li>
 </ol>
 <p>Ensure that contigs in the reference genome match the contigs in the bed file.</p>
-<p><em>Note - Genome reference files from VectorBase now have prefixes before each contig name, such as ‘AgamP4_2L’. Either the bed file can be updated to match these, or the names in the reference files can be modified</em></p>
+<p>*Note - Genome reference files from VectorBase now have prefixes before each contig name, such as ‘AgamP4_2L’. Either the bed file can be updated to match these, or the names in the reference files can be modified. The downloader script can strip these prefixes automatically.</p>
 </section>
 </section>
 </section>
@@ -789,7 +767,6 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-platform-support">Sequencing Platform Support</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-data-input">Sequencing Data Input</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-data">Illumina Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplesheet-csv-structure">SampleSheet.csv Structure</a></li>
@@ -798,7 +775,6 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore-data">Nanopore Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fastq-file-specifications-for-nanopore">FASTQ File Specifications for Nanopore</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-configuration">Platform Configuration</a></li>
 </ul>
 </li>
 </ul>

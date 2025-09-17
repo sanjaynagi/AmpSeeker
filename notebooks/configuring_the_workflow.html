@@ -86,7 +86,7 @@ var addUtterances = () => {
 commentsRunWhenDOMLoaded(addUtterances);
 </script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
@@ -426,17 +426,17 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-parameters">Configuration Parameters</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-analysis-configuration">Cohort Analysis Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-files-configuration">Input Files Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-directory-configuration">Illumina Directory Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-configuration">Reference Genome Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-file-type-configuration">Input File Type Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-configuration">Quality Control Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-book-configuration">Jupyter Book Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-analysis">Cohort Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-files">Input Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome">Reference Genome</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-directory">Illumina Directory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-file-type">Input File Type</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control">Quality Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-book">Jupyter Book</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#special-analyses-for-ag-vampir-panel">Special Analyses for Ag-vampIR Panel</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-analyses-for-ag-vampir-panel">Additional analyses for Ag-vampIR Panel</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration">Example Configuration</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-configuration-example">Illumina Configuration Example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore-configuration-example">Nanopore Configuration Example</a></li>
@@ -471,8 +471,8 @@ document.write(`
 <li><p><strong>panel</strong>: The name of the amplicon panel used. Currently, the workflow has special support for the “Ag-vampIR” panel (Anopheles gambiae vector amplicon marker panel for Insecticide Resistance). If not using Ag-vampIR, panel name can be anything.</p></li>
 <li><p><strong>platform</strong>: The sequencing platform used. Options are <code class="docutils literal notranslate"><span class="pre">illumina</span></code> for Illumina sequencing (default) or <code class="docutils literal notranslate"><span class="pre">nanopore</span></code> for Nanopore sequencing. This determines the alignment and variant calling pipeline used.</p></li>
 </ul>
-<section id="cohort-analysis-configuration">
-<h2>Cohort Analysis Configuration<a class="headerlink" href="#cohort-analysis-configuration" title="Link to this heading">#</a></h2>
+<section id="cohort-analysis">
+<h2>Cohort Analysis<a class="headerlink" href="#cohort-analysis" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">cohort-columns</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">location</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">taxon</span>
@@ -482,8 +482,8 @@ document.write(`
 <li><p><strong>cohort-columns</strong>: List of metadata columns used to group samples for analyses. These columns will be used to color samples in plots and to perform comparisons between groups. Common options include location, taxon, country, and any other categorical variables in your metadata.</p></li>
 </ul>
 </section>
-<section id="input-files-configuration">
-<h2>Input Files Configuration<a class="headerlink" href="#input-files-configuration" title="Link to this heading">#</a></h2>
+<section id="input-files">
+<h2>Input Files<a class="headerlink" href="#input-files" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/ag-vampir.bed</span>
 <span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/metadata.tsv</span>
 </pre></div>
@@ -493,17 +493,8 @@ document.write(`
 <li><p><strong>metadata</strong>: Path to a TSV file containing sample metadata. At minimum, this file should have a “sample_id” column. Additional columns can be used for cohort analysis. Only required if working directly from fastq files (<code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">False</span></code>).</p></li>
 </ul>
 </section>
-<section id="illumina-directory-configuration">
-<h2>Illumina Directory Configuration<a class="headerlink" href="#illumina-directory-configuration" title="Link to this heading">#</a></h2>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/250110_M05658_0028_000000000-LTBV4</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><p><strong>illumina-dir</strong>: Path to the Illumina MiSeq run directory containing BCL files. This is only required if converting from BCL to FASTQ (<code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">True</span></code>). If you already have FASTQ files, this can be left empty.</p></li>
-</ul>
-</section>
-<section id="reference-genome-configuration">
-<h2>Reference Genome Configuration<a class="headerlink" href="#reference-genome-configuration" title="Link to this heading">#</a></h2>
+<section id="reference-genome">
+<h2>Reference Genome<a class="headerlink" href="#reference-genome" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa</span>
 <span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3</span>
 <span class="nt">reference-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Anopheles_gambiae</span>
@@ -517,8 +508,17 @@ document.write(`
 <li><p><strong>custom-snpeffdb</strong>: Whether to build a custom SnpEff database. Set to <code class="docutils literal notranslate"><span class="pre">True</span></code> if the reference genome is not available in the standard SnpEff databases.</p></li>
 </ul>
 </section>
-<section id="input-file-type-configuration">
-<h2>Input File Type Configuration<a class="headerlink" href="#input-file-type-configuration" title="Link to this heading">#</a></h2>
+<section id="illumina-directory">
+<h2>Illumina Directory<a class="headerlink" href="#illumina-directory" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/250110_M05658_0028_000000000-LTBV4</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>illumina-dir</strong>: Path to the Illumina MiSeq run directory containing BCL files. This is only required if converting from BCL to FASTQ (<code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">True</span></code>). If you already have FASTQ files, this can be left empty.</p></li>
+</ul>
+</section>
+<section id="input-file-type">
+<h2>Input File Type<a class="headerlink" href="#input-file-type" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">from-bcl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="nt">fastq</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
@@ -529,8 +529,8 @@ document.write(`
 <li><p><strong>fastq.auto</strong>: If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the pipeline expects FASTQ files to be in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code> directory with the naming pattern <code class="docutils literal notranslate"><span class="pre">{sample_id}_1.fastq.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">{sample_id}_2.fastq.gz</span></code> for Illumina, or <code class="docutils literal notranslate"><span class="pre">{sample_id}.fastq.gz</span></code> for Nanopore. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, the pipeline expects the metadata file to have columns <code class="docutils literal notranslate"><span class="pre">fq1</span></code> and <code class="docutils literal notranslate"><span class="pre">fq2</span></code> (Illumina) or <code class="docutils literal notranslate"><span class="pre">fq1</span></code> (Nanopore) specifying the paths to the FASTQ files.</p></li>
 </ul>
 </section>
-<section id="quality-control-configuration">
-<h2>Quality Control Configuration<a class="headerlink" href="#quality-control-configuration" title="Link to this heading">#</a></h2>
+<section id="quality-control">
+<h2>Quality Control<a class="headerlink" href="#quality-control" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">quality-control</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">sample-total-reads-threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">250</span>
 <span class="w">  </span><span class="nt">amplicon-total-reads-threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
@@ -548,8 +548,8 @@ document.write(`
 <li><p><strong>quality-control.multiqc</strong>: Whether to generate a MultiQC report aggregating various QC metrics.</p></li>
 </ul>
 </section>
-<section id="analysis-configuration">
-<h2>Analysis Configuration<a class="headerlink" href="#analysis-configuration" title="Link to this heading">#</a></h2>
+<section id="analysis">
+<h2>Analysis<a class="headerlink" href="#analysis" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">analysis</span><span class="p">:</span><span class="w">  </span>
 <span class="w">  </span><span class="nt">sample-map</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span><span class="w"> </span><span class="c1"># needs lat and longs in metadata/sample_sheet</span>
 <span class="w">  </span><span class="nt">population-structure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
@@ -564,8 +564,8 @@ document.write(`
 <li><p><strong>analysis.allele-frequencies</strong>: Whether to calculate and visualize allele frequencies across samples and groups.</p></li>
 </ul>
 </section>
-<section id="jupyter-book-configuration">
-<h2>Jupyter Book Configuration<a class="headerlink" href="#jupyter-book-configuration" title="Link to this heading">#</a></h2>
+<section id="jupyter-book">
+<h2>Jupyter Book<a class="headerlink" href="#jupyter-book" title="Link to this heading">#</a></h2>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">build-jupyter-book</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 </pre></div>
 </div>
@@ -574,8 +574,8 @@ document.write(`
 </ul>
 </section>
 </section>
-<section id="special-analyses-for-ag-vampir-panel">
-<h1>Special Analyses for Ag-vampIR Panel<a class="headerlink" href="#special-analyses-for-ag-vampir-panel" title="Link to this heading">#</a></h1>
+<section id="additional-analyses-for-ag-vampir-panel">
+<h1>Additional analyses for Ag-vampIR Panel<a class="headerlink" href="#additional-analyses-for-ag-vampir-panel" title="Link to this heading">#</a></h1>
 <p>When using the Ag-vampIR panel (<code class="docutils literal notranslate"><span class="pre">panel:</span> <span class="pre">ag-vampir</span></code>), the workflow automatically enables additional analyses:</p>
 <ol class="arabic simple">
 <li><p><strong>Species Identification</strong>: Identifies Anopheles species using amplicon sequencing data (results in <code class="docutils literal notranslate"><span class="pre">results/notebooks/ag-vampir/species-id.ipynb</span></code>).</p></li>
@@ -598,16 +598,14 @@ document.write(`
 <span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/ag-vampir.bed</span>
 <span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/metadata.tsv</span>
 
-<span class="c1"># Illumina directory (if using BCL files)</span>
-<span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/250110_M05658_0028_000000000-LTBV4</span>
-
 <span class="c1"># Reference genome information</span>
-<span class="nt">reference-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AgamP4</span>
-<span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa</span>
-<span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3</span>
+<span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/AgamP4.fa</span>
+<span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/AgamP4.gff</span>
 <span class="nt">reference-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Anopheles_gambiae</span>
 <span class="nt">custom-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
+<span class="c1"># Illumina directory (if using BCL files)</span>
+<span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/250110_M05658_0028_000000000-LTBV4</span>
 <span class="c1"># Input file type options</span>
 <span class="nt">from-bcl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="nt">fastq</span><span class="p">:</span>
@@ -647,13 +645,13 @@ document.write(`
 <span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config/metadata.tsv</span>
 
 <span class="c1"># Reference genome information</span>
-<span class="nt">reference-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AgamP4</span>
-<span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa</span>
-<span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/Anopheles-gambiae-PEST_BASEFEATURES_AgamP4.12.gff3</span>
+<span class="nt">reference-fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/AgamP4.fa</span>
+<span class="nt">reference-gff3</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/reference/AgamP4.gff</span>
 <span class="nt">reference-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Anopheles_gambiae</span>
 <span class="nt">custom-snpeffdb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
 <span class="c1"># Input file type options (no BCL conversion for Nanopore)</span>
+<span class="nt">Illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 <span class="nt">from-bcl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 <span class="nt">fastq</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">auto</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
@@ -747,17 +745,17 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Configuring the workflow</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-parameters">Configuration Parameters</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-analysis-configuration">Cohort Analysis Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-files-configuration">Input Files Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-directory-configuration">Illumina Directory Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-configuration">Reference Genome Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-file-type-configuration">Input File Type Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control-configuration">Quality Control Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-configuration">Analysis Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-book-configuration">Jupyter Book Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-analysis">Cohort Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-files">Input Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome">Reference Genome</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-directory">Illumina Directory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-file-type">Input File Type</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quality-control">Quality Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis">Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-book">Jupyter Book</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#special-analyses-for-ag-vampir-panel">Special Analyses for Ag-vampIR Panel</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-analyses-for-ag-vampir-panel">Additional analyses for Ag-vampIR Panel</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration">Example Configuration</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-configuration-example">Illumina Configuration Example</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore-configuration-example">Nanopore Configuration Example</a></li>
