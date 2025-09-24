@@ -4,7 +4,7 @@ import allel
 import re
     
 
-def load_vcf(vcf_path, metadata, platform):
+def load_vcf(vcf_path, metadata, platform, filter_missing=None):
     """
     Load VCF and filter poor-quality samples
     """
@@ -35,6 +35,15 @@ def load_vcf(vcf_path, metadata, platform):
     ref = ref[~indel]
     alt = alt[~indel]
     ann = ann[~indel]
+
+    if filter_missing:
+        missing_mask = geno.is_missing().sum(axis=1) > geno.shape[1] * filter_missing
+        geno = geno.compress(~missing_mask, axis=0)
+        pos = pos[~missing_mask]
+        contig = contig[~missing_mask]
+        ref = ref[~missing_mask]
+        alt = alt[~missing_mask]
+        ann = ann[~missing_mask]    
 
     metadata = metadata.set_index('sample_id')
     samples = samples[sample_mask]
