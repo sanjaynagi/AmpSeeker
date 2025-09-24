@@ -16,6 +16,7 @@ rule run_information:
         wkdir=wkdir,
         dataset=dataset,
         panel=panel,
+        platform=config['platform'],
         cohort_cols=cohort_cols,
         config_path = workflow.configfiles[0]
     shell:
@@ -26,6 +27,7 @@ rule run_information:
             -p bed_targets_path {input.targets} \
             -p panel {params.panel} \
             -p dataset {params.dataset} \
+            -p platform {params.platform} \
             -p cohort_cols {params.cohort_cols} \
             -p wkdir {params.wkdir} 2> {log}
         

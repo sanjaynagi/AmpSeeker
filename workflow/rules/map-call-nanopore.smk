@@ -59,49 +59,30 @@ rule minimap2_align:
 
 
 
-rule clair3_call_targets:
+
+rule mpileup_call_targets:
     """
-    Variant calling with Clair3 at specific target sites using BED file
+    Get pileup of reads at target loci and pipe output to bcftoolsCall
     """
     input:
         bam="results/alignments/{sample}.bam",
-        bai="results/alignments/{sample}.bam.bai",
-        ref=config["reference-fasta"],
-        ref_idx=config["reference-fasta"] + ".fai",
-        model_path="resources/models/ont_guppy5",
-        bed=config["targets"]
+        index="results/alignments/{sample}.bam.bai",
+        reference=config["reference-fasta"],
     output:
-        vcf="results/vcfs/targets/{sample}.calls.vcf",
-    params:
-        outdir="results/clair3_tmp/targets/{sample}",
-        # ploidy = "--no_phasing_for_fa --haploid_sensitive" if ploidy == 1 else "",
-    conda:
-        "../envs/AmpSeeker-nanopore.yaml"
+        calls="results/vcfs/targets/{sample}.calls.vcf",
     log:
-        "logs/clair3/targets/{sample}.log",
-    threads: 1
+        mpileup="logs/mpileup/targets/{sample}.log",
+        call="logs/bcftools_call/targets/{sample}.log",
+    conda:
+        "../envs/AmpSeeker-cli.yaml"
+    params:
+        ref=config["reference-fasta"],
+        regions=config["targets"],
+        depth=2000,
     shell:
         """
-        mkdir -p {params.outdir}
-        
-        run_clair3.sh \
-            --bam_fn={input.bam} \
-            --ref_fn={input.ref} \
-            --threads={threads} \
-            --platform=ont \
-            --model_path={input.model_path} \
-            --output={params.outdir} \
-            --include_all_ctgs \
-            --bed_fn={input.bed} \
-            --sample_name={wildcards.sample} &> {log}
-        
-        # Copy and rename output
-        cp {params.outdir}/merge_output.vcf.gz {output.vcf}.tmp.gz
-        gunzip {output.vcf}.tmp.gz
-        mv {output.vcf}.tmp {output.vcf}
-        
-        # Clean up temporary directory
-        rm -rf {params.outdir}
+        bcftools mpileup -X ont-sup -Ov -f {params.ref} -R {params.regions} -a AD --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
+        bcftools call -f GQ,GP -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
 
 
@@ -114,7 +95,7 @@ rule clair3_call_amplicons:
         bai="results/alignments/{sample}.bam.bai",
         ref=config["reference-fasta"],
         ref_idx=config["reference-fasta"] + ".fai",
-        model_path="resources/models/ont_guppy5",
+        model_path="resources/models/r1041_e82_400bps_sup_v500",
     output:
         vcf="results/vcfs/amplicons/{sample}.calls.vcf",
     params:
