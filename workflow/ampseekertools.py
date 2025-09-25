@@ -2,7 +2,23 @@ import pandas as pd
 import numpy as np
 import allel
 import re
+
+def load_bed(bed_path: str, expected_cols = ['contig', 'start', 'end', 'amplicon_id', 'mutation', 'ref', 'alt']) -> pd.DataFrame:
+    """
+    Reads a BED-like file with optional REF and ALT columns.
+    Returns a dataframe with consistent column naming.
+    """
+    # Read the file without predefined column names
+    df = pd.read_csv(bed_path, sep="\t", header=None)
     
+    # Assign only the first N column names that exist
+    df.columns = expected_cols[: df.shape[1]]
+    
+    # Add any missing columns as NaN
+    for col in expected_cols[df.shape[1] :]:
+        df[col] = pd.NA
+    
+    return df[expected_cols]
 
 def load_vcf(vcf_path, metadata, platform, filter_missing=None):
     """
