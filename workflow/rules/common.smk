@@ -140,7 +140,7 @@ def AmpSeekerOutputs(wildcards):
         inputs.extend(
             expand(
                 [
-                    "results/vcfs/{call_type}/{dataset}.complete.merge_vcfs",
+                    "results/vcfs/{call_type}/.complete.{dataset}.merge_vcfs",
                     "results/vcfs/{call_type}/{dataset}.annot.vcf",
                 ],
                 dataset=config["dataset"],
