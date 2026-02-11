@@ -259,11 +259,10 @@ def welcome(version):
 
 
     if config['platform'] == 'illumina' and config["from-bcl"]:
-        print(f"Input: Illumina Run BCL folder ({config['illumina-dir']})", "\n")
+        print(f"Input: Illumina Run BCL folder(s) ({', '.join(illumina_dirs)})", "\n")
     elif config['platform'] == 'illumina' and not config["from-bcl"] and fastq_auto:
         print(f"Input: fastq files stored in resources/reads/", "\n")
     elif config['platform'] == 'illumina' and not config["from-bcl"] and not fastq_auto:
         print(f"Input: fastq file paths provided in metadata fq1 and fq2 columns", "\n")
     elif config['platform'] == 'nanopore':
         print(f"Input: Nanopore long-read fastq file paths provided in metadata fq1 column", "\n")
-

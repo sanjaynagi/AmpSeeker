@@ -1,23 +1,25 @@
-rule index_read_fastqc:
-    input:
-        sample=rules.bcl_convert.output,
-    output:
-        index1_qc="results/qc/index-read-qc/I1.html",
-        index2_qc="results/qc/index-read-qc/I2.html",
-    conda:
-        "../envs/AmpSeeker-qc.yaml"
-    log:
-        "logs/index-read-quality.log",
-    shell:
-        """
-        zcat resources/reads/*I1*.fastq.gz | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
-        mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I1.html 2>> {log}
-        mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I1.zip 2>> {log}
-        
-        zcat resources/reads/*I2*.fastq.gz | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
-        mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I2.html 2>> {log}
-        mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I2.zip 2>> {log}
-        """
+if config["platform"] == "illumina" and config["from-bcl"]:
+    rule index_read_fastqc:
+        input:
+            i1="resources/reads/I1_combined.fastq.gz",
+            i2="resources/reads/I2_combined.fastq.gz",
+        output:
+            index1_qc="results/qc/index-read-qc/I1.html",
+            index2_qc="results/qc/index-read-qc/I2.html",
+        conda:
+            "../envs/AmpSeeker-qc.yaml"
+        log:
+            "logs/index-read-quality.log",
+        shell:
+            """
+            zcat {input.i1} | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I1.html 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I1.zip 2>> {log}
+            
+            zcat {input.i2} | fastqc stdin --outdir results/qc/index-read-qc/ 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.html results/qc/index-read-qc/I2.html 2>> {log}
+            mv results/qc/index-read-qc/stdin_fastqc.zip results/qc/index-read-qc/I2.zip 2>> {log}
+            """
 
 rule mosdepth_coverage:
         """

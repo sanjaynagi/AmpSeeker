@@ -17,13 +17,29 @@ if config['platform'] == 'nanopore' and config['from-bcl']:
     raise ValueError("from-bcl option is only compatible with Illumina data. Please set from-bcl to False for nanopore data.")
 if config['platform'] == 'nanopore' and len(config['metadata']) == 0:
     raise ValueError("Metadata file must be provided for nanopore data. Please set the metadata field in the config file.")
-if config['platform'] == 'illumina' and config['from-bcl'] and len(config['illumina-dir']) == 0:
-    raise ValueError("When from-bcl is set to True, illumina-dir must be provided in the config file.")
 if config['platform'] == 'illumina' and not config['from-bcl'] and len(config['metadata']) == 0:
     raise ValueError("When from-bcl is set to False, metadata file must be provided in the config file.")
 
-metadata_path = config['metadata'] if not config['from-bcl'] else config['illumina-dir'] + "/SampleSheet.csv"
-metadata = load_metadata(metadata_path, write=True, from_sample_sheet=config['from-bcl'])
+illumina_dir_config = config.get("illumina-dir", "")
+if isinstance(illumina_dir_config, str):
+    illumina_dirs = [illumina_dir_config] if len(illumina_dir_config) > 0 else []
+elif isinstance(illumina_dir_config, list):
+    illumina_dirs = [d for d in illumina_dir_config if isinstance(d, str) and len(d) > 0]
+else:
+    raise ValueError("illumina-dir must be either a string path or a list of string paths.")
+
+illumina_run_ids = [str(i) for i in range(len(illumina_dirs))]
+
+if config['platform'] == 'illumina' and config['from-bcl'] and len(illumina_dirs) == 0:
+    raise ValueError("When from-bcl is set to True, illumina-dir must be provided in the config file (single path or list of paths).")
+
+if config['from-bcl']:
+    metadata_path = [os.path.join(d, "SampleSheet.csv") for d in illumina_dirs]
+    metadata = load_metadata(metadata_path, write=True, from_sample_sheet=True)
+else:
+    metadata_path = config['metadata']
+    metadata = load_metadata(metadata_path, write=True, from_sample_sheet=False)
+
 samples = metadata["sample_id"]
 
 if config['platform'] == "nanopore":
@@ -38,7 +54,8 @@ plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).
 include: "rules/common.smk"
 welcome(version="v0.6")
 include: "rules/utilities.smk"
-include: "rules/bcl-convert.smk"
+if config["platform"] == "illumina" and config["from-bcl"]:
+    include: "rules/bcl-convert.smk"
 include: "rules/qc.smk"
 
 if config['platform'] == "illumina":
@@ -63,4 +80,3 @@ with open(f"results/config/metadata_colours.json", 'w') as f:
 rule all:
     input:
         AmpSeekerOutputs,
-
