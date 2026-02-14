@@ -90,12 +90,17 @@ rule overwrite_metadata_colors:
     run:
         import json
         import os
+        import shutil
         import pandas as pd
-        
-        color_mappings = create_color_mapping(
-            pd.read_csv(input.metadata, sep="\t"), 
-            columns=params.cohort_columns
-        )
-        
-        with open(output.colors, 'w') as f:
-            json.dump(color_mappings, f, indent=2)
+
+        user_metadata_colours_path = os.path.join("config", "metadata_colours.json")
+        if os.path.isfile(user_metadata_colours_path):
+            shutil.copyfile(user_metadata_colours_path, output.colors)
+        else:
+            color_mappings = create_color_mapping(
+                pd.read_csv(input.metadata, sep="\t"),
+                columns=params.cohort_columns
+            )
+
+            with open(output.colors, 'w') as f:
+                json.dump(color_mappings, f, indent=2)

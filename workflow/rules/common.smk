@@ -247,7 +247,7 @@ def AmpSeekerOutputs(wildcards):
     return inputs
 
 
-def welcome(version):
+def welcome(version, using_user_metadata_colours=False):
     import datetime
 
     print("---------------------------- AmpSeeker ----------------------------")
@@ -256,6 +256,8 @@ def welcome(version):
     print("Execution time: ", datetime.datetime.now().replace(microsecond=0))
     print(f"Dataset: {config['dataset']}")
     print(f"Platform: {config['platform']}")
+    if using_user_metadata_colours:
+        print("Metadata colours: using user-provided schema from config/metadata_colours.json")
 
 
     if config['platform'] == 'illumina' and config["from-bcl"]:

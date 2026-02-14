@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import os
+import shutil
 wkdir = os.getcwd()
 
 include: "rules/metadata.smk"
@@ -10,6 +11,8 @@ configfile: "config/config.yaml"
 dataset = config["dataset"]
 panel = config["panel"]
 cohort_cols = ','.join(config['cohort-columns'])
+user_metadata_colours_path = os.path.join("config", "metadata_colours.json")
+using_user_metadata_colours = os.path.isfile(user_metadata_colours_path)
 
 if config['platform'] not in ['illumina', 'nanopore']:
     raise ValueError("Unsupported platform. Please set platform to either 'illumina' or 'nanopore' in the config file.") 
@@ -52,7 +55,7 @@ call_types = ["targets", "amplicons"]
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 
 include: "rules/common.smk"
-welcome(version="v0.6")
+welcome(version="v0.6", using_user_metadata_colours=using_user_metadata_colours)
 include: "rules/utilities.smk"
 if config["platform"] == "illumina" and config["from-bcl"]:
     include: "rules/bcl-convert.smk"
@@ -71,10 +74,13 @@ include: "rules/jupyter-book.smk"
 if panel == "ag-vampir":
     include: "rules/ag-vampir.smk"
 
-color_mappings = create_color_mapping(metadata, columns=config['cohort-columns'])
 os.makedirs("results/config", exist_ok=True)
-with open(f"results/config/metadata_colours.json", 'w') as f:
-    json.dump(color_mappings, f, indent=2)
+if using_user_metadata_colours:
+    shutil.copyfile(user_metadata_colours_path, "results/config/metadata_colours.json")
+else:
+    color_mappings = create_color_mapping(metadata, columns=config['cohort-columns'])
+    with open("results/config/metadata_colours.json", 'w') as f:
+        json.dump(color_mappings, f, indent=2)
 
 
 rule all:
