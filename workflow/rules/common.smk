@@ -192,12 +192,10 @@ def AmpSeekerOutputs(wildcards):
 
     if config["analysis"]["population-structure"]:
         inputs.extend(
-            expand(
                 [
                     "results/notebooks/population-structure.ipynb",
                     "docs/ampseeker-results/notebooks/population-structure.ipynb",
                 ],
-            )
         )
 
     if config["analysis"]["genetic-diversity"]:
@@ -246,23 +244,59 @@ def AmpSeekerOutputs(wildcards):
 
     return inputs
 
-
 def welcome(version):
     import datetime
 
-    print("---------------------------- AmpSeeker ----------------------------")
-    print(f"Running AmpSeeker snakemake workflow in {workflow.basedir}\n")
-    print(f"Workflow Version: {version}")
-    print("Execution time: ", datetime.datetime.now().replace(microsecond=0))
-    print(f"Dataset: {config['dataset']}")
-    print(f"Platform: {config['platform']}")
+    # Detect rich availability once
+    try:
+        from rich.console import Console
+        from rich.panel import Panel
+        from rich.table import Table
+        use_rich = True
+    except ImportError:
+        use_rich = False
 
+    now = datetime.datetime.now().replace(microsecond=0)
 
+    # Determine input description
     if config['platform'] == 'illumina' and config["from-bcl"]:
-        print(f"Input: Illumina Run BCL folder(s) ({', '.join(illumina_dirs)})", "\n")
+        input_str = f"Illumina BCL folders: {', '.join(illumina_dirs)}"
     elif config['platform'] == 'illumina' and not config["from-bcl"] and fastq_auto:
-        print(f"Input: fastq files stored in resources/reads/", "\n")
-    elif config['platform'] == 'illumina' and not config["from-bcl"] and not fastq_auto:
-        print(f"Input: fastq file paths provided in metadata fq1 and fq2 columns", "\n")
-    elif config['platform'] == 'nanopore':
-        print(f"Input: Nanopore long-read fastq file paths provided in metadata fq1 column", "\n")
+        input_str = "FASTQs auto-detected in resources/reads/"
+    elif config['platform'] == 'illumina':
+        input_str = "FASTQ paths provided in metadata (fq1/fq2)"
+    else:
+        input_str = "Nanopore FASTQ paths provided in metadata (fq1)"
+
+    if use_rich:
+        console = Console()
+
+        table = Table.grid(padding=(0, 2))
+        table.add_row("Working dir:", workflow.basedir)
+        table.add_row("Workflow version:", version)
+        table.add_row("Execution time:", str(now))
+        table.add_row("Dataset:", config["dataset"])
+        table.add_row("Platform:", config["platform"])
+        table.add_row("Input:", input_str)
+
+        console.print(
+            Panel(
+                table,
+                title="[bold cyan3]AmpSeeker[/bold cyan3]",
+                border_style="cyan3",
+            )
+        )
+
+    else:
+        # Plain fallback (no dependencies)
+        sep = "-" * 64
+        print(f"\n{sep}")
+        print(" AmpSeeker ")
+        print(f"{sep}")
+        print(f"{'Working dir:':16} {workflow.basedir}")
+        print(f"{'Workflow version:':16} {version}")
+        print(f"{'Execution time:':16} {now}")
+        print(f"{'Dataset:':16} {config['dataset']}")
+        print(f"{'Platform:':16} {config['platform']}")
+        print(f"{'Input:':16} {input_str}")
+        print(f"{sep}\n")

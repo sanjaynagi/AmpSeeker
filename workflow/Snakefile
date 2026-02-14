@@ -52,7 +52,7 @@ call_types = ["targets", "amplicons"]
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 
 include: "rules/common.smk"
-welcome(version="v0.6")
+welcome(version="v0.7")
 include: "rules/utilities.smk"
 if config["platform"] == "illumina" and config["from-bcl"]:
     include: "rules/bcl-convert.smk"
@@ -71,10 +71,10 @@ include: "rules/jupyter-book.smk"
 if panel == "ag-vampir":
     include: "rules/ag-vampir.smk"
 
-color_mappings = create_color_mapping(metadata, columns=config['cohort-columns'])
-os.makedirs("results/config", exist_ok=True)
-with open(f"results/config/metadata_colours.json", 'w') as f:
-    json.dump(color_mappings, f, indent=2)
+# color_mappings = create_color_mapping(metadata, columns=config['cohort-columns'])
+# os.makedirs("results/config", exist_ok=True)
+# with open(f"results/config/metadata_colours.json", 'w') as f:
+#     json.dump(color_mappings, f, indent=2)
 
 
 rule all:
