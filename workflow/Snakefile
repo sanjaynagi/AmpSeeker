@@ -55,7 +55,7 @@ call_types = ["targets", "amplicons"]
 plate_info = np.isin(["plate", "well_letter", "well_number"], metadata.columns).all()
 
 include: "rules/common.smk"
-welcome(version="v0.6", using_user_metadata_colours=using_user_metadata_colours)
+welcome(version="v0.7", using_user_metadata_colours=using_user_metadata_colours)
 include: "rules/utilities.smk"
 if config["platform"] == "illumina" and config["from-bcl"]:
     include: "rules/bcl-convert.smk"
