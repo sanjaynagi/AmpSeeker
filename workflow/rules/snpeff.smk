@@ -1,5 +1,5 @@
 
-rule snpEffDbDownload:
+rule snp_eff_db_download:
     """
     Download the snpEff database for your species
     """
@@ -17,7 +17,7 @@ rule snpEffDbDownload:
         "snpEff download {params.ref} -dataDir {params.dataDir} 2> {log}"
 
 
-rule createCustomSnpEffDb:
+rule create_custom_snp_eff_db:
     """
     Create a custom SnpEff database from a reference genome and GFF file
     """
@@ -43,7 +43,7 @@ rule createCustomSnpEffDb:
         """
 
 
-rule snpEff:
+rule snp_eff:
     """
     Run snpEff on the VCFs 
     """

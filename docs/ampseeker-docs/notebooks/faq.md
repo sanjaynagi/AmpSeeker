@@ -106,11 +106,11 @@ Dry run first:
 snakemake -n --cores 4 --use-conda
 ```
 
-### How do I run in `.test/`?
+### How do I run in `tests/snakemake/`?
 Example:
 
 ```bash
-snakemake --cores 1 --directory .test --use-conda --configfile .test/config/config_fastqauto.yaml -n
+snakemake --cores 1 --directory tests/snakemake --use-conda --configfile tests/snakemake/config/config_fastqauto.yaml -n
 ```
 
 ### What if Snakemake says files are missing?

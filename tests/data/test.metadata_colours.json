@@ -1,0 +1,30 @@
+{
+  "location": {
+    "Gaoua": "#6fe89e",
+    "Kisumu": "#e4e86f", 
+    "Tiefora": "#8f1f00", 
+    "Tiassale": "#f00014",
+    "VK7": "#eb9b9b",
+    "Moz": "#28b5bd",
+    "Ngousso": "#ff9d00", 
+    "Siaya": "#8a43cc", 
+    "Obuasi": "#1b2fa6",
+    "Gambia_URR": "#6e6e6e" 
+  },
+  "taxon": {
+    "gcx3": "#000000",
+    "coluzzii": "#ff9d00",
+    "gambiae": "#1b2fa6",
+    "arabiensis": "#28b5bd",
+    "unassigned": "#6e6e6e"
+  },
+  "country": {
+    "Burkina Faso": "#E58606",
+    "Kenya": "#5D69B1",
+    "Cote D`Ivoire": "#52BCA3",
+    "Mozambique": "#99C945",
+    "Cameroon": "#CC61B0",
+    "Ghana": "#24796C",
+    "Gambia": "#DAA51B"
+  }
+}

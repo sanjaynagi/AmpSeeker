@@ -106,7 +106,7 @@ def get_fastqs(wildcards, platform):
     return u.values
 
 
-def AmpSeekerOutputs(wildcards):
+def ampseeker_outputs(wildcards):
     inputs = []
 
     inputs.extend(

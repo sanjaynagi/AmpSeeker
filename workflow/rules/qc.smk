@@ -81,7 +81,7 @@ rule vcf_stats:
         """
 
 
-rule multiQC:
+rule multi_qc:
     input:
         expand("results/qc/fastp_reports/{sample}.json", sample=samples),
         expand("results/alignments/bamStats/{sample}.flagstat", sample=samples)
