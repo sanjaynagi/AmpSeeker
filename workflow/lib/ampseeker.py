@@ -30,7 +30,7 @@ from snp_dataframe import (
 )
 
 from ag_vampir.species_id import (
-    _aims_n_alt,
+    aims_n_alt,
     pca_all_samples,
     assign_taxa,
     plot_pca_3d_with_assignments,

@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.express as px
 from sklearn.neighbors import KNeighborsClassifier
 
-def _aims_n_alt(gt, aim_alts, data_alts):
+def aims_n_alt(gt, aim_alts, data_alts):
     n_sites = gt.shape[0]
     n_samples = gt.shape[1]
     # create empty array
