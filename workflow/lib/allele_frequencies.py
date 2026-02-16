@@ -29,14 +29,15 @@ def vcf_to_snp_dataframe(vcf_path, metadata, platform, filter_missing=None):
     anns = []
     for i, row in df.iterrows():
         alt = row['alt']
-        if row['ann'] == None:
+        row_ann = row["ann"]
+        if not isinstance(row_ann, list):
             ann = ""
         else:
             # keep only RD Vgsc annotations
-            if 'AGAP004707' in ','.join(row['ann']):
-                row['ann'] = [a for a in row['ann'] if "AGAP004707-RD" in a]
+            if 'AGAP004707' in ','.join(row_ann):
+                row_ann = [a for a in row_ann if "AGAP004707-RD" in a]
 
-            ann = ','.join([a for a in row['ann'] if a.startswith(alt)])
+            ann = ",".join([a for a in row_ann if isinstance(a, str) and isinstance(alt, str) and a.startswith(alt)])
         anns.append(ann)
 
     snp_df = snp_df.assign(ann=anns)
