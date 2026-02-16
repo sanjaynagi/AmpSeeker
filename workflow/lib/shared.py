@@ -95,7 +95,7 @@ def load_variants(
         ac = geno.count_alleles(max_allele=3)
         af = ac.to_frequencies()
         if af.shape[1] > 1:
-            alt_af = np.nanmax(af[:, 1:], axis=1)
+            alt_af = np.nan_to_num(af[:, 1:], nan=0.0).max(axis=1)
         else:
             alt_af = np.zeros(af.shape[0], dtype=float)
         _apply_variant_mask(alt_af >= filter_maf)
