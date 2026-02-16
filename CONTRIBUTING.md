@@ -38,7 +38,7 @@ AmpSeeker is built using Snakemake, a workflow management system that enables sc
 │   ├── reference/         # Genome references, GFF files
 │   └── [panel]/          # Panel-specific resources
 ├── workflow/              # Core pipeline components
-│   ├── ampseekertools.py # Utility functions
+│   ├── lib/              # Reusable analysis modules
 │   ├── envs/             # Conda environment specifications
 │   ├── notebooks/        # Analysis notebooks
 │   ├── rules/            # Snakemake rule files
@@ -116,7 +116,7 @@ This allows us to debug and develop the notebooks interactively, but then run th
 - `snp-dataframe.ipynb`: Convert VCF to DataFrame/Excel
 - `IGV-explore.ipynb`: IGV session file generation (not part of workflow)
 
-### 4. Utility Functions (`workflow/ampseekertools.py`)
+### 4. Utility Functions (`workflow/lib/shared.py`)
 
 Core functions used across the pipeline:
 
@@ -339,10 +339,10 @@ All dependencies are managed through conda environments in `workflow/envs/`:
 
 ### Test Structure
 
-Tests are located in `.test/` directory with configurations for different scenarios:
+Tests are located in `tests/snakemake/` directory with configurations for different scenarios:
 
 ```
-.test/
+tests/snakemake/
 ├── config/
 │   ├── config_agvampir.yaml      # Ag-vampIR panel test
 │   ├── config_fastqauto.yaml     # Auto FASTQ detection test
@@ -354,7 +354,7 @@ Tests are located in `.test/` directory with configurations for different scenar
 
 ```bash
 # Run specific test
-snakemake --configfile .test/config/config_agvampir.yaml --use-conda -j4
+snakemake --configfile tests/snakemake/config/config_agvampir.yaml --use-conda -j4
 
 # Run all tests (via GitHub Actions)
 # Tests are automatically executed on pull requests
@@ -362,7 +362,7 @@ snakemake --configfile .test/config/config_agvampir.yaml --use-conda -j4
 
 ### Adding New Tests
 
-1. Create test configuration in `.test/config/`
+1. Create test configuration in `tests/snakemake/config/`
 2. Download test data from external resource within the .github/workflow 
 3. Ensure test completes successfully
 4. Update GitHub Actions workflow if needed

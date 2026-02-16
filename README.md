@@ -41,7 +41,7 @@ Nagi, *et al*., 2025. *bioRxiv*. doi: https://doi.org/10.1101/2025.02.14.637727
 
 ## Testing
 
-Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [GitHub Actions](https://github.com/features/actions).
+Test cases are in the subfolder `tests/snakemake`. They are automatically executed via continuous integration with [GitHub Actions](https://github.com/features/actions).
 
 ## Contributing to AmpSeeker
 

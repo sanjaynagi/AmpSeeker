@@ -28,9 +28,9 @@ jobs:
       - name: Test workflow 
         uses: ezherman/snakemake-github-action@5027c0e706ada924ab91e0501bd92185fc98de3c
         with:
-          directory: '.test'
+          directory: 'tests/snakemake'
           snakefile: 'workflow/Snakefile'
-          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile .test/config/config_agvampir.yaml'
+          args: '--cores 4 --use-conda --conda-cleanup-pkgs cache --configfile tests/snakemake/config/config_agvampir.yaml'
           stagein: 
             "
             pip install pandas &&
