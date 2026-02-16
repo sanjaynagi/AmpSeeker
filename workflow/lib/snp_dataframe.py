@@ -85,8 +85,9 @@ def split_rows_with_multiple_alleles(df, samples):
 
 def convert_genotype_to_alt_allele_count(df, samples):
     nalt_df = df.copy()
-    # Ensure genotype columns can accept numeric values
-    nalt_df.loc[:, samples] = nalt_df.loc[:, samples].apply(pd.to_numeric, errors='coerce')
+    # Keep genotype columns as object so integer/NaN assignments are portable
+    # across pandas versions (string extension dtype is stricter in 3.11 CI).
+    nalt_df = nalt_df.astype({col: "object" for col in samples})
     # Iterate through each row
     for index, row in df.iterrows():
         # Update genotype fields
