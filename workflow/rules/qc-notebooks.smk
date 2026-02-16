@@ -104,13 +104,13 @@ rule read_qc:
         "logs/notebooks/reads-quality.log",
     params:
         index_qc=config["from-bcl"],
-        wd=wkdir,
+        wkdir=wkdir,
     shell:
         """
         papermill {input.nb} {output.nb} -k AmpSeq_python \
             -p metadata_path {input.metadata} \
             -p index_read_qc {params.index_qc} \
-            -p wkdir {params.wd} 2> {log}
+            -p wkdir {params.wkdir} 2> {log}
         
         cp {output.nb} {output.docs_nb} 2>> {log}
         """

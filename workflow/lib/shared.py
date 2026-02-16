@@ -31,7 +31,7 @@ def load_vcf(vcf_path):
         "filter_pass": vcf["variants/FILTER_PASS"],
         "ref": vcf["variants/REF"],
         "alt": vcf["variants/ALT"],
-        "ann": read_ANN_field(vcf_path),
+        "ann": read_ann_field(vcf_path),
         "indel": vcf["variants/INDEL"] if "variants/INDEL" in vcf else None,
         "is_snp": vcf["variants/is_snp"] if "variants/is_snp" in vcf else None,
     }
@@ -111,7 +111,7 @@ def load_variants(
     return geno, pos, contig, metadata_out, ref, alt, ann
 
 
-def read_ANN_field(vcf_file):
+def read_ann_field(vcf_file):
     anns = []
     with open(vcf_file, 'r') as f:
         for line in f:

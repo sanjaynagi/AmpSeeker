@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import re
 
-def _F_kdr_origin_gen(genotypes, clean = True):
+def _f_kdr_origin_gen(genotypes, clean = True):
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -105,7 +105,7 @@ def _F_kdr_origin_gen(genotypes, clean = True):
     else:
         return(kdr_F_origins)
 
-def _S_kdr_origin_gen(genotypes, clean = True, alternate_S4S5 = False):
+def _s_kdr_origin_gen(genotypes, clean = True, alternate_S4S5 = False):
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -338,14 +338,14 @@ def kdr_origin(genotypes, alternate_S4S5 = False, clean = True, include_402 = No
         else:
             include_402 = False
     if include_402 == False:
-        kdr_origins = pd.DataFrame({'kdr_F_origin': [_F_kdr_origin_gen(genotypes, clean)], 
-                                    'kdr_S_origin': [_S_kdr_origin_gen(genotypes, clean, alternate_S4S5)]
+        kdr_origins = pd.DataFrame({'kdr_F_origin': [_f_kdr_origin_gen(genotypes, clean)], 
+                                    'kdr_S_origin': [_s_kdr_origin_gen(genotypes, clean, alternate_S4S5)]
                                     }, index = [sample_name]
         
         )
     else:
-        kdr_origins = pd.DataFrame({'kdr_F_origin': [_F_kdr_origin_gen(genotypes, clean)], 
-                                    'kdr_S_origin': [_S_kdr_origin_gen(genotypes, clean, alternate_S4S5)],
+        kdr_origins = pd.DataFrame({'kdr_F_origin': [_f_kdr_origin_gen(genotypes, clean)], 
+                                    'kdr_S_origin': [_s_kdr_origin_gen(genotypes, clean, alternate_S4S5)],
                                     'kdr_402_origin': [_402_kdr_origin_gen(genotypes, clean)]
                                     }, index = [sample_name]
         )

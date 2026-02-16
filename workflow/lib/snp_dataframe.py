@@ -5,9 +5,6 @@ import shared
 import warnings
 warnings.filterwarnings('ignore')
 
-def read_ann_field(vcf_path):
-    return shared.read_ANN_field(vcf_path)
-
 def vcf_to_excel(vcf_path, excel_path, convert_genotypes=False, split_multiallelic=False):
     # Read VCF and create a dictionary
     vcf_df = vcf_to_df(vcf_path)

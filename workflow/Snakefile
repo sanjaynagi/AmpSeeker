@@ -85,4 +85,4 @@ else:
 
 rule all:
     input:
-        AmpSeekerOutputs,
+        ampseeker_outputs,

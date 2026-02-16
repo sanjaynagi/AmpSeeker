@@ -2,7 +2,7 @@ from shared import (
     load_bed,
     load_vcf,
     load_variants,
-    read_ANN_field,
+    read_ann_field,
     pca,
     multiallelic_diplotype_pdist,
     square_to_condensed,
@@ -22,7 +22,6 @@ from population_structure import (
 )
 
 from snp_dataframe import (
-    read_ann_field,
     vcf_to_excel,
     vcf_to_df,
     split_rows_with_multiple_alleles,
@@ -39,8 +38,8 @@ from ag_vampir.species_id import (
 )
 
 from ag_vampir.kdr_analysis import (
-    _F_kdr_origin_gen,
-    _S_kdr_origin_gen,
+    _f_kdr_origin_gen,
+    _s_kdr_origin_gen,
     _402_kdr_origin_gen,
     _kdr_gen_cleanup,
     kdr_origin,

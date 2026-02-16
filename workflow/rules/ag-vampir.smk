@@ -78,7 +78,7 @@ rule kdr_analysis:
         """
 
 
-rule overwrite_metadata_colors:
+rule overwrite_metadata_colours:
     input:
         metadata = "results/config/metadata.qcpass.tsv",
         taxon="results/.taxon.complete"

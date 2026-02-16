@@ -60,7 +60,7 @@ def test_load_bed_has_expected_columns():
 
 
 def test_read_ann_field_matches_variant_rows():
-    anns = amp.read_ANN_field(VCF_PATH)
+    anns = amp.read_ann_field(VCF_PATH)
     assert len(anns) == _variant_count(VCF_PATH)
     assert isinstance(anns, np.ndarray)
     assert int(np.sum(pd.isna(anns))) == EXPECTED["core_ann_missing"]
