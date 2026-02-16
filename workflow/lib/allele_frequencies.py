@@ -8,7 +8,13 @@ warnings.filterwarnings('ignore')
 import shared as amp
 
 def vcf_to_snp_dataframe(vcf_path, metadata, platform, filter_missing=None):
-    geno, pos, contig, metadata, ref, alt, ann = amp.load_vcf(vcf_path=vcf_path, metadata=metadata, platform=platform, filter_missing=filter_missing)
+    geno, pos, contig, metadata, ref, alt, ann = amp.load_variants(
+        vcf_path=vcf_path,
+        metadata=metadata,
+        platform=platform,
+        filter_missing=filter_missing,
+        filter_indel=True,
+    )
     
     # make dataframe of variant positions and merge with bed
     snp_df = pd.DataFrame({'contig':contig, 'pos':pos, 'ref':ref, 'alt':[list(a[a != ""]) for a in alt], 'ann':ann})

@@ -29,7 +29,7 @@ def test_read_ann_field_matches_variant_rows():
 
 def test_load_vcf_returns_aligned_outputs():
     metadata = pd.read_csv(METADATA_PATH, sep="\t")
-    geno, pos, contig, md_out, ref, alt, ann = amp.load_vcf(
+    geno, pos, contig, md_out, ref, alt, ann = amp.load_variants(
         vcf_path=VCF_PATH, metadata=metadata, platform="illumina"
     )
 
@@ -37,6 +37,24 @@ def test_load_vcf_returns_aligned_outputs():
     assert n_variants == len(pos) == len(contig) == len(ref) == len(alt) == len(ann)
     assert geno.shape[1] == md_out.shape[0]
     assert list(md_out["sample_id"]) == list(metadata["sample_id"])
+
+
+def test_load_vcf_core_mode_returns_raw_arrays():
+    core = amp.load_vcf(VCF_PATH)
+    expected_keys = {
+        "samples",
+        "geno",
+        "pos",
+        "contig",
+        "filter_pass",
+        "ref",
+        "alt",
+        "ann",
+        "indel",
+        "is_snp",
+    }
+    assert expected_keys.issubset(set(core.keys()))
+    assert core["geno"].shape[0] == len(core["pos"]) == len(core["contig"]) == len(core["ref"]) == len(core["alt"]) == len(core["ann"])
 
 
 def test_vcf_to_df_contains_core_columns():
@@ -121,7 +139,7 @@ def test_plot_pca_returns_figure():
 
 def test_compute_njt_inputs_returns_square_distance_matrix():
     metadata = pd.read_csv(METADATA_PATH, sep="\t")
-    geno, *_ = amp.load_vcf(vcf_path=VCF_PATH, metadata=metadata, platform="illumina")
+    geno, *_ = amp.load_variants(vcf_path=VCF_PATH, metadata=metadata, platform="illumina", filter_indel=True)
     dists, leaf_data, exclude_outliers = amp.compute_njt_inputs(geno, metadata, cohort_col="location")
 
     assert dists.ndim == 2

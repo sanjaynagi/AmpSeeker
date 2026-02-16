@@ -1,6 +1,7 @@
 from shared import (
     load_bed,
     load_vcf,
+    load_variants,
     read_ANN_field,
     pca,
     multiallelic_diplotype_pdist,

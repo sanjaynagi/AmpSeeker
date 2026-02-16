@@ -1,4 +1,3 @@
-import allel
 import numpy as np
 import pandas as pd
 import shared
@@ -29,17 +28,14 @@ def vcf_to_excel(vcf_path, excel_path, convert_genotypes=False, split_multiallel
     return vcf_df
 
 def vcf_to_df(vcf_path, seg=True):
-    
-    vcf_dict = allel.read_vcf(vcf_path, fields='*')
-    contig = vcf_dict['variants/CHROM'] 
-    pos = vcf_dict['variants/POS']
-    filter_pass = vcf_dict['variants/FILTER_PASS']
-    ref = vcf_dict['variants/REF']
-    alt = [','.join([a for a in row if a != '']) for row in vcf_dict['variants/ALT']]
-    alt = np.array(alt, dtype=object)  
-    ann = read_ann_field(vcf_path)
-
-    geno = allel.GenotypeArray(vcf_dict['calldata/GT'])
+    core = shared.load_vcf(vcf_path)
+    contig = core["contig"]
+    pos = core["pos"]
+    filter_pass = core["filter_pass"]
+    ref = core["ref"]
+    alt = np.array([",".join([a for a in row if a != ""]) for row in core["alt"]], dtype=object)
+    ann = core["ann"]
+    geno = core["geno"]
 
     if seg:
         ac = geno.count_alleles(max_allele=3)
@@ -55,7 +51,7 @@ def vcf_to_df(vcf_path, seg=True):
     ### make pd dataframe version of vcf
     vcf_df = pd.DataFrame({'CHROM': contig, 'POS': pos, 'FILTER_PASS': filter_pass, 'REF': ref, 'ALT': alt, 'ANN': ann})
     # make pd dataframe version of genotypes
-    geno_df = pd.DataFrame(geno.to_gt().astype(str), columns=vcf_dict['samples'])
+    geno_df = pd.DataFrame(geno.to_gt().astype(str), columns=core["samples"])
     vcf = pd.concat([vcf_df, geno_df], axis=1)
     return vcf
 

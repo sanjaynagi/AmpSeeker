@@ -20,51 +20,95 @@ def load_bed(bed_path: str, expected_cols = ['contig', 'start', 'end', 'amplicon
     
     return df[expected_cols]
 
-def load_vcf(vcf_path, metadata, platform, filter_missing=None):
-    """
-    Load VCF and filter poor-quality samples
-    """
-        
-    # load vcf and get genotypes and positions
+def load_vcf(vcf_path):
+    """Core VCF reader."""
     vcf = allel.read_vcf(vcf_path, fields="*")
-    samples = vcf['samples']    # keep only samples in qcpass metadata 
-    sample_mask = np.isin(vcf['samples'], metadata.sample_id)
-    
-    # remove low quality samples 
-    geno = allel.GenotypeArray(vcf['calldata/GT'])
-    geno = geno.compress(sample_mask, axis=1)
-    pos = vcf['variants/POS']
-    contig = vcf['variants/CHROM']
+    return {
+        "samples": vcf["samples"],
+        "geno": allel.GenotypeArray(vcf["calldata/GT"]),
+        "pos": vcf["variants/POS"],
+        "contig": vcf["variants/CHROM"],
+        "filter_pass": vcf["variants/FILTER_PASS"],
+        "ref": vcf["variants/REF"],
+        "alt": vcf["variants/ALT"],
+        "ann": read_ANN_field(vcf_path),
+        "indel": vcf["variants/INDEL"] if "variants/INDEL" in vcf else None,
+        "is_snp": vcf["variants/is_snp"] if "variants/is_snp" in vcf else None,
+    }
 
-    ref = vcf['variants/REF']
-    alt = vcf['variants/ALT']
-    ann = read_ANN_field(vcf_path)
+def load_variants(
+    vcf_path,
+    metadata=None,
+    platform=None,
+    filter_missing=None,
+    filter_maf=None,
+    segregating_only=False,
+    filter_indel=False,
+):
+    """
+    Load variants from VCF and optionally apply analysis filters.
+    """
+    core = load_vcf(vcf_path)
 
-    if platform == "illumina": # remove any indels 
-        indel = vcf['variants/INDEL']
-    elif platform == "nanopore": # remove any indels > 1bp
-        indel = ~vcf['variants/is_snp']
+    if metadata is None:
+        metadata = pd.DataFrame({"sample_id": core["samples"]})
+    if "sample_id" not in metadata.columns:
+        raise ValueError("metadata must contain a 'sample_id' column.")
 
-    geno = geno.compress(~indel, axis=0)
-    pos = pos[~indel]
-    contig = contig[~indel]
-    ref = ref[~indel]
-    alt = alt[~indel]
-    ann = ann[~indel]
+    samples = core["samples"]
+    sample_mask = np.isin(samples, metadata.sample_id)
+
+    geno = core["geno"].compress(sample_mask, axis=1)
+    pos = core["pos"]
+    contig = core["contig"]
+    ref = core["ref"]
+    alt = core["alt"]
+    ann = core["ann"]
+
+    def _apply_variant_mask(mask):
+        nonlocal geno, pos, contig, ref, alt, ann
+        geno = geno.compress(mask, axis=0)
+        pos = pos[mask]
+        contig = contig[mask]
+        ref = ref[mask]
+        alt = alt[mask]
+        ann = ann[mask]
+
+    if filter_indel:
+        if platform not in ("illumina", "nanopore"):
+            raise ValueError("platform must be 'illumina' or 'nanopore' when filter_indel=True.")
+        if platform == "illumina":
+            indel = core["indel"]
+            if indel is None:
+                raise KeyError("variants/INDEL field not found in VCF for illumina filtering.")
+        else:
+            if core["is_snp"] is None:
+                raise KeyError("variants/is_snp field not found in VCF for nanopore filtering.")
+            indel = ~core["is_snp"]
+        _apply_variant_mask(~indel)
+
+    if segregating_only:
+        ac = geno.count_alleles(max_allele=3)
+        _apply_variant_mask(ac.is_segregating())
+
+    if filter_maf is not None:
+        ac = geno.count_alleles(max_allele=3)
+        af = ac.to_frequencies()
+        if af.shape[1] > 1:
+            alt_af = np.nanmax(af[:, 1:], axis=1)
+        else:
+            alt_af = np.zeros(af.shape[0], dtype=float)
+        _apply_variant_mask(alt_af >= filter_maf)
 
     if filter_missing:
-        missing_mask = geno.is_missing().sum(axis=1) > geno.shape[1] * filter_missing
-        geno = geno.compress(~missing_mask, axis=0)
-        pos = pos[~missing_mask]
-        contig = contig[~missing_mask]
-        ref = ref[~missing_mask]
-        alt = alt[~missing_mask]
-        ann = ann[~missing_mask]    
+        missing_mask = geno.is_missing().sum(axis=1) <= geno.shape[1] * filter_missing
+        _apply_variant_mask(missing_mask)
 
-    metadata = metadata.set_index('sample_id')
+    metadata = metadata.set_index("sample_id")
     samples = samples[sample_mask]
+    metadata_out = metadata.loc[samples, :].reset_index()
 
-    return geno, pos, contig, metadata.loc[samples, :].reset_index() , ref, alt, ann
+    return geno, pos, contig, metadata_out, ref, alt, ann
 
 
 def read_ANN_field(vcf_file):
