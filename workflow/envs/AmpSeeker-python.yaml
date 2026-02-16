@@ -6,7 +6,7 @@ channels:
 dependencies:
   - python>=3.10,<3.13
   - numpy
-  - pandas
+  - pandas==2.1.4
   - ipykernel
   - plotly==5.24.1
   - scipy 

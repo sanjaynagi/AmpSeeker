@@ -1,33 +1,48 @@
-# Dataset main configurations
-dataset: nomads16
-panel: nomads16
+# This file should contain everything to configure the workflow on a global scale.
+# In case of sample based data, it should be complemented by a samples.tsv file that contains
+# one row per sample. It can be parsed easily via pandas.
+dataset: natcomms
+platform: illumina
+panel: ag-vampir
 cohort-columns:
-  - library_name
-targets: config/nomads16.bed
-metadata: config/nomads16-metadata.tsv
+  - location
+  - taxon
+  - country
+targets: config/ag-vampir.bed
+metadata: ""
 
-platform: nanopore
-from-bcl: False
 # Directory of Illumina Miseq Run, can be empty 
-illumina-dir: ""
+illumina-dir: 
+  - resources/250110_M05658_0028_000000000-LTBV4
+  - resources/14_02_2024_MiSeq_output
 
+# Specify whether reference  provided is amplicon or wholegenome sequence data
 # Genome fasta reference files
-reference-fasta: resources/reference/PlasmoDB-52_Pfalciparum3D7_Genome.fasta
-reference-gff3: resources/reference/PlasmoDB-52_Pfalciparum3D7.gff
-reference-snpeffdb: Plasmodium_falciparum
-custom-snpeffdb: True
+reference-name: AgamP4
+reference-fasta: resources/reference/AgamP4.fa
+reference-gff3: resources/reference/AgamP4.gff
+reference-snpeffdb: Anopheles_gambiae
+custom-snpeffdb: False
+
+# Specify whether to convert bcl files to fastq
+# or whether we provide fastq data in the metadata / or auto naming 
+from-bcl: True
+fastq:
+  auto: True
 
 # Specify whether to run quality-control analyses
 quality-control:
   sample-total-reads-threshold: 250
   amplicon-total-reads-threshold: 1000
 
+  fastp: True
   coverage: True
   stats: True
   multiqc: True
 
 # Specify whether to run generic analyses
 analysis:  
+  igv: False
   sample-map: False # needs lat and longs
   population-structure: True
   genetic-diversity: True
