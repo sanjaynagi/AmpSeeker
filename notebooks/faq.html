@@ -1,0 +1,866 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Frequently Asked Questions (FAQ) &#8212; AmpSeeker-documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "sanjaynagi/ampseeker");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comment");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/faq';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Snakemake" href="snakemake.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../landing-page.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="AmpSeeker-documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="AmpSeeker-documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../landing-page.html">
+                    AmpSeeker
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_data.html">Input files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring_the_workflow.html">Configuring the workflow</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="running_the_workflow.html">Running the workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snakemake.html">Snakemake</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Troubleshooting and contributing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Frequently Asked Questions (FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to the workflow</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/sanjaynagi/ampseeker" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/sanjaynagi/ampseeker/issues/new?title=Issue%20on%20page%20%2Fnotebooks/faq.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/faq.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Frequently Asked Questions (FAQ)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-ampseeker-do">What does AmpSeeker do?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#who-is-ampseeker-intended-for">Who is AmpSeeker intended for?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-i-need-to-install-lots-of-tools-manually">Do I need to install lots of tools manually?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-should-i-run-the-workflow-from">Where should I run the workflow from?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-configuration">Inputs and Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-config-file-is-used-by-default">Which config file is used by default?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-minimum-metadata-requirement">What is the minimum metadata requirement?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-cohort-columns-used-for">What are <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> used for?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-should-the-bed-file-look-like">What should the BED file look like?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-modes">Illumina Modes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-ampseeker-run-from-bcl-folders">Can AmpSeeker run from BCL folders?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-illumina-dir-be-a-single-path-or-multiple-paths">Can <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> be a single path or multiple paths?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-multi-run-illumina-processing-work">How does multi-run Illumina processing work?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-a-sample-appears-in-more-than-one-run">What if a sample appears in more than one run?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-duplicate-sample-ids-conflict-across-runs">What if duplicate sample IDs conflict across runs?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#does-this-change-direct-fastq-workflows">Does this change direct FASTQ workflows?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore">Nanopore</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-from-bcl-valid-for-nanopore">Is <code class="docutils literal notranslate"><span class="pre">from-bcl</span></code> valid for Nanopore?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-are-nanopore-fastqs-provided">How are Nanopore FASTQs provided?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-workflow">Running the Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-command-should-i-use">What command should I use?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-run-in-tests-snakemake">How do I run in <code class="docutils literal notranslate"><span class="pre">tests/snakemake/</span></code>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-snakemake-says-files-are-missing">What if Snakemake says files are missing?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs">Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-are-results-written">Where are results written?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-report-book">Where is the report book?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-some-notebooks-missing-from-outputs">Why are some notebooks missing from outputs?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-unsupported-platform">Error: unsupported platform</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-metadata-file-does-not-exist">Error: metadata file does not exist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-illumina-dir-must-be-provided">Error: <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> must be provided</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-cohort-columns-missing">Error: cohort columns missing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-did-index-read-qc-fail">Why did index read QC fail?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-reruns-unexpectedly-after-config-changes">Workflow reruns unexpectedly after config changes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-and-best-practices">Reproducibility and Best Practices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-i-edit-files-under-results-manually">Should I edit files under <code class="docutils literal notranslate"><span class="pre">results/</span></code> manually?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-i-version-control-my-config-and-metadata">Should I version-control my config and metadata?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-should-i-name-datasets">How should I name datasets?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-safest-way-to-start-on-a-new-dataset">What is the safest way to start on a new dataset?</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="frequently-asked-questions-faq">
+<h1>Frequently Asked Questions (FAQ)<a class="headerlink" href="#frequently-asked-questions-faq" title="Link to this heading">#</a></h1>
+<section id="general">
+<h2>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h2>
+<section id="what-does-ampseeker-do">
+<h3>What does AmpSeeker do?<a class="headerlink" href="#what-does-ampseeker-do" title="Link to this heading">#</a></h3>
+<p>AmpSeeker is a Snakemake workflow for amplicon sequencing analysis. It supports Illumina and Nanopore data, performs QC, alignment, variant calling, annotation, and produces a Jupyter Book report.</p>
+</section>
+<section id="who-is-ampseeker-intended-for">
+<h3>Who is AmpSeeker intended for?<a class="headerlink" href="#who-is-ampseeker-intended-for" title="Link to this heading">#</a></h3>
+<p>AmpSeeker is designed for users who want a reproducible, automated pipeline for amplicon sequencing datasets, including cohort-level analyses and visual reporting.</p>
+</section>
+<section id="do-i-need-to-install-lots-of-tools-manually">
+<h3>Do I need to install lots of tools manually?<a class="headerlink" href="#do-i-need-to-install-lots-of-tools-manually" title="Link to this heading">#</a></h3>
+<p>No. The intended usage is with <code class="docutils literal notranslate"><span class="pre">--use-conda</span></code>, which creates per-rule environments automatically.</p>
+</section>
+<section id="where-should-i-run-the-workflow-from">
+<h3>Where should I run the workflow from?<a class="headerlink" href="#where-should-i-run-the-workflow-from" title="Link to this heading">#</a></h3>
+<p>Run Snakemake from the project root (the directory containing <code class="docutils literal notranslate"><span class="pre">workflow/</span></code>, <code class="docutils literal notranslate"><span class="pre">config/</span></code>, and <code class="docutils literal notranslate"><span class="pre">resources/</span></code>).</p>
+</section>
+</section>
+<section id="inputs-and-configuration">
+<h2>Inputs and Configuration<a class="headerlink" href="#inputs-and-configuration" title="Link to this heading">#</a></h2>
+<section id="which-config-file-is-used-by-default">
+<h3>Which config file is used by default?<a class="headerlink" href="#which-config-file-is-used-by-default" title="Link to this heading">#</a></h3>
+<p>By default, AmpSeeker reads <code class="docutils literal notranslate"><span class="pre">config/config.yaml</span></code>. You can override this with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span>--configfile<span class="w"> </span>path/to/your-config.yaml
+</pre></div>
+</div>
+</section>
+<section id="what-is-the-minimum-metadata-requirement">
+<h3>What is the minimum metadata requirement?<a class="headerlink" href="#what-is-the-minimum-metadata-requirement" title="Link to this heading">#</a></h3>
+<p>At minimum, metadata must contain <code class="docutils literal notranslate"><span class="pre">sample_id</span></code>.</p>
+<p>For Illumina/Nanopore direct FASTQ mode (<code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">False</span></code>):</p>
+<ul class="simple">
+<li><p>Illumina expects either:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">fq1</span></code> and <code class="docutils literal notranslate"><span class="pre">fq2</span></code> columns, or</p></li>
+<li><p>automatic FASTQ naming in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code> if <code class="docutils literal notranslate"><span class="pre">fq1/fq2</span></code> are absent.</p></li>
+</ul>
+</li>
+<li><p>Nanopore expects <code class="docutils literal notranslate"><span class="pre">fq1</span></code>.</p></li>
+</ul>
+</section>
+<section id="what-are-cohort-columns-used-for">
+<h3>What are <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> used for?<a class="headerlink" href="#what-are-cohort-columns-used-for" title="Link to this heading">#</a></h3>
+<p>They must exist in the metadata and are used to group/colour samples in notebooks and downstream analyses.</p>
+</section>
+<section id="what-should-the-bed-file-look-like">
+<h3>What should the BED file look like?<a class="headerlink" href="#what-should-the-bed-file-look-like" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">targets</span></code> BED file should define target loci for your panel and match the reference coordinates used for mapping/calling.</p>
+</section>
+</section>
+<section id="illumina-modes">
+<h2>Illumina Modes<a class="headerlink" href="#illumina-modes" title="Link to this heading">#</a></h2>
+<section id="can-ampseeker-run-from-bcl-folders">
+<h3>Can AmpSeeker run from BCL folders?<a class="headerlink" href="#can-ampseeker-run-from-bcl-folders" title="Link to this heading">#</a></h3>
+<p>Yes. Set:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">illumina</span>
+<span class="nt">from-bcl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<p>Then provide <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code>.</p>
+</section>
+<section id="can-illumina-dir-be-a-single-path-or-multiple-paths">
+<h3>Can <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> be a single path or multiple paths?<a class="headerlink" href="#can-illumina-dir-be-a-single-path-or-multiple-paths" title="Link to this heading">#</a></h3>
+<p>Yes. It supports both:</p>
+<p>Single run:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">illumina-dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/250110_M05658_0028_000000000-LTBV4</span>
+</pre></div>
+</div>
+<p>Multiple runs:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">illumina-dir</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/run_001</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources/run_002</span>
+</pre></div>
+</div>
+</section>
+<section id="how-does-multi-run-illumina-processing-work">
+<h3>How does multi-run Illumina processing work?<a class="headerlink" href="#how-does-multi-run-illumina-processing-work" title="Link to this heading">#</a></h3>
+<p>AmpSeeker converts each run independently, then merges demultiplexed FASTQs per sample into standard outputs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resources/reads/{sample}_1.fastq.gz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resources/reads/{sample}_2.fastq.gz</span></code></p></li>
+</ul>
+<p>Run stats are also aggregated for downstream reporting.</p>
+</section>
+<section id="what-if-a-sample-appears-in-more-than-one-run">
+<h3>What if a sample appears in more than one run?<a class="headerlink" href="#what-if-a-sample-appears-in-more-than-one-run" title="Link to this heading">#</a></h3>
+<p>That is supported when metadata/sample sheet values are consistent for that sample. FASTQs are merged across runs.</p>
+</section>
+<section id="what-if-duplicate-sample-ids-conflict-across-runs">
+<h3>What if duplicate sample IDs conflict across runs?<a class="headerlink" href="#what-if-duplicate-sample-ids-conflict-across-runs" title="Link to this heading">#</a></h3>
+<p>AmpSeeker raises an error if duplicated <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> entries across SampleSheets disagree on metadata values.</p>
+</section>
+<section id="does-this-change-direct-fastq-workflows">
+<h3>Does this change direct FASTQ workflows?<a class="headerlink" href="#does-this-change-direct-fastq-workflows" title="Link to this heading">#</a></h3>
+<p>No. <code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">False</span></code> behavior is unchanged.</p>
+</section>
+</section>
+<section id="nanopore">
+<h2>Nanopore<a class="headerlink" href="#nanopore" title="Link to this heading">#</a></h2>
+<section id="is-from-bcl-valid-for-nanopore">
+<h3>Is <code class="docutils literal notranslate"><span class="pre">from-bcl</span></code> valid for Nanopore?<a class="headerlink" href="#is-from-bcl-valid-for-nanopore" title="Link to this heading">#</a></h3>
+<p>No. Set <code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">False</span></code> for Nanopore.</p>
+</section>
+<section id="how-are-nanopore-fastqs-provided">
+<h3>How are Nanopore FASTQs provided?<a class="headerlink" href="#how-are-nanopore-fastqs-provided" title="Link to this heading">#</a></h3>
+<p>Using metadata <code class="docutils literal notranslate"><span class="pre">fq1</span></code> paths.</p>
+</section>
+</section>
+<section id="running-the-workflow">
+<h2>Running the Workflow<a class="headerlink" href="#running-the-workflow" title="Link to this heading">#</a></h2>
+<section id="what-command-should-i-use">
+<h3>What command should I use?<a class="headerlink" href="#what-command-should-i-use" title="Link to this heading">#</a></h3>
+<p>Typical run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">4</span><span class="w"> </span>--use-conda
+</pre></div>
+</div>
+<p>Dry run first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span>-n<span class="w"> </span>--cores<span class="w"> </span><span class="m">4</span><span class="w"> </span>--use-conda
+</pre></div>
+</div>
+</section>
+<section id="how-do-i-run-in-tests-snakemake">
+<h3>How do I run in <code class="docutils literal notranslate"><span class="pre">tests/snakemake/</span></code>?<a class="headerlink" href="#how-do-i-run-in-tests-snakemake" title="Link to this heading">#</a></h3>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span>--cores<span class="w"> </span><span class="m">1</span><span class="w"> </span>--directory<span class="w"> </span>tests/snakemake<span class="w"> </span>--use-conda<span class="w"> </span>--configfile<span class="w"> </span>tests/snakemake/config/config_fastqauto.yaml<span class="w"> </span>-n
+</pre></div>
+</div>
+</section>
+<section id="what-if-snakemake-says-files-are-missing">
+<h3>What if Snakemake says files are missing?<a class="headerlink" href="#what-if-snakemake-says-files-are-missing" title="Link to this heading">#</a></h3>
+<p>Check:</p>
+<ul class="simple">
+<li><p>config paths are correct relative to your run directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metadata</span></code>, <code class="docutils literal notranslate"><span class="pre">targets</span></code>, and reference files exist.</p></li>
+<li><p>FASTQ naming/paths match your chosen mode.</p></li>
+</ul>
+</section>
+</section>
+<section id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading">#</a></h2>
+<section id="where-are-results-written">
+<h3>Where are results written?<a class="headerlink" href="#where-are-results-written" title="Link to this heading">#</a></h3>
+<p>Primary outputs are under <code class="docutils literal notranslate"><span class="pre">results/</span></code>.</p>
+</section>
+<section id="where-is-the-report-book">
+<h3>Where is the report book?<a class="headerlink" href="#where-is-the-report-book" title="Link to this heading">#</a></h3>
+<p>The results book is built under <code class="docutils literal notranslate"><span class="pre">results/ampseeker-results/_build/html/</span></code> when <code class="docutils literal notranslate"><span class="pre">build-jupyter-book:</span> <span class="pre">True</span></code>.</p>
+</section>
+<section id="why-are-some-notebooks-missing-from-outputs">
+<h3>Why are some notebooks missing from outputs?<a class="headerlink" href="#why-are-some-notebooks-missing-from-outputs" title="Link to this heading">#</a></h3>
+<p>Notebook generation is conditional on config options (platform, QC toggles, analysis toggles, and panel-specific modules).</p>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<section id="error-unsupported-platform">
+<h3>Error: unsupported platform<a class="headerlink" href="#error-unsupported-platform" title="Link to this heading">#</a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">platform</span></code> to either <code class="docutils literal notranslate"><span class="pre">illumina</span></code> or <code class="docutils literal notranslate"><span class="pre">nanopore</span></code>.</p>
+</section>
+<section id="error-metadata-file-does-not-exist">
+<h3>Error: metadata file does not exist<a class="headerlink" href="#error-metadata-file-does-not-exist" title="Link to this heading">#</a></h3>
+<p>Verify the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> path is correct for your current working directory and config file.</p>
+</section>
+<section id="error-illumina-dir-must-be-provided">
+<h3>Error: <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> must be provided<a class="headerlink" href="#error-illumina-dir-must-be-provided" title="Link to this heading">#</a></h3>
+<p>This occurs when <code class="docutils literal notranslate"><span class="pre">platform:</span> <span class="pre">illumina</span></code> and <code class="docutils literal notranslate"><span class="pre">from-bcl:</span> <span class="pre">True</span></code> but <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> is empty.</p>
+</section>
+<section id="error-cohort-columns-missing">
+<h3>Error: cohort columns missing<a class="headerlink" href="#error-cohort-columns-missing" title="Link to this heading">#</a></h3>
+<p>Make sure every value listed in <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> exists as a column in metadata (or SampleSheet-derived metadata in BCL mode).</p>
+</section>
+<section id="why-did-index-read-qc-fail">
+<h3>Why did index read QC fail?<a class="headerlink" href="#why-did-index-read-qc-fail" title="Link to this heading">#</a></h3>
+<p>Check whether index reads were produced in BCL conversion and whether combined index FASTQs exist in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code>.</p>
+</section>
+<section id="workflow-reruns-unexpectedly-after-config-changes">
+<h3>Workflow reruns unexpectedly after config changes<a class="headerlink" href="#workflow-reruns-unexpectedly-after-config-changes" title="Link to this heading">#</a></h3>
+<p>Changes in config, inputs, or software environments can trigger reruns in Snakemake. Use dry runs to inspect what will execute.</p>
+</section>
+</section>
+<section id="reproducibility-and-best-practices">
+<h2>Reproducibility and Best Practices<a class="headerlink" href="#reproducibility-and-best-practices" title="Link to this heading">#</a></h2>
+<section id="should-i-edit-files-under-results-manually">
+<h3>Should I edit files under <code class="docutils literal notranslate"><span class="pre">results/</span></code> manually?<a class="headerlink" href="#should-i-edit-files-under-results-manually" title="Link to this heading">#</a></h3>
+<p>No. Treat <code class="docutils literal notranslate"><span class="pre">results/</span></code> as generated output.</p>
+</section>
+<section id="should-i-version-control-my-config-and-metadata">
+<h3>Should I version-control my config and metadata?<a class="headerlink" href="#should-i-version-control-my-config-and-metadata" title="Link to this heading">#</a></h3>
+<p>Yes. Track your run config and metadata for reproducibility and provenance.</p>
+</section>
+<section id="how-should-i-name-datasets">
+<h3>How should I name datasets?<a class="headerlink" href="#how-should-i-name-datasets" title="Link to this heading">#</a></h3>
+<p>Use stable, descriptive <code class="docutils literal notranslate"><span class="pre">dataset</span></code> names (e.g., include project and run context) to keep outputs interpretable.</p>
+</section>
+<section id="what-is-the-safest-way-to-start-on-a-new-dataset">
+<h3>What is the safest way to start on a new dataset?<a class="headerlink" href="#what-is-the-safest-way-to-start-on-a-new-dataset" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Validate metadata format.</p></li>
+<li><p>Dry-run with your final config.</p></li>
+<li><p>Run with limited cores first.</p></li>
+<li><p>Inspect QC notebooks before downstream interpretation.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="snakemake.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Snakemake</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="troubleshooting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Troubleshooting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general">General</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-ampseeker-do">What does AmpSeeker do?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#who-is-ampseeker-intended-for">Who is AmpSeeker intended for?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-i-need-to-install-lots-of-tools-manually">Do I need to install lots of tools manually?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-should-i-run-the-workflow-from">Where should I run the workflow from?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-configuration">Inputs and Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#which-config-file-is-used-by-default">Which config file is used by default?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-minimum-metadata-requirement">What is the minimum metadata requirement?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-cohort-columns-used-for">What are <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> used for?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-should-the-bed-file-look-like">What should the BED file look like?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-modes">Illumina Modes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-ampseeker-run-from-bcl-folders">Can AmpSeeker run from BCL folders?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-illumina-dir-be-a-single-path-or-multiple-paths">Can <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> be a single path or multiple paths?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-multi-run-illumina-processing-work">How does multi-run Illumina processing work?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-a-sample-appears-in-more-than-one-run">What if a sample appears in more than one run?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-duplicate-sample-ids-conflict-across-runs">What if duplicate sample IDs conflict across runs?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#does-this-change-direct-fastq-workflows">Does this change direct FASTQ workflows?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nanopore">Nanopore</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-from-bcl-valid-for-nanopore">Is <code class="docutils literal notranslate"><span class="pre">from-bcl</span></code> valid for Nanopore?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-are-nanopore-fastqs-provided">How are Nanopore FASTQs provided?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-workflow">Running the Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-command-should-i-use">What command should I use?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-run-in-tests-snakemake">How do I run in <code class="docutils literal notranslate"><span class="pre">tests/snakemake/</span></code>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-snakemake-says-files-are-missing">What if Snakemake says files are missing?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs">Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-are-results-written">Where are results written?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-report-book">Where is the report book?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-some-notebooks-missing-from-outputs">Why are some notebooks missing from outputs?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-unsupported-platform">Error: unsupported platform</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-metadata-file-does-not-exist">Error: metadata file does not exist</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-illumina-dir-must-be-provided">Error: <code class="docutils literal notranslate"><span class="pre">illumina-dir</span></code> must be provided</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-cohort-columns-missing">Error: cohort columns missing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-did-index-read-qc-fail">Why did index read QC fail?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-reruns-unexpectedly-after-config-changes">Workflow reruns unexpectedly after config changes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-and-best-practices">Reproducibility and Best Practices</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-i-edit-files-under-results-manually">Should I edit files under <code class="docutils literal notranslate"><span class="pre">results/</span></code> manually?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#should-i-version-control-my-config-and-metadata">Should I version-control my config and metadata?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-should-i-name-datasets">How should I name datasets?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-safest-way-to-start-on-a-new-dataset">What is the safest way to start on a new dataset?</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Sanjay Curtis Nagi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
