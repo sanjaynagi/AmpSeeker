@@ -19,6 +19,25 @@ def _is_missing_genotype(genotype):
     return all(a == '.' for a in alleles)
 
 def vcf_to_excel(vcf_path, excel_path, convert_genotypes=False, split_multiallelic=False):
+    """Load a VCF and optionally export it to Excel.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the input VCF file.
+    excel_path : str or path-like or None
+        Output path for the Excel workbook. If `None`, no file is written.
+    convert_genotypes : bool, default=False
+        Whether to convert genotype strings to alternate-allele counts.
+    split_multiallelic : bool, default=False
+        Whether to expand multiallelic records into one row per alternate
+        allele.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame representation of the VCF, optionally transformed.
+    """
     # Read VCF and create a dictionary
     vcf_df = vcf_to_df(vcf_path)
     samples = vcf_df.columns[6:]
@@ -38,6 +57,20 @@ def vcf_to_excel(vcf_path, excel_path, convert_genotypes=False, split_multiallel
     return vcf_df
 
 def vcf_to_df(vcf_path, seg=True):
+    """Convert a VCF file into a tabular dataframe.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the input VCF file.
+    seg : bool, default=True
+        Whether to retain only segregating sites.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Variant-level metadata joined with per-sample genotype strings.
+    """
     core = shared.load_vcf(vcf_path)
     contig = core["contig"]
     pos = core["pos"]
@@ -66,6 +99,20 @@ def vcf_to_df(vcf_path, seg=True):
     return vcf
 
 def split_rows_with_multiple_alleles(df, samples):
+    """Expand multiallelic rows into one row per alternate allele.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        VCF-derived dataframe containing an `ALT` column and genotype columns.
+    samples : sequence of str
+        Names of the genotype columns to rewrite for each split allele.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Dataframe with multiallelic variants expanded to separate rows.
+    """
     # Create an empty list to store the new rows
     new_rows = []
     # Iterate through each row
@@ -94,6 +141,21 @@ def split_rows_with_multiple_alleles(df, samples):
     return new_df
 
 def convert_genotype_to_alt_allele_count(df, samples):
+    """Replace genotype strings with alternate-allele counts.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        VCF-derived dataframe containing genotype strings.
+    samples : sequence of str
+        Names of genotype columns to convert.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Copy of `df` with genotype columns converted to counts or `NaN` for
+        missing calls.
+    """
     nalt_df = df.copy()
     # Keep genotype columns as object so integer/NaN assignments are portable
     # across pandas versions (string extension dtype is stricter in 3.11 CI).
