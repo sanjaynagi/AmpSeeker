@@ -53,7 +53,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script kind="utterances">
 
     var commentsRunWhenDOMLoaded = cb => {
@@ -524,7 +524,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </section>
 <section id="what-are-cohort-columns-used-for">
 <h3>What are <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> used for?<a class="headerlink" href="#what-are-cohort-columns-used-for" title="Link to this heading">#</a></h3>
-<p>They must exist in the metadata and are used to group/colour samples in notebooks and downstream analyses.</p>
+<p>They are metadata columns used to define cohorts, where a cohort means all samples sharing the same value in that column, such as all samples from one location or one taxon. They must exist in the metadata with exactly the same spelling and capitalization as the header row. For reliability, use simple names like <code class="docutils literal notranslate"><span class="pre">location</span></code>, <code class="docutils literal notranslate"><span class="pre">taxon</span></code>, or <code class="docutils literal notranslate"><span class="pre">country</span></code> that start with a letter and contain only letters, numbers, and underscores.</p>
 </section>
 <section id="what-should-the-bed-file-look-like">
 <h3>What should the BED file look like?<a class="headerlink" href="#what-should-the-bed-file-look-like" title="Link to this heading">#</a></h3>
@@ -650,7 +650,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 </section>
 <section id="error-cohort-columns-missing">
 <h3>Error: cohort columns missing<a class="headerlink" href="#error-cohort-columns-missing" title="Link to this heading">#</a></h3>
-<p>Make sure every value listed in <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> exists as a column in metadata (or SampleSheet-derived metadata in BCL mode).</p>
+<p>Make sure every value listed in <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> exists as a column in metadata (or SampleSheet-derived metadata in BCL mode), with exactly the same spelling and capitalization. If a cohort column has spaces, punctuation, hyphens, or begins with a number, rename it to a simpler form such as <code class="docutils literal notranslate"><span class="pre">collection_year</span></code> or <code class="docutils literal notranslate"><span class="pre">sample_group</span></code>.</p>
 </section>
 <section id="why-did-index-read-qc-fail">
 <h3>Why did index read QC fail?<a class="headerlink" href="#why-did-index-read-qc-fail" title="Link to this heading">#</a></h3>

@@ -53,7 +53,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script kind="utterances">
 
     var commentsRunWhenDOMLoaded = cb => {
@@ -418,7 +418,10 @@ commentsRunWhenDOMLoaded(addUtterances);
 <p>Once your data is set up, perform a dry run of snakemake to see which rules and modules the workflow is configured to run. A dry-run does not actually run the workflow, but determines and prints to screen what will be run based on your configuration file and the current set of results.</p>
 <p><code class="docutils literal notranslate"><span class="pre">-n</span></code> indicates a dry run.</p>
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span> <span class="pre">-n</span> </code></p>
-<p>To run the workflow on 4 cores. Conda will install all necessary packages.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--cores</span></code> option sets the maximum number of CPU cores Snakemake may use in parallel. <code class="docutils literal notranslate"><span class="pre">4</span></code> is only an example, not a requirement. If you omit <code class="docutils literal notranslate"><span class="pre">--cores</span></code>, Snakemake will not assume a sensible machine-wide default for local execution, so you should set it explicitly.</p>
+<p>For most laptops or desktops, <code class="docutils literal notranslate"><span class="pre">--cores</span> <span class="pre">4</span></code> is a safe starting point. On a larger workstation or server, a good rule is to use roughly all available cores or leave one free for responsiveness.</p>
+<p>To see how many CPU cores your machine has, run <code class="docutils literal notranslate"><span class="pre">nproc</span></code> on Linux or <code class="docutils literal notranslate"><span class="pre">sysctl</span> <span class="pre">-n</span> <span class="pre">hw.ncpu</span></code> on macOS.</p>
+<p>To run the workflow, for example on 4 cores:</p>
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span></code></p>
 <p>If you wish to override using the standard <code class="docutils literal notranslate"><span class="pre">config/config.yaml</span></code> path, you can provide a config file at the command line as follows.</p>
 <p><code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--cores</span> <span class="pre">4</span> <span class="pre">--use-conda</span> <span class="pre">--configfile</span> <span class="pre">myconfig.yaml</span></code></p>

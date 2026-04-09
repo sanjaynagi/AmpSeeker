@@ -53,7 +53,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
     <script kind="utterances">
 
     var commentsRunWhenDOMLoaded = cb => {
@@ -411,6 +411,11 @@ commentsRunWhenDOMLoaded(addUtterances);
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-column">Required column</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-column-naming-rules">Cohort column naming rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-columns">Optional columns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-metadata-tsv-illumina-paired-end">Example <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code> (Illumina, paired-end)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-metadata-tsv">Minimal <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-data-input">Sequencing Data Input</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-data">Illumina Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplesheet-csv-structure">SampleSheet.csv Structure</a></li>
@@ -445,61 +450,141 @@ commentsRunWhenDOMLoaded(addUtterances);
 </ul>
 <p><strong>Sample metadata file</strong></p>
 <p>If working directly from the Illumina BCL folder, a SampleSheet (<code class="docutils literal notranslate"><span class="pre">SampleSheet.csv</span></code>) must be placed in the Illumina run folder. An example sample sheet is located at <code class="docutils literal notranslate"><span class="pre">resources/exampleSampleSheet.csv</span></code>.</p>
-<p>If working directly from fastq files, the user must provide either a SampleSheet or a sample metadata file in .tsv format which should be placed in the config/ folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code>. The file only requires one column, sample_id, and a column with which to group the data for downstream analyses (for example, by location). Any extra metadata columns can be included (e.g location, taxon, strain, country, year etc) and used to split data and colour the results figures, with configurable options in the <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file (cohort-columns).</p>
-<p><strong>metadata.tsv:</strong></p>
+<p>If working directly from fastq files, the user must provide either a SampleSheet or a sample metadata file in <code class="docutils literal notranslate"><span class="pre">.tsv</span></code> format which should be placed in the <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder and pointed to in the user’s <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code>.</p>
+<p><strong>File format:</strong> the metadata file <strong>must be tab-separated</strong> (<code class="docutils literal notranslate"><span class="pre">.tsv</span></code>) — columns are separated by a single tab character (<code class="docutils literal notranslate"><span class="pre">\t</span></code>), not commas or spaces. Do not use Excel’s default <code class="docutils literal notranslate"><span class="pre">.csv</span></code> export. If editing in Excel or a similar spreadsheet tool, save explicitly as “Tab-separated values (.tsv)”. The first row must be a header row containing the column names below.</p>
+<section id="required-column">
+<h2>Required column<a class="headerlink" href="#required-column" title="Link to this heading">#</a></h2>
+<p>Only one column is strictly required:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>sample_id</p></th>
-<th class="head"><p>location</p></th>
-<th class="head"><p>taxon</p></th>
-<th class="head"><p>latitude</p></th>
-<th class="head"><p>longitude</p></th>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>ContTia1</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>ContTia2</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-even"><td><p>ContTia4</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>MalaTia1</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-even"><td><p>MalaTia2</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
-</tr>
-<tr class="row-odd"><td><p>MalaTia4</p></td>
-<td><p>Tiassale</p></td>
-<td><p>coluzzii</p></td>
-<td><p>7.1</p></td>
-<td><p>0</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></p></td>
+<td><p>Unique identifier for each sample. Must match the fastq filenames if using <code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">True</span></code> (i.e. <code class="docutils literal notranslate"><span class="pre">{sample_id}_1.fastq.gz</span></code> / <code class="docutils literal notranslate"><span class="pre">{sample_id}_2.fastq.gz</span></code> for Illumina, or <code class="docutils literal notranslate"><span class="pre">{sample_id}.fastq.gz</span></code> for Nanopore). No spaces or special characters.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Latitude and Longitudes are used to plot sample collection locations. If sample maps are not required, these columns can be omitted.</p>
+<p>In practice you will almost always also want <strong>at least one grouping column</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">location</span></code>, <code class="docutils literal notranslate"><span class="pre">taxon</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code>) so that samples can be split and coloured in downstream plots. In AmpSeeker, a cohort simply means the set of samples sharing the same value in one of these grouping columns.</p>
+</section>
+<section id="cohort-column-naming-rules">
+<h2>Cohort column naming rules<a class="headerlink" href="#cohort-column-naming-rules" title="Link to this heading">#</a></h2>
+<p>Any metadata column can be used as a cohort column <strong>provided that</strong>:</p>
+<ul class="simple">
+<li><p>its name is listed under <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> in <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code></p></li>
+<li><p>the name matches the metadata header <strong>exactly</strong>, including capitalization</p></li>
+<li><p>it is a simple column name beginning with a letter and containing only letters, numbers, and underscores</p></li>
+</ul>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">location</span></code>, <code class="docutils literal notranslate"><span class="pre">taxon</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code>, and <code class="docutils literal notranslate"><span class="pre">collection_year</span></code> are safe choices. Avoid spaces, hyphens, punctuation, or column names beginning with a number.</p>
+</section>
+<section id="optional-columns">
+<h2>Optional columns<a class="headerlink" href="#optional-columns" title="Link to this heading">#</a></h2>
+<p>Any additional columns can be added freely. The following are recognised by specific parts of the workflow:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Used by</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">location</span></code>, <code class="docutils literal notranslate"><span class="pre">taxon</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code> (or any categorical column)</p></td>
+<td><p>Population structure, allele frequencies, genetic diversity, PCA plots</p></td>
+<td><p>Any column listed under <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> in <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> is used to define cohorts, meaning groups of samples with the same value in that column. These columns are used to colour points in PCA and coverage plots, to compute per-cohort allele frequencies, and to split genetic diversity statistics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">latitude</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">analysis.sample-map</span></code></p></td>
+<td><p>Required <em>only</em> if <code class="docutils literal notranslate"><span class="pre">analysis.sample-map:</span> <span class="pre">True</span></code> in <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. Used to plot sample collection locations on an interactive map. Must be decimal degrees (e.g. <code class="docutils literal notranslate"><span class="pre">5.668</span></code>, <code class="docutils literal notranslate"><span class="pre">-0.167</span></code>). Omit these columns if you do not want a sample map.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fq1</span></code>, <code class="docutils literal notranslate"><span class="pre">fq2</span></code></p></td>
+<td><p>Illumina input (when <code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">False</span></code>)</p></td>
+<td><p>Paths to the forward (<code class="docutils literal notranslate"><span class="pre">fq1</span></code>) and reverse (<code class="docutils literal notranslate"><span class="pre">fq2</span></code>) fastq files for each sample. Only needed if <code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">False</span></code> in <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>; otherwise AmpSeeker auto-discovers fastqs from <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fq1</span></code></p></td>
+<td><p>Nanopore input (when <code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">False</span></code>)</p></td>
+<td><p>Path to the single-end fastq file for each sample.</p></td>
+</tr>
+<tr class="row-even"><td><p>Any other column (e.g. <code class="docutils literal notranslate"><span class="pre">year</span></code>, <code class="docutils literal notranslate"><span class="pre">strain</span></code>, <code class="docutils literal notranslate"><span class="pre">plate</span></code>, <code class="docutils literal notranslate"><span class="pre">well</span></code>, <code class="docutils literal notranslate"><span class="pre">insecticide</span></code>)</p></td>
+<td><p>Results notebooks / reports</p></td>
+<td><p>Passed through to the results notebooks and tables. Safe to include — unknown columns are ignored by the pipeline but preserved in the output for your own reference.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="example-metadata-tsv-illumina-paired-end">
+<h2>Example <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code> (Illumina, paired-end)<a class="headerlink" href="#example-metadata-tsv-illumina-paired-end" title="Link to this heading">#</a></h2>
+<p>This matches the example metadata shipped in the repository at <code class="docutils literal notranslate"><span class="pre">tests/snakemake/config/metadata.tsv</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>sample_id</p></th>
+<th class="head"><p>country</p></th>
+<th class="head"><p>location</p></th>
+<th class="head"><p>taxon</p></th>
+<th class="head"><p>latitude</p></th>
+<th class="head"><p>longitude</p></th>
+<th class="head"><p>fq1</p></th>
+<th class="head"><p>fq2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ERR3058522</p></td>
+<td><p>Ghana</p></td>
+<td><p>Madina_North</p></td>
+<td><p>gambiae</p></td>
+<td><p>5.668</p></td>
+<td><p>-0.167</p></td>
+<td><p>resources/reads/ERR3058522_1.fastq.gz</p></td>
+<td><p>resources/reads/ERR3058522_2.fastq.gz</p></td>
+</tr>
+<tr class="row-odd"><td><p>ERR3058532</p></td>
+<td><p>Ghana</p></td>
+<td><p>Madina_North</p></td>
+<td><p>gambiae</p></td>
+<td><p>5.668</p></td>
+<td><p>-0.167</p></td>
+<td><p>resources/reads/ERR3058532_1.fastq.gz</p></td>
+<td><p>resources/reads/ERR3058532_2.fastq.gz</p></td>
+</tr>
+<tr class="row-even"><td><p>ERR3058982</p></td>
+<td><p>Benin</p></td>
+<td><p>Avrankou</p></td>
+<td><p>coluzzii</p></td>
+<td><p>6.45</p></td>
+<td><p>2.25</p></td>
+<td><p>resources/reads/ERR3058982_1.fastq.gz</p></td>
+<td><p>resources/reads/ERR3058982_2.fastq.gz</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In this example only <code class="docutils literal notranslate"><span class="pre">sample_id</span></code> is strictly required; <code class="docutils literal notranslate"><span class="pre">country</span></code>, <code class="docutils literal notranslate"><span class="pre">location</span></code> and <code class="docutils literal notranslate"><span class="pre">taxon</span></code> are optional grouping columns used for cohort analyses, <code class="docutils literal notranslate"><span class="pre">latitude</span></code>/<code class="docutils literal notranslate"><span class="pre">longitude</span></code> are only needed if drawing a sample map, and <code class="docutils literal notranslate"><span class="pre">fq1</span></code>/<code class="docutils literal notranslate"><span class="pre">fq2</span></code> are only needed when <code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">False</span></code>.</p>
+</section>
+<section id="minimal-metadata-tsv">
+<h2>Minimal <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code><a class="headerlink" href="#minimal-metadata-tsv" title="Link to this heading">#</a></h2>
+<p>If you have placed fastqs in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code> with auto-naming (<code class="docutils literal notranslate"><span class="pre">fastq.auto:</span> <span class="pre">True</span></code>) and do not need a sample map, the file can be as small as:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>sample_id</p></th>
+<th class="head"><p>location</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ERR3058522</p></td>
+<td><p>Madina_North</p></td>
+</tr>
+<tr class="row-odd"><td><p>ERR3058982</p></td>
+<td><p>Avrankou</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr class="docutils" />
 <p><strong>Bed file of amplicon targets</strong></p>
-<p>Users should also provide a file in bed format, with at least 5 columns (chromosome, start, end, amplicon_id, target_label), and optionally reference and alternative alleles. The file should have <strong>no header</strong>. The bed file contains the coordinates of the amplicon targets and should be placed in the <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder and pointed to in the users <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">amplicon_targets.bed</span></code>.</p>
+<p>Users should also provide a file in bed format, with at least 5 columns (chromosome, start, end, amplicon_id, target_label), and optionally reference and alternative alleles. The file should have <strong>no header</strong> and must be <strong>tab-separated</strong>. The bed file contains the coordinates of the amplicon targets and should be placed in the <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder and pointed to in the user’s <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>. The default name is <code class="docutils literal notranslate"><span class="pre">amplicon_targets.bed</span></code>.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>2L</p></th>
@@ -558,6 +643,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li><p><strong>Alternate allele(s)</strong>: (Optional) The alternate allele(s) at this position</p></li>
 </ol>
 <p>The <code class="docutils literal notranslate"><span class="pre">target_label</span></code> column values should be unique for each row of the bed file. The <code class="docutils literal notranslate"><span class="pre">amplicon_id</span></code> column values can be repeated for multiple rows, to indicate that those SNPs are located on the same amplicon.</p>
+</section>
 <hr class="docutils" />
 <section id="sequencing-data-input">
 <h2>Sequencing Data Input<a class="headerlink" href="#sequencing-data-input" title="Link to this heading">#</a></h2>
@@ -575,7 +661,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li><p><strong>[Data]</strong>: Sample information including IDs, indexes, and metadata</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">CreateFastqForIndexReads=1</span></code> setting in the [Settings] section is essential as it instructs the BCL conversion to generate FASTQ files for index reads, which are used for demultiplexing samples.</p>
-<p>Example [Data] section format:</p>
+<p>Example [Data] section format (comma-separated, as per the Illumina SampleSheet specification):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>sample_ID</p></th>
@@ -626,7 +712,7 @@ commentsRunWhenDOMLoaded(addUtterances);
 <li><p><strong>index</strong>: Forward index sequence for demultiplexing</p></li>
 <li><p><strong>index2</strong>: Reverse index sequence for demultiplexing (for dual indexing)</p></li>
 </ul>
-<p>Optional metadata columns can be added (e.g., well, plate_name, taxon, location, country, latitude, longitude) and will be incorporated into analysis results.</p>
+<p>Optional metadata columns can be added (e.g., well, plate_name, taxon, location, country, latitude, longitude) and are treated exactly like the optional columns in <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code> described above — they will be incorporated into analysis results and can be referenced via <code class="docutils literal notranslate"><span class="pre">cohort-columns</span></code> in <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>.</p>
 </section>
 <section id="fastq-file-specifications-for-illumina">
 <h4>FASTQ File Specifications for Illumina<a class="headerlink" href="#fastq-file-specifications-for-illumina" title="Link to this heading">#</a></h4>
@@ -645,7 +731,7 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
 <section id="fastq-file-specifications-for-nanopore">
 <h4>FASTQ File Specifications for Nanopore<a class="headerlink" href="#fastq-file-specifications-for-nanopore" title="Link to this heading">#</a></h4>
 <p>For Nanopore data, provide single gzipped fastq files for each sample. The metadata file should contain a single column <code class="docutils literal notranslate"><span class="pre">fq1</span></code> with paths to the fastq files, or place files in <code class="docutils literal notranslate"><span class="pre">resources/reads/</span></code> with the naming pattern <code class="docutils literal notranslate"><span class="pre">{sample_id}.fastq.gz</span></code>.</p>
-<p><strong>Nanopore metadata.tsv format:</strong></p>
+<p><strong>Nanopore metadata.tsv format</strong> (tab-separated):</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>sample_id</p></th>
@@ -756,6 +842,11 @@ Reads should be named as `{sample_id}_1.fastq.gz`, `{sample_id}_2.fastq.gz`.
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-column">Required column</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cohort-column-naming-rules">Cohort column naming rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-columns">Optional columns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-metadata-tsv-illumina-paired-end">Example <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code> (Illumina, paired-end)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-metadata-tsv">Minimal <code class="docutils literal notranslate"><span class="pre">metadata.tsv</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequencing-data-input">Sequencing Data Input</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#illumina-data">Illumina Data</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#samplesheet-csv-structure">SampleSheet.csv Structure</a></li>
