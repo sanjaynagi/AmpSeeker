@@ -64,6 +64,27 @@ rule bwa_align:
         """
 
 
+rule create_ploidy_file:
+    """
+    Create a bcftools ploidy file that sets a uniform ploidy across all
+    contigs and samples. Using a ploidy file gives a single uniform code
+    path that works for haploid, diploid, and polyploid organisms (whereas
+    `bcftools call --ploidy` only accepts preset assembly names).
+    """
+    output:
+        ploidy_file="results/config/bcftools_ploidy.txt",
+    params:
+        ploidy=config["ploidy"],
+    log:
+        "logs/create_ploidy_file.log",
+    run:
+        with open(output.ploidy_file, "w") as f:
+            # Cover both default sex assignments so this works regardless
+            # of whether a samples/sex file is supplied to bcftools call.
+            f.write(f"* * * M {params.ploidy}\n")
+            f.write(f"* * * F {params.ploidy}\n")
+
+
 rule mpileup_call_targets:
     """
     Get pileup of reads at target loci and pipe output to bcftoolsCall
@@ -72,6 +93,7 @@ rule mpileup_call_targets:
         bam="results/alignments/{sample}.bam",
         index="results/alignments/{sample}.bam.bai",
         reference=config["reference-fasta"],
+        ploidy_file="results/config/bcftools_ploidy.txt",
     output:
         calls="results/vcfs/targets/{sample}.calls.vcf",
     log:
@@ -86,7 +108,7 @@ rule mpileup_call_targets:
     shell:
         """
         bcftools mpileup -Ov -f {params.ref} -R {params.regions} -a AD --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
-        bcftools call -f GQ,GP -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
+        bcftools call -f GQ,GP -m --ploidy-file {input.ploidy_file} -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
 
 
@@ -98,6 +120,7 @@ rule mpileup_call_amplicons:
         bam="results/alignments/{sample}.bam",
         index="results/alignments/{sample}.bam.bai",
         reference=config["reference-fasta"],
+        ploidy_file="results/config/bcftools_ploidy.txt",
     output:
         calls="results/vcfs/amplicons/{sample}.calls.vcf",
     log:
@@ -111,6 +134,6 @@ rule mpileup_call_amplicons:
     shell:
         """
         bcftools mpileup -Ov -I -f {params.ref} -a AD --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
-        bcftools call -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
+        bcftools call -m --ploidy-file {input.ploidy_file} -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
 

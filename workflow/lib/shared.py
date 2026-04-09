@@ -4,9 +4,20 @@ import allel
 import re
 
 def load_bed(bed_path: str, expected_cols = ['contig', 'start', 'end', 'amplicon_id', 'mutation', 'ref', 'alt']) -> pd.DataFrame:
-    """
-    Reads a BED-like file with optional REF and ALT columns.
-    Returns a dataframe with consistent column naming.
+    """Read a BED-like file and normalise its columns.
+
+    Parameters
+    ----------
+    bed_path : str
+        Path to the BED-like tab-delimited file.
+    expected_cols : list of str, optional
+        Expected output column names in positional order.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Dataframe containing exactly `expected_cols`, with missing columns
+        filled with `pandas.NA`.
     """
     # Read the file without predefined column names
     df = pd.read_csv(bed_path, sep="\t", header=None)
@@ -21,7 +32,19 @@ def load_bed(bed_path: str, expected_cols = ['contig', 'start', 'end', 'amplicon
     return df[expected_cols]
 
 def load_vcf(vcf_path):
-    """Core VCF reader."""
+    """Read a VCF file and return core variant arrays.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the VCF file.
+
+    Returns
+    -------
+    dict
+        Dictionary containing sample IDs, genotype calls, variant metadata,
+        and parsed annotation values.
+    """
     vcf = allel.read_vcf(vcf_path, fields="*")
     return {
         "samples": vcf["samples"],
@@ -45,8 +68,31 @@ def load_variants(
     segregating_only=False,
     filter_indel=False,
 ):
-    """
-    Load variants from VCF and optionally apply analysis filters.
+    """Load variants from a VCF and apply optional filters.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the VCF file.
+    metadata : pandas.DataFrame, optional
+        Sample metadata containing a `sample_id` column. If omitted, metadata
+        is constructed from the VCF sample IDs.
+    platform : {"illumina", "nanopore"}, optional
+        Sequencing platform. Required when `filter_indel=True`.
+    filter_missing : float, optional
+        Maximum allowed fraction of missing calls per site.
+    filter_maf : float, optional
+        Minimum alternate allele frequency required to keep a variant.
+    segregating_only : bool, default=False
+        Whether to retain only segregating sites.
+    filter_indel : bool, default=False
+        Whether to remove indels using platform-specific VCF fields.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(geno, pos, contig, metadata_out, ref, alt, ann)` after all
+        requested filters have been applied.
     """
     core = load_vcf(vcf_path)
 
@@ -112,6 +158,18 @@ def load_variants(
 
 
 def read_ann_field(vcf_file):
+    """Extract the `ANN` INFO field from each non-header VCF record.
+
+    Parameters
+    ----------
+    vcf_file : str or path-like
+        Path to the VCF file.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array of annotation strings, with `None` where no `ANN` value exists.
+    """
     anns = []
     with open(vcf_file, 'r') as f:
         for line in f:
@@ -131,8 +189,27 @@ def read_ann_field(vcf_file):
 
 
 def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
-    """
-    Load genotype data and run PCA 
+    """Run PCA on genotype data after standard site filtering.
+
+    Parameters
+    ----------
+    geno : allel.GenotypeArray
+        Genotype array with variants on axis 0 and samples on axis 1.
+    metadata : pandas.DataFrame
+        Metadata aligned to the samples in `geno`.
+    n_components : int, default=3
+        Number of principal components to compute.
+    query : str, optional
+        Pandas query expression used to subset `metadata` and the matching
+        genotype columns before PCA.
+    missing_threshold : float, default=0.05
+        Maximum fraction of missing calls allowed per site.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(pca_df, model)` where `pca_df` contains sample metadata and
+        principal component coordinates.
     """
 
     if query:
@@ -140,18 +217,22 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
         metadata = metadata[mask]
         geno = geno.compress(mask, axis=1)
 
-    # find segregating sites
+    # Keep only segregating sites, i.e. variant sites where at least two
+    # alleles are observed across the retained samples.
     print("removing any invariant and highly missing sites")
     ac = geno.count_alleles()
     seg = ac.is_segregating()
     gn_seg = geno.compress(seg, axis=0)
 
-    # remove highly missing sites
+    # Remove highly missing sites. A missing site is a site with no genotype
+    # call in one or more samples; here "highly missing" means missing in more
+    # than missing_threshold of samples. The default is 5% for PCA.
     missing_mask = gn_seg.is_missing().sum(axis=1) > gn_seg.shape[1] * missing_threshold
     gn_seg = gn_seg.compress(~missing_mask, axis=0)
     gn_alt = gn_seg.to_n_alt()
 
-    # remove invariant sites
+    # Remove invariant sites, i.e. sites where all remaining called genotypes
+    # are identical and therefore contribute no information to PCA.
     loc_var = np.any(gn_alt != gn_alt[:, 0, np.newaxis], axis=1)
     gn_var = np.compress(loc_var, gn_alt, axis=0)
     
@@ -175,26 +256,31 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
 import numba
 @numba.njit(parallel=True)
 def multiallelic_diplotype_pdist(X, metric):
-    """Optimised implementation of pairwise distance between diplotypes.
+    """Compute condensed pairwise distances between diplotypes.
 
-    N.B., here we assume the array X provides diplotypes as genotype allele
-    counts, with axes in the order (n_samples, n_sites, n_alleles).
+    Parameters
+    ----------
+    X : numpy.ndarray
+        Allele-count representation of shape `(n_samples, n_sites, n_alleles)`.
+    metric : callable
+        Numba-compatible function used to compare two samples.
 
-    Computation will be faster if X is a contiguous (C order) array.
-
-    The metric argument is the function to compute distance for a pair of
-    diplotypes. This can be a numba jitted function.
-
+    Returns
+    -------
+    numpy.ndarray
+        Condensed distance matrix in SciPy ordering.
     """
     n_samples = X.shape[0]
     n_pairs = (n_samples * (n_samples - 1)) // 2
     out = np.zeros(n_pairs, dtype=np.float32)
 
-    # Loop over samples, first in pair.
+    # Loop over samples, treating each sample in turn as the first member of
+    # a pairwise comparison.
     for i in range(n_samples):
         x = X[i, :, :]
 
-        # Loop over observations again, second in pair.
+        # Compare the current sample against all later samples, which become
+        # the second member of each pairwise comparison.
         for j in numba.prange(i + 1, n_samples):
             y = X[j, :, :]
 
@@ -210,7 +296,20 @@ def multiallelic_diplotype_pdist(X, metric):
 
 @numba.njit
 def square_to_condensed(i, j, n):
-    """Convert distance matrix coordinates from square form (i, j) to condensed form."""
+    """Convert square matrix coordinates to a condensed index.
+
+    Parameters
+    ----------
+    i, j : int
+        Matrix coordinates for an off-diagonal pair.
+    n : int
+        Size of the square distance matrix.
+
+    Returns
+    -------
+    int
+        Index into the equivalent condensed distance vector.
+    """
 
     assert i != j, "no diagonal elements in condensed matrix"
     if i < j:
@@ -220,14 +319,18 @@ def square_to_condensed(i, j, n):
 
 @numba.njit
 def multiallelic_diplotype_mean_cityblock(x, y):
-    """Compute the mean cityblock distance between two diplotypes x and y. The
-    diplotype vectors are expected as genotype allele counts, i.e., x and y
-    should have the same shape (n_sites, n_alleles).
+    """Compute mean cityblock distance between two diplotypes.
 
-    N.B., here we compute the mean value of the distance over sites where
-    both individuals have a called genotype. This avoids computing distance
-    at missing sites.
+    Parameters
+    ----------
+    x, y : numpy.ndarray
+        Allele-count arrays with shape `(n_sites, n_alleles)`.
 
+    Returns
+    -------
+    numpy.float32
+        Mean per-site cityblock distance across sites where both samples are
+        called.
     """
     n_sites = x.shape[0]
     n_alleles = x.shape[1]

@@ -1,4 +1,5 @@
 platform: illumina
+ploidy: 2
 dataset: test-fastqmetadata
 metadata: config/metadata.tsv
 cohort-columns:
@@ -24,8 +25,7 @@ quality-control:
   stats: True
   multiqc: True
 
-  sample-total-reads-threshold: 250
-  amplicon-total-reads-threshold: 1000
+  sample-min-mean-target-coverage: 5
 
 # Specify whether to run generic analyses
 analysis:  

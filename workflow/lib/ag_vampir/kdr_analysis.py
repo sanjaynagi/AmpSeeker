@@ -4,6 +4,20 @@ import plotly.express as px
 import re
 
 def _f_kdr_origin_gen(genotypes, clean = True):
+    """Infer 995F kdr haplotype origin calls for one sample.
+
+    Parameters
+    ----------
+    genotypes : pandas.Series
+        Per-sample genotype calls containing the required F-origin markers.
+    clean : bool, default=True
+        Whether to post-process the raw origin string into a simplified call.
+
+    Returns
+    -------
+    str
+        Raw or cleaned 995F origin assignment for the sample.
+    """
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -106,6 +120,22 @@ def _f_kdr_origin_gen(genotypes, clean = True):
         return(kdr_F_origins)
 
 def _s_kdr_origin_gen(genotypes, clean = True, alternate_S4S5 = False):
+    """Infer 995S kdr haplotype origin calls for one sample.
+
+    Parameters
+    ----------
+    genotypes : pandas.Series
+        Per-sample genotype calls containing the required S-origin markers.
+    clean : bool, default=True
+        Whether to post-process the raw origin string into a simplified call.
+    alternate_S4S5 : bool, default=False
+        Whether to use the alternate S4/S5 marker naming scheme.
+
+    Returns
+    -------
+    str
+        Raw or cleaned 995S origin assignment for the sample.
+    """
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -266,6 +296,20 @@ def _s_kdr_origin_gen(genotypes, clean = True, alternate_S4S5 = False):
         return(kdr_S_origins)
 
 def _402_kdr_origin_gen(genotypes, clean = True):
+    """Infer 402L kdr haplotype origin calls for one sample.
+
+    Parameters
+    ----------
+    genotypes : pandas.Series
+        Per-sample genotype calls containing the `kdr-402L` marker.
+    clean : bool, default=True
+        Whether to post-process the raw origin string into a simplified call.
+
+    Returns
+    -------
+    str
+        Raw or cleaned 402L origin assignment for the sample.
+    """
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -295,6 +339,18 @@ def _402_kdr_origin_gen(genotypes, clean = True):
         return(kdr_402_origins)
 
 def _kdr_gen_cleanup(kdr_origin_str):
+    """Simplify raw kdr origin strings into diploid haplotype calls.
+
+    Parameters
+    ----------
+    kdr_origin_str : str
+        Raw origin string produced by one of the kdr origin helper functions.
+
+    Returns
+    -------
+    str
+        Comma-separated pair of simplified haplotype calls.
+    """
     if re.search('Fail', kdr_origin_str):
         return('?,?')
     if re.search('wt', kdr_origin_str):
@@ -328,6 +384,25 @@ def _kdr_gen_cleanup(kdr_origin_str):
         return('?,?')
 
 def kdr_origin(genotypes, alternate_S4S5 = False, clean = True, include_402 = None):
+    """Assemble kdr origin calls for one sample into a dataframe.
+
+    Parameters
+    ----------
+    genotypes : pandas.Series
+        Per-sample genotype calls used to infer kdr origin backgrounds.
+    alternate_S4S5 : bool, default=False
+        Whether to use the alternate S4/S5 marker naming scheme.
+    clean : bool, default=True
+        Whether to simplify raw origin strings before returning them.
+    include_402 : bool, optional
+        Whether to include 402L origin calls. If `None`, this is inferred from
+        the available genotype columns.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Single-row dataframe containing the inferred origin calls.
+    """
     if 'sample_name' in genotypes.index:
         sample_name = genotypes['sample_name']
     else:
@@ -352,12 +427,36 @@ def kdr_origin(genotypes, alternate_S4S5 = False, clean = True, include_402 = No
     return(kdr_origins)
 
 def get_single_gen_call(x):  
+    """Collapse separate kdr origin calls into a single genotype summary.
+
+    Parameters
+    ----------
+    x : pandas.Series
+        Row containing cleaned kdr origin calls.
+
+    Returns
+    -------
+    str
+        Comma-separated summary call for the sample.
+    """
     if 'kdr_402_origin' in x.index:
         return(_get_single_gen_call_with_402(x))
     else:
         return(_get_single_gen_call_no_402(x))
 
 def _get_single_gen_call_no_402(x): 
+    """Summarise F and S origin calls when 402L is absent.
+
+    Parameters
+    ----------
+    x : pandas.Series
+        Row containing `kdr_F_origin` and `kdr_S_origin`.
+
+    Returns
+    -------
+    str
+        Two-part haplotype summary or `"?,?"` when the calls are inconsistent.
+    """
     if 'sample_name' in x.index:
         sample_name = x['sample_name']
     else:
@@ -373,6 +472,18 @@ def _get_single_gen_call_no_402(x):
         return(','.join(np.delete(joined_calls, which_drop)))
 
 def _get_single_gen_call_with_402(x): 
+    """Summarise F, S, and 402L origin calls into one genotype label.
+
+    Parameters
+    ----------
+    x : pandas.Series
+        Row containing `kdr_F_origin`, `kdr_S_origin`, and `kdr_402_origin`.
+
+    Returns
+    -------
+    str
+        Two-part haplotype summary or `"?,?"` when the calls are inconsistent.
+    """
     if 'sample_name' in x.index:
         sample_name = x['sample_name']
     else:
@@ -394,6 +505,20 @@ def _get_single_gen_call_with_402(x):
         return(','.join(np.delete(joined_calls, which_drop)))
 
 def signif(x, n_figs):
+    """Round values to a fixed number of significant figures.
+
+    Parameters
+    ----------
+    x : array-like
+        Numeric input values.
+    n_figs : int
+        Number of significant figures to retain.
+
+    Returns
+    -------
+    numpy.ndarray or scalar
+        Rounded values with the same broadcasted shape as `x`.
+    """
     power = 10 ** np.floor(np.log10(np.abs(x).clip(1e-200)))
     rounded = np.round(x / power, n_figs - 1) * power
     return rounded
@@ -406,6 +531,28 @@ def _dipclust_concat_subplots(
     title,
     xaxis_range,
 ):
+    """Stack dendrogram-related traces into a shared subplot figure.
+
+    Parameters
+    ----------
+    figures : sequence
+        Plotly figures or traces to append vertically.
+    width : int
+        Output figure width in pixels.
+    height : int
+        Output figure height in pixels.
+    row_heights : sequence of float
+        Relative heights for each subplot row.
+    title : str
+        Figure title.
+    xaxis_range : tuple or list
+        Shared x-axis range applied to the composed figure.
+
+    Returns
+    -------
+    plotly.graph_objects.Figure
+        Combined subplot figure.
+    """
     from plotly.subplots import make_subplots  # type: ignore
     import plotly.graph_objects as go  # type: ignore
 
@@ -463,6 +610,61 @@ def plot_dendrogram(
     y_axis_title,
     y_axis_buffer,
 ):
+    """Plot a hierarchical clustering dendrogram with annotated leaves.
+
+    Parameters
+    ----------
+    dist : array-like
+        Condensed distance vector passed to SciPy linkage.
+    linkage_method : str
+        Linkage method used by `scipy.cluster.hierarchy.linkage`.
+    count_sort : str or bool
+        Leaf ordering option passed to `scipy.cluster.hierarchy.dendrogram`.
+    distance_sort : str or bool
+        Distance ordering option passed to `scipy.cluster.hierarchy.dendrogram`.
+    render_mode : str
+        Plotly render mode for lines and points.
+    width : int
+        Figure width in pixels.
+    height : int
+        Figure height in pixels.
+    title : str
+        Figure title.
+    line_width : float
+        Width applied to dendrogram line traces.
+    line_color : str
+        Colour applied to dendrogram line traces.
+    marker_size : float
+        Marker size for leaf points.
+    leaf_data : pandas.DataFrame
+        Metadata for leaves in the same order as the samples in `dist`.
+    leaf_hover_name : str
+        Column shown as the primary hover label for leaves.
+    leaf_hover_data : list or dict
+        Additional columns shown in leaf hover labels.
+    leaf_color : str
+        Column used to colour leaf markers.
+    leaf_symbol : str
+        Column used to set marker symbols.
+    leaf_y : float
+        Y position used to place leaf markers.
+    leaf_color_discrete_map : dict
+        Plotly colour map for leaf categories.
+    leaf_category_orders : dict
+        Plotly category ordering for leaf annotations.
+    template : str
+        Plotly template name.
+    y_axis_title : str
+        Y-axis title.
+    y_axis_buffer : float
+        Padding added to the y-axis range.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(fig, leaf_data)` where `leaf_data` has been reordered to
+        match the plotted dendrogram leaves.
+    """
     import scipy.cluster.hierarchy as sch
     # Hierarchical clustering.
     Z = sch.linkage(dist, method=linkage_method)

@@ -15,7 +15,22 @@ user_metadata_colours_path = os.path.join("config", "metadata_colours.json")
 using_user_metadata_colours = os.path.isfile(user_metadata_colours_path)
 
 if config['platform'] not in ['illumina', 'nanopore']:
-    raise ValueError("Unsupported platform. Please set platform to either 'illumina' or 'nanopore' in the config file.") 
+    raise ValueError("Unsupported platform. Please set platform to either 'illumina' or 'nanopore' in the config file.")
+
+config.setdefault('ploidy', 2)
+try:
+    ploidy = int(config['ploidy'])
+except (TypeError, ValueError):
+    raise ValueError(f"ploidy must be a positive integer, got {config['ploidy']!r}.")
+if ploidy < 1:
+    raise ValueError(f"ploidy must be >= 1, got {ploidy}.")
+if config['platform'] == 'nanopore' and ploidy > 2:
+    raise ValueError(
+        "Polyploid (ploidy > 2) is not supported for nanopore data. "
+        "Use Illumina for polyploid organisms, or set ploidy to 1 or 2."
+    )
+config['ploidy'] = ploidy
+
 if config['platform'] == 'nanopore' and config['from-bcl']:
     raise ValueError("from-bcl option is only compatible with Illumina data. Please set from-bcl to False for nanopore data.")
 if config['platform'] == 'nanopore' and len(config['metadata']) == 0:

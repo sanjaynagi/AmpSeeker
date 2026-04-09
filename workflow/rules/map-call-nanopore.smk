@@ -60,6 +60,24 @@ rule minimap2_align:
 
 
 
+rule create_ploidy_file:
+    """
+    Create a bcftools ploidy file (see map-call-illumina.smk for rationale).
+    Nanopore supports ploidy 1 or 2 only; polyploid is rejected at config
+    validation in the Snakefile.
+    """
+    output:
+        ploidy_file="results/config/bcftools_ploidy.txt",
+    params:
+        ploidy=config["ploidy"],
+    log:
+        "logs/create_ploidy_file.log",
+    run:
+        with open(output.ploidy_file, "w") as f:
+            f.write(f"* * * M {params.ploidy}\n")
+            f.write(f"* * * F {params.ploidy}\n")
+
+
 rule mpileup_call_targets:
     """
     Get pileup of reads at target loci and pipe output to bcftoolsCall
@@ -68,6 +86,7 @@ rule mpileup_call_targets:
         bam="results/alignments/{sample}.bam",
         index="results/alignments/{sample}.bam.bai",
         reference=config["reference-fasta"],
+        ploidy_file="results/config/bcftools_ploidy.txt",
     output:
         calls="results/vcfs/targets/{sample}.calls.vcf",
     log:
@@ -82,13 +101,15 @@ rule mpileup_call_targets:
     shell:
         """
         bcftools mpileup -X ont-sup -Ov -f {params.ref} -R {params.regions} -a AD --max-depth {params.depth} {input.bam} 2> {log.mpileup} |
-        bcftools call -f GQ,GP -m -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
+        bcftools call -f GQ,GP -m --ploidy-file {input.ploidy_file} -Ov 2> {log.call} | bcftools sort -Ov -o {output.calls} 2> {log.call}
         """
 
 
 rule clair3_call_amplicons:
     """
-    Variant calling with Clair3 across entire amplicon regions (discovery mode)
+    Variant calling with Clair3 across entire amplicon regions (discovery mode).
+    For haploid organisms, passes --haploid_sensitive (and disables phasing)
+    to clair3 so calls are reported as haploid.
     """
     input:
         bam="results/alignments/{sample}.bam",
@@ -100,7 +121,7 @@ rule clair3_call_amplicons:
         vcf="results/vcfs/amplicons/{sample}.calls.vcf",
     params:
         outdir="results/clair3_tmp/amplicons/{sample}",
-        # ploidy = "--no_phasing_for_fa --haploid_sensitive" if ploidy == 1 else "",
+        ploidy_flags="--no_phasing_for_fa --haploid_sensitive" if config["ploidy"] == 1 else "",
     conda:
         "../envs/AmpSeeker-nanopore.yaml"
     log:
@@ -118,6 +139,7 @@ rule clair3_call_amplicons:
             --model_path={input.model_path} \
             --output={params.outdir} \
             --include_all_ctgs \
+            {params.ploidy_flags} \
             --sample_name={wildcards.sample} &> {log}
     
         # Copy and rename output

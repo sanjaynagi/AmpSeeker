@@ -8,6 +8,25 @@ warnings.filterwarnings('ignore')
 import shared as amp
 
 def vcf_to_snp_dataframe(vcf_path, metadata, platform, filter_missing=None):
+    """Build a SNP-level dataframe from a VCF.
+
+    Parameters
+    ----------
+    vcf_path : str or path-like
+        Path to the VCF file.
+    metadata : pandas.DataFrame
+        Sample metadata used to align and filter the genotype array.
+    platform : {"illumina", "nanopore"}
+        Sequencing platform passed through to variant loading.
+    filter_missing : float, optional
+        Maximum allowed fraction of missing calls per site.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(snp_df, geno)` where `snp_df` is exploded to one row per
+        alternate allele and `geno` is the filtered genotype array.
+    """
     geno, pos, contig, metadata, ref, alt, ann = amp.load_variants(
         vcf_path=vcf_path,
         metadata=metadata,
@@ -45,6 +64,29 @@ def vcf_to_snp_dataframe(vcf_path, metadata, platform, filter_missing=None):
     return snp_df, geno
 
 def calculate_frequencies_cohort(snp_df, metadata, geno, cohort_col, af_filter, missense_filter):
+    """Calculate cohort-specific alternate allele frequencies.
+
+    Parameters
+    ----------
+    snp_df : pandas.DataFrame
+        SNP dataframe produced by :func:`vcf_to_snp_dataframe`.
+    metadata : pandas.DataFrame
+        Sample metadata aligned to `geno`.
+    geno : allel.GenotypeArray
+        Genotype array used to derive allele counts.
+    cohort_col : str
+        Metadata column defining cohorts.
+    af_filter : bool
+        Whether to retain only variants with frequency above 0.05 in at least
+        one cohort.
+    missense_filter : bool
+        Whether to retain only missense variants.
+
+    Returns
+    -------
+    pandas.DataFrame
+        SNP annotation and frequency table indexed by formatted variant label.
+    """
     np.seterr(all="ignore")
     
     df = snp_df.copy()
@@ -92,7 +134,22 @@ def calculate_frequencies_cohort(snp_df, metadata, geno, cohort_col, af_filter, 
     return snp_freq_df.set_index('label')
 
 def plot_allele_frequencies(df, cohort_col, colscale="Reds"):
-        
+    """Plot a heatmap of alternate allele frequencies.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Matrix-like dataframe of allele frequencies.
+    cohort_col : str
+        Cohort label used in the plot title.
+    colscale : str, default="Reds"
+        Plotly continuous color scale name.
+
+    Returns
+    -------
+    plotly.graph_objects.Figure
+        Heatmap figure of allele frequencies by cohort.
+    """
     fig = px.imshow(
             img=df,
             zmin=0,

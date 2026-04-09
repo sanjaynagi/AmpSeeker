@@ -6,6 +6,22 @@ import plotly.express as px
 from sklearn.neighbors import KNeighborsClassifier
 
 def aims_n_alt(gt, aim_alts, data_alts):
+    """Count target AIM alternate alleles for each sample and site.
+
+    Parameters
+    ----------
+    gt : numpy.ndarray
+        Genotype calls with shape `(n_sites, n_samples, ploidy)`.
+    aim_alts : numpy.ndarray
+        Alternate alleles expected for the AIM panel.
+    data_alts : numpy.ndarray
+        Alternate alleles observed in the loaded genotype data.
+
+    Returns
+    -------
+    numpy.ndarray
+        Integer array of alternate-allele counts, with `-1` for missing calls.
+    """
     n_sites = gt.shape[0]
     n_samples = gt.shape[1]
     # create empty array
@@ -30,24 +46,27 @@ def aims_n_alt(gt, aim_alts, data_alts):
     return aim_n_alt
 
 def pca_all_samples(gn_wgs, gn_amp, df_wgs_samples, df_amp_samples, n_components=6, cohort_cols='sample_id'):
-    """
-    Perform PCA on both WGS and amplicon samples combined
-    
-    Parameters:
-    -----------
-    gn_wgs : GenotypeArray
-        Genotypes of samples with known taxon
-    gn_amp : GenotypeArray
-        Genotypes of samples to be assigned
-    df_wgs_samples : DataFrame
-        Metadata for samples with known taxon, including 'taxon' column
-    n_components : int
-        Number of principal components to compute
-        
-    Returns:
-    --------
-    pca_df : DataFrame
-        DataFrame containing PCA coordinates and metadata for all samples
+    """Run PCA on combined WGS and amplicon samples.
+
+    Parameters
+    ----------
+    gn_wgs : allel.GenotypeArray
+        Genotypes for reference samples with known taxa.
+    gn_amp : allel.GenotypeArray
+        Genotypes for amplicon samples to classify.
+    df_wgs_samples : pandas.DataFrame
+        Metadata for reference samples, including a `taxon` column.
+    df_amp_samples : pandas.DataFrame
+        Metadata for amplicon samples.
+    n_components : int, default=6
+        Number of principal components to compute.
+    cohort_cols : str, default="sample_id"
+        Comma-separated metadata columns to retain from the amplicon samples.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Combined metadata and PCA coordinates for all samples.
     """
     # Create metadata for amplicon samples
     df_amp_samples = df_amp_samples.assign(sample_type='amplicon')
@@ -87,26 +106,26 @@ def pca_all_samples(gn_wgs, gn_amp, df_wgs_samples, df_amp_samples, n_components
     return pca_df
 
 def assign_taxa(pca_df, method='knn', n_neighbors=5, probability_threshold=0.8, **kwargs):
-    """
-    Assign taxa to amplicon samples based on PC1-4 coordinates
-    
-    Parameters:
-    -----------
-    pca_df : DataFrame
-        DataFrame with PCA coordinates and metadata for all samples
-    method : str
-        Classification method to use ('knn' or 'svm')
-    n_neighbors : int
-        Number of neighbors to use for KNN classification (ignored if method='svm')
-    probability_threshold : float
-        Minimum probability required for taxon assignment
-    **kwargs : dict
-        Additional parameters for the classifier
-    
-    Returns:
-    --------
-    assignment_df : DataFrame
-        DataFrame with taxon assignments for amplicon samples
+    """Assign taxa to amplicon samples from PCA coordinates.
+
+    Parameters
+    ----------
+    pca_df : pandas.DataFrame
+        Dataframe containing PCA coordinates, taxa, and sample types.
+    method : {"knn", "svm"}, default="knn"
+        Classification method used for assignment.
+    n_neighbors : int, default=5
+        Number of neighbours for KNN classification.
+    probability_threshold : float, default=0.8
+        Minimum class probability required for a confident assignment.
+    **kwargs
+        Additional keyword arguments passed to the chosen classifier.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Assignment table for amplicon samples including predicted taxon and
+        confidence values.
     """
     from sklearn.svm import SVC
     
@@ -178,23 +197,25 @@ def assign_taxa(pca_df, method='knn', n_neighbors=5, probability_threshold=0.8, 
 
 def plot_pca_3d_with_assignments(pca_df, assignment_df, title="PCA with Taxon Assignments", 
                               height=800, width=800):
-    """
-    Create a 3D plot of PCA results with taxon assignments
-    
-    Parameters:
-    -----------
-    pca_df : DataFrame
-        DataFrame with PCA coordinates and metadata
-    assignment_df : DataFrame
-        DataFrame with taxon assignments for amplicon samples
-    title : str
-        Plot title
-    height, width : int
-        Plot dimensions
-    
-    Returns:
-    --------
+    """Plot PCA coordinates together with predicted taxon assignments.
+
+    Parameters
+    ----------
+    pca_df : pandas.DataFrame
+        Dataframe with PCA coordinates and sample metadata.
+    assignment_df : pandas.DataFrame
+        Predicted taxon assignments for amplicon samples.
+    title : str, default="PCA with Taxon Assignments"
+        Figure title.
+    height : int, default=800
+        Figure height in pixels.
+    width : int, default=800
+        Figure width in pixels.
+
+    Returns
+    -------
     plotly.graph_objects.Figure
+        Interactive 3D scatter plot annotated with assignment status.
     """
     import plotly.graph_objects as go
     
@@ -315,6 +336,19 @@ def plot_pca_3d_with_assignments(pca_df, assignment_df, title="PCA with Taxon As
     return fig
 
 def _melt_gt_counts(gt_counts):
+    """Flatten genotype allele counts into per-allele rows.
+
+    Parameters
+    ----------
+    gt_counts : numpy.ndarray
+        Genotype allele counts with shape `(n_snps, n_samples, n_alleles)`.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array shaped `(n_snps * (n_alleles - 1), n_samples)` containing
+        alternate-allele counts and `NaN` for invalid genotypes.
+    """
     n_snps, n_samples, n_alleles = gt_counts.shape
     # Use a float array to allow NaN values
     melted_counts = np.full((n_snps * (n_alleles - 1), n_samples), np.nan, dtype=np.float64)
@@ -332,6 +366,19 @@ def _melt_gt_counts(gt_counts):
     return melted_counts
 
 def get_consensus_taxon(row):
+    """Return the majority taxon call across multiple assignment methods.
+
+    Parameters
+    ----------
+    row : pandas.Series
+        Row containing `aim_taxon`, `pca_taxon`, and `tree_taxon` fields.
+
+    Returns
+    -------
+    str
+        Consensus taxon when at least two methods agree, otherwise
+        `"unassigned"`.
+    """
     # Extract the taxon values
     aim_taxon = row['aim_taxon']
     pca_taxon = row['pca_taxon']

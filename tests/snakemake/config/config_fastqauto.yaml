@@ -1,4 +1,5 @@
 platform: illumina
+ploidy: 2
 dataset: test-fastqauto
 metadata: config/metadata.tsv
 cohort-columns:
@@ -23,8 +24,7 @@ custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:
-  sample-total-reads-threshold: 250
-  amplicon-total-reads-threshold: 1000
+  sample-min-mean-target-coverage: 5
 
   coverage: True
   stats: True

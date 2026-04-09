@@ -11,6 +11,32 @@ from scipy.spatial.distance import squareform
 import shared
 
 def plot_pca(pca_df, colour_column, cohort_columns, dataset,  x='PC1',y='PC2',z='PC3', color_mapping=None, height=500, width=750):
+    """Create a 3D PCA scatter plot.
+
+    Parameters
+    ----------
+    pca_df : pandas.DataFrame
+        Dataframe containing PCA coordinates and sample metadata.
+    colour_column : str
+        Column used to colour the points.
+    cohort_columns : list of str
+        Metadata columns to include in hover labels.
+    dataset : str
+        Dataset label used in the plot title.
+    x, y, z : str, default=("PC1", "PC2", "PC3")
+        PCA coordinate columns to plot.
+    color_mapping : dict, optional
+        Nested mapping of colour columns to Plotly discrete colour maps.
+    height : int, default=500
+        Figure height in pixels.
+    width : int, default=750
+        Figure width in pixels.
+
+    Returns
+    -------
+    plotly.graph_objects.Figure
+        Interactive 3D scatter plot of PCA coordinates.
+    """
     fig= px.scatter_3d(
         pca_df, 
         x=x, 
@@ -29,7 +55,30 @@ def plot_pca(pca_df, colour_column, cohort_columns, dataset,  x='PC1',y='PC2',z=
 
 
 def compute_njt_inputs(geno, metadata, cohort_col):
-    # Find segregating sites and remove highly missing sites.
+    """Prepare filtered distances and metadata for neighbour-joining plots.
+
+    Parameters
+    ----------
+    geno : allel.GenotypeArray
+        Genotype array with variants on axis 0 and samples on axis 1.
+    metadata : pandas.DataFrame
+        Sample metadata containing `sample_id` and the requested cohort column.
+    cohort_col : str
+        Metadata column used to group pairwise distances.
+
+    Returns
+    -------
+    tuple
+        Tuple of `(dists, leaf_data, exclude_outliers)` containing the cleaned
+        square distance matrix, metadata for retained samples, and sample IDs
+        removed as outliers.
+    """
+    # Keep only segregating sites, i.e. sites where at least two alleles are
+    # observed across samples, then remove highly missing sites. A missing site
+    # is a site with no genotype call in one or more samples. Here "highly
+    # missing" means missing in more than 40% of samples, which is a more
+    # permissive threshold than the PCA default because NJT is used here as an
+    # exploratory visualisation.
     ac = geno.count_alleles()
     seg = ac.is_segregating()
     gn_seg = geno.compress(seg, axis=0)
@@ -79,6 +128,28 @@ def compute_njt_inputs(geno, metadata, cohort_col):
 
 
 def run_njt_analysis(geno, metadata, cohort_cols, cohort_col, color_mapping, wkdir):
+    """Run neighbour-joining tree analysis and export cohort plots.
+
+    Parameters
+    ----------
+    geno : allel.GenotypeArray
+        Genotype array used to compute pairwise distances.
+    metadata : pandas.DataFrame
+        Sample metadata aligned to `geno`.
+    cohort_cols : list of str
+        Metadata columns to plot on separate NJT figures.
+    cohort_col : str
+        Metadata column used to define pairwise cohort groups.
+    color_mapping : dict
+        Plotly colour maps keyed by metadata column.
+    wkdir : str or path-like
+        Working directory where PNG outputs are written.
+
+    Returns
+    -------
+    list
+        List of Plotly figures produced by `anjl.plot`.
+    """
     import anjl
 
     dists, leaf_data, exclude_outliers = compute_njt_inputs(geno=geno, metadata=metadata, cohort_col=cohort_col)

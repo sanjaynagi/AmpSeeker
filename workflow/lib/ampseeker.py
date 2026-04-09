@@ -26,6 +26,7 @@ from snp_dataframe import (
     vcf_to_df,
     split_rows_with_multiple_alleles,
     convert_genotype_to_alt_allele_count,
+    _is_missing_genotype,
 )
 
 from ag_vampir.species_id import (

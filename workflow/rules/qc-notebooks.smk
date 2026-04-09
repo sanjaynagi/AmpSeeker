@@ -165,7 +165,7 @@ rule sample_quality_control:
     params:
         wkdir=wkdir,
         cohort_cols=cohort_cols,
-        sample_threshold = config['quality-control']['sample-total-reads-threshold'],
+        sample_threshold = config['quality-control']['sample-min-mean-target-coverage'],
         panel=panel, 
         dataset=dataset,
         platform=config['platform']
@@ -179,7 +179,7 @@ rule sample_quality_control:
             -p cohort_cols {params.cohort_cols} \
             -p bed_targets_path {input.targets} \
             -p vcf_path {input.vcf} -p wkdir {params.wkdir} \
-            -p sample_total_read_threshold {params.sample_threshold} 2> {log}
+            -p sample_min_mean_target_coverage {params.sample_threshold} 2> {log}
         
         cp {output.nb} {output.docs_nb} 2>> {log}
         """
