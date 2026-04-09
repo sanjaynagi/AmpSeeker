@@ -5,6 +5,19 @@ import shared
 import warnings
 warnings.filterwarnings('ignore')
 
+
+def _is_missing_genotype(genotype):
+    """Return True if a VCF genotype string represents a missing call.
+
+    Works for any ploidy: haploid ``.``, diploid ``./.``, tetraploid
+    ``./././.`` etc. A genotype is treated as missing if every allele
+    position is ``.``.
+    """
+    if genotype is None:
+        return True
+    alleles = str(genotype).replace('|', '/').split('/')
+    return all(a == '.' for a in alleles)
+
 def vcf_to_excel(vcf_path, excel_path, convert_genotypes=False, split_multiallelic=False):
     # Read VCF and create a dictionary
     vcf_df = vcf_to_df(vcf_path)
@@ -68,9 +81,9 @@ def split_rows_with_multiple_alleles(df, samples):
                 for col in samples:
                     genotype = row[col]
                     # Split the genotype and process it
-                    if genotype != './.':
-                        gt_alleles = genotype.split('/')
-                        new_gt = ['0' if (int(gt) != allele_num + 1 and gt != '0') else gt for gt in gt_alleles]
+                    if not _is_missing_genotype(genotype):
+                        gt_alleles = str(genotype).replace('|', '/').split('/')
+                        new_gt = ['0' if (gt != '.' and int(gt) != allele_num + 1 and gt != '0') else gt for gt in gt_alleles]
                         new_row[col] = '/'.join(new_gt)
                 new_rows.append(new_row)
         else:
@@ -90,10 +103,12 @@ def convert_genotype_to_alt_allele_count(df, samples):
         # Update genotype fields
         for col in samples:
                 genotype = row[col]
-                if genotype != './.':
-                    # Split the genotype and count non-zero alleles
-                    alleles = genotype.split('/')
-                    alt_allele_count = sum([1 for allele in alleles if allele != '0'])
+                if not _is_missing_genotype(genotype):
+                    # Split the genotype and count alt alleles. This works
+                    # for any ploidy: haploid "0"/"1", diploid "0/1",
+                    # tetraploid "0/0/1/1" etc.
+                    alleles = str(genotype).replace('|', '/').split('/')
+                    alt_allele_count = sum(1 for allele in alleles if allele != '0' and allele != '.')
                     nalt_df.at[index, col] = alt_allele_count
                 else:
                     nalt_df.at[index, col] = np.nan

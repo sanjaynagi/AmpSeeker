@@ -33,7 +33,7 @@ For Illumina/Nanopore direct FASTQ mode (`from-bcl: False`):
 - Nanopore expects `fq1`.
 
 ### What are `cohort-columns` used for?
-They must exist in the metadata and are used to group/colour samples in notebooks and downstream analyses.
+They are metadata columns used to define cohorts, where a cohort means all samples sharing the same value in that column, such as all samples from one location or one taxon. They must exist in the metadata with exactly the same spelling and capitalization as the header row. For reliability, use simple names like `location`, `taxon`, or `country` that start with a letter and contain only letters, numbers, and underscores.
 
 ### What should the BED file look like?
 The `targets` BED file should define target loci for your panel and match the reference coordinates used for mapping/calling.
@@ -142,7 +142,7 @@ Verify the `metadata` path is correct for your current working directory and con
 This occurs when `platform: illumina` and `from-bcl: True` but `illumina-dir` is empty.
 
 ### Error: cohort columns missing
-Make sure every value listed in `cohort-columns` exists as a column in metadata (or SampleSheet-derived metadata in BCL mode).
+Make sure every value listed in `cohort-columns` exists as a column in metadata (or SampleSheet-derived metadata in BCL mode), with exactly the same spelling and capitalization. If a cohort column has spaces, punctuation, hyphens, or begins with a number, rename it to a simpler form such as `collection_year` or `sample_group`.
 
 ### Why did index read QC fail?
 Check whether index reads were produced in BCL conversion and whether combined index FASTQs exist in `resources/reads/`.

@@ -29,7 +29,12 @@ def plot_pca(pca_df, colour_column, cohort_columns, dataset,  x='PC1',y='PC2',z=
 
 
 def compute_njt_inputs(geno, metadata, cohort_col):
-    # Find segregating sites and remove highly missing sites.
+    # Keep only segregating sites, i.e. sites where at least two alleles are
+    # observed across samples, then remove highly missing sites. A missing site
+    # is a site with no genotype call in one or more samples. Here "highly
+    # missing" means missing in more than 40% of samples, which is a more
+    # permissive threshold than the PCA default because NJT is used here as an
+    # exploratory visualisation.
     ac = geno.count_alleles()
     seg = ac.is_segregating()
     gn_seg = geno.compress(seg, axis=0)

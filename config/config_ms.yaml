@@ -2,6 +2,7 @@
 # In case of sample based data, it should be complemented by a samples.tsv file that contains
 # one row per sample. It can be parsed easily via pandas.
 dataset: ag-vampir-002
+ploidy: 2
 panel: ag-vampir
 metadata: config/metadata_ms.tsv
 cohort-columns:
@@ -26,8 +27,7 @@ bcl-convert: True
 
 # Specify whether to run quality-control analyses
 quality-control:
-  sample-total-reads-threshold: 250
-  amplicon-total-reads-threshold: 1000
+  sample-min-mean-target-coverage: 5
 
   fastp: True
   coverage: True

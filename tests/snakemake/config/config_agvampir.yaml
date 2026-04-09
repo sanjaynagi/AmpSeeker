@@ -7,6 +7,7 @@ targets: config/ag-vampir.bed
 panel: ag-vampir
 
 platform: illumina
+ploidy: 2
 # For Illumina - specify whether to convert bcl files to fastq
 from-bcl: False
 # Directory of Illumina Miseq Run
@@ -20,8 +21,7 @@ custom-snpeffdb: True
 
 # Specify whether to run quality-control analyses
 quality-control:
-  sample-total-reads-threshold: 250
-  amplicon-total-reads-threshold: 1000
+  sample-min-mean-target-coverage: 5
 
   coverage: True
   stats: True

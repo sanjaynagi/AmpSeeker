@@ -253,6 +253,115 @@ def test_get_single_gen_call_no_402():
     assert call == "F1,S2"
 
 
+def test_is_missing_genotype_handles_all_ploidies():
+    # Missing calls at every supported ploidy, phased and unphased.
+    assert amp._is_missing_genotype(".") is True              # haploid
+    assert amp._is_missing_genotype("./.") is True            # diploid
+    assert amp._is_missing_genotype(".|.") is True            # diploid phased
+    assert amp._is_missing_genotype("./././.") is True        # tetraploid
+    assert amp._is_missing_genotype(".|.|.|.") is True        # tetraploid phased
+    assert amp._is_missing_genotype(None) is True
+
+    # Fully called genotypes at every ploidy.
+    assert amp._is_missing_genotype("0") is False             # haploid ref
+    assert amp._is_missing_genotype("1") is False             # haploid alt
+    assert amp._is_missing_genotype("0/0") is False
+    assert amp._is_missing_genotype("0|1") is False
+    assert amp._is_missing_genotype("0/0/1/1") is False
+
+    # Partially missing calls count as non-missing — only all-missing is missing.
+    assert amp._is_missing_genotype("./0") is False
+    assert amp._is_missing_genotype("./././1") is False
+
+
+def test_convert_genotype_to_alt_allele_count_haploid():
+    # Haploid VCF-style dataframe: single allele per cell, no "/".
+    df = pd.DataFrame(
+        {
+            "CHROM": ["2L", "2L", "2L"],
+            "POS": [100, 200, 300],
+            "FILTER_PASS": [True, True, True],
+            "REF": ["A", "C", "G"],
+            "ALT": ["T", "G", "A"],
+            "ANN": ["", "", ""],
+            "s1": ["0", "1", "."],
+            "s2": ["1", ".", "0"],
+        }
+    )
+    samples = ["s1", "s2"]
+    out = amp.convert_genotype_to_alt_allele_count(df, samples)
+
+    assert out.loc[0, "s1"] == 0
+    assert out.loc[0, "s2"] == 1
+    assert out.loc[1, "s1"] == 1
+    assert pd.isna(out.loc[1, "s2"])
+    assert pd.isna(out.loc[2, "s1"])
+    assert out.loc[2, "s2"] == 0
+
+
+def test_convert_genotype_to_alt_allele_count_tetraploid():
+    # Tetraploid: counts should range 0..4 and handle all-missing correctly.
+    df = pd.DataFrame(
+        {
+            "CHROM": ["2L", "2L", "2L", "2L"],
+            "POS": [10, 20, 30, 40],
+            "FILTER_PASS": [True] * 4,
+            "REF": ["A"] * 4,
+            "ALT": ["T"] * 4,
+            "ANN": [""] * 4,
+            "s1": ["0/0/0/0", "0/0/0/1", "0/1/1/1", "1/1/1/1"],
+            "s2": ["./././.", "0|0|1|1", "./0/1/1", "1|1|1|1"],
+        }
+    )
+    samples = ["s1", "s2"]
+    out = amp.convert_genotype_to_alt_allele_count(df, samples)
+
+    assert list(out["s1"]) == [0, 1, 3, 4]
+    assert pd.isna(out.loc[0, "s2"])
+    assert out.loc[1, "s2"] == 2
+    # "./0/1/1" has one missing allele — function counts non-"0"/non-"." alleles.
+    assert out.loc[2, "s2"] == 2
+    assert out.loc[3, "s2"] == 4
+
+
+def test_split_rows_with_multiple_alleles_handles_phased_and_tetraploid():
+    # Multi-allelic row at diploid with phased separator, plus one tetraploid row.
+    df = pd.DataFrame(
+        {
+            "CHROM": ["2L", "2L"],
+            "POS": [100, 200],
+            "FILTER_PASS": [True, True],
+            "REF": ["A", "A"],
+            "ALT": ["T,G", "T,G"],
+            "ANN": ["", ""],
+            "s1": ["0|1", "0/1/2/2"],
+            "s2": ["1|2", "./././."],
+        }
+    )
+    samples = ["s1", "s2"]
+    out = amp.split_rows_with_multiple_alleles(df, samples).reset_index(drop=True)
+
+    # Two input rows × 2 alt alleles each = 4 output rows, no commas in ALT.
+    assert out.shape[0] == 4
+    assert out["ALT"].tolist() == ["T", "G", "T", "G"]
+
+    # Phased separators are normalised to "/" on output (the function joins on "/").
+    # For s1="0|1": on ALT=T (allele_num=0) the 1 is kept; on ALT=G (allele_num=1)
+    # the 1 is remapped to 0 because it's not this row's alt allele.
+    assert out.loc[0, "s1"] == "0/1"
+    assert out.loc[1, "s1"] == "0/0"
+    # For s2="1|2": on ALT=T the 2 is remapped to 0; on ALT=G the 1 is remapped to 0.
+    assert out.loc[0, "s2"] == "1/0"
+    assert out.loc[1, "s2"] == "0/2"
+
+    # Tetraploid s1="0/1/2/2" should split correctly per alt allele.
+    assert out.loc[2, "s1"] == "0/1/0/0"
+    assert out.loc[3, "s1"] == "0/0/2/2"
+    # Tetraploid missing stays missing on every split, unchanged.
+    assert out.loc[2, "s2"] == "./././."
+    assert out.loc[3, "s2"] == "./././."
+
+
 def test_melt_gt_counts_shape_and_missing():
     gt_counts = np.array(
         [

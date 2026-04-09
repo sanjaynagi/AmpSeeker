@@ -132,7 +132,18 @@ def read_ann_field(vcf_file):
 
 def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
     """
-    Load genotype data and run PCA 
+    Load genotype data and run PCA.
+
+    Before PCA, remove sites that are not informative for population
+    structure:
+    - segregating sites are sites where at least two alleles are observed
+      across the retained samples;
+    - missing sites are sites where one or more samples do not have a
+      genotype call;
+    - highly missing sites are sites missing in more than
+      ``missing_threshold`` of samples (default 0.05, i.e. 5%);
+    - invariant sites are sites where all retained samples carry the same
+      called genotype after filtering.
     """
 
     if query:
@@ -140,18 +151,22 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
         metadata = metadata[mask]
         geno = geno.compress(mask, axis=1)
 
-    # find segregating sites
+    # Keep only segregating sites, i.e. variant sites where at least two
+    # alleles are observed across the retained samples.
     print("removing any invariant and highly missing sites")
     ac = geno.count_alleles()
     seg = ac.is_segregating()
     gn_seg = geno.compress(seg, axis=0)
 
-    # remove highly missing sites
+    # Remove highly missing sites. A missing site is a site with no genotype
+    # call in one or more samples; here "highly missing" means missing in more
+    # than missing_threshold of samples. The default is 5% for PCA.
     missing_mask = gn_seg.is_missing().sum(axis=1) > gn_seg.shape[1] * missing_threshold
     gn_seg = gn_seg.compress(~missing_mask, axis=0)
     gn_alt = gn_seg.to_n_alt()
 
-    # remove invariant sites
+    # Remove invariant sites, i.e. sites where all remaining called genotypes
+    # are identical and therefore contribute no information to PCA.
     loc_var = np.any(gn_alt != gn_alt[:, 0, np.newaxis], axis=1)
     gn_var = np.compress(loc_var, gn_alt, axis=0)
     
@@ -175,26 +190,30 @@ def pca(geno, metadata, n_components = 3, query=None, missing_threshold=0.05):
 import numba
 @numba.njit(parallel=True)
 def multiallelic_diplotype_pdist(X, metric):
-    """Optimised implementation of pairwise distance between diplotypes.
+    """Optimised implementation of pairwise distance between diploid genotypes.
 
-    N.B., here we assume the array X provides diplotypes as genotype allele
-    counts, with axes in the order (n_samples, n_sites, n_alleles).
+    Here "diplotype" means the diploid genotype carried by one sample across
+    all analysed sites, represented as allele counts with axes ordered as
+    (n_samples, n_sites, n_alleles).
 
     Computation will be faster if X is a contiguous (C order) array.
 
-    The metric argument is the function to compute distance for a pair of
-    diplotypes. This can be a numba jitted function.
+    The metric argument is the function used to compute the distance between
+    two samples. It can itself be a numba-jitted function, meaning it has been
+    compiled by numba for speed.
 
     """
     n_samples = X.shape[0]
     n_pairs = (n_samples * (n_samples - 1)) // 2
     out = np.zeros(n_pairs, dtype=np.float32)
 
-    # Loop over samples, first in pair.
+    # Loop over samples, treating each sample in turn as the first member of
+    # a pairwise comparison.
     for i in range(n_samples):
         x = X[i, :, :]
 
-        # Loop over observations again, second in pair.
+        # Compare the current sample against all later samples, which become
+        # the second member of each pairwise comparison.
         for j in numba.prange(i + 1, n_samples):
             y = X[j, :, :]
 
