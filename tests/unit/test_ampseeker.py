@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 import ampseeker as amp
+import shared
 
 
 DATA_DIR = "tests/data"
@@ -59,11 +61,40 @@ def test_load_bed_has_expected_columns():
     assert df["mutation"].nunique() == EXPECTED["bed_shape"][0]
 
 
+def test_load_bed_fills_missing_optional_columns(tmp_path):
+    bed_path = tmp_path / "minimal.bed"
+    bed_path.write_text("2L\t10\t20\tamp1\n3R\t30\t40\tamp2\n")
+
+    df = amp.load_bed(bed_path)
+
+    assert list(df.columns) == ["contig", "start", "end", "amplicon_id", "mutation", "ref", "alt"]
+    assert df.shape == (2, 7)
+    assert df["amplicon_id"].tolist() == ["amp1", "amp2"]
+    assert df["mutation"].isna().all()
+    assert df["ref"].isna().all()
+    assert df["alt"].isna().all()
+
+
 def test_read_ann_field_matches_variant_rows():
     anns = amp.read_ann_field(VCF_PATH)
     assert len(anns) == _variant_count(VCF_PATH)
     assert isinstance(anns, np.ndarray)
     assert int(np.sum(pd.isna(anns))) == EXPECTED["core_ann_missing"]
+
+
+def test_read_ann_field_returns_none_when_annotation_is_absent(tmp_path):
+    vcf_path = tmp_path / "mini.vcf"
+    vcf_path.write_text(
+        "##fileformat=VCFv4.2\n"
+        "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\n"
+        "2L\t10\t.\tA\tT\t.\tPASS\tDP=9\n"
+        "2L\t20\t.\tG\tC\t.\tPASS\tANN=C|missense_variant|MODERATE|gene|AGAP|transcript|x|protein_coding|1/1|c.1G>C|p.Val1Leu\n"
+    )
+
+    anns = amp.read_ann_field(vcf_path)
+
+    assert anns.tolist()[0] is None
+    assert anns.tolist()[1].startswith("C|missense_variant")
 
 
 def test_load_vcf_returns_aligned_outputs():
@@ -233,6 +264,46 @@ def test_load_variants_optional_filters_match_expected_shapes():
     assert g_maf.shape == EXPECTED["illumina_maf005_shape"]
 
 
+def test_load_variants_requires_sample_id_column():
+    metadata = pd.DataFrame({"wrong_column": ["G1", "G2"]})
+
+    with pytest.raises(ValueError, match="sample_id"):
+        amp.load_variants(VCF_PATH, metadata=metadata, platform="illumina")
+
+
+def test_load_variants_rejects_unknown_platform_for_indel_filter():
+    metadata = pd.read_csv(METADATA_PATH, sep="\t")
+
+    with pytest.raises(ValueError, match="platform must be"):
+        amp.load_variants(VCF_PATH, metadata=metadata, platform="pacbio", filter_indel=True)
+
+
+def test_load_variants_indel_filter_requires_expected_vcf_fields(monkeypatch):
+    metadata = pd.read_csv(METADATA_PATH, sep="\t")
+    fake_core = {
+        "samples": metadata["sample_id"].to_numpy(),
+        "geno": amp.load_vcf(VCF_PATH)["geno"],
+        "pos": np.array([1, 2]),
+        "contig": np.array(["2L", "2L"], dtype=object),
+        "ref": np.array(["A", "C"], dtype=object),
+        "alt": np.array([["T"], ["G"]], dtype=object),
+        "ann": np.array([None, None], dtype=object),
+        "indel": None,
+        "is_snp": None,
+    }
+
+    monkeypatch.setattr(shared, "load_vcf", lambda _: fake_core)
+
+    with pytest.raises(KeyError, match="variants/INDEL"):
+        amp.load_variants("dummy.vcf", metadata=metadata, platform="illumina", filter_indel=True)
+
+    fake_core_nanopore = dict(fake_core, indel=np.array([False, True]), is_snp=None)
+    monkeypatch.setattr(shared, "load_vcf", lambda _: fake_core_nanopore)
+
+    with pytest.raises(KeyError, match="variants/is_snp"):
+        amp.load_variants("dummy.vcf", metadata=metadata, platform="nanopore", filter_indel=True)
+
+
 def test_get_consensus_taxon_majority_rule():
     row = pd.Series({"aim_taxon": "gambiae", "pca_taxon": "gambiae", "tree_taxon": "coluzzii"})
     assert amp.get_consensus_taxon(row) == "gambiae"
@@ -373,3 +444,37 @@ def test_melt_gt_counts_shape_and_missing():
     out = amp._melt_gt_counts(gt_counts)
     assert out.shape == (4, 2)
     assert np.isnan(out[2, 0])
+
+
+def test_calculate_frequencies_cohort_af_filter_removes_low_frequency_rows():
+    metadata = pd.read_csv(METADATA_PATH, sep="\t")
+    snp_df, geno = amp.vcf_to_snp_dataframe(VCF_PATH, metadata=metadata, platform="illumina")
+
+    out = amp.calculate_frequencies_cohort(
+        snp_df=snp_df,
+        metadata=metadata,
+        geno=geno,
+        cohort_col="location",
+        af_filter=True,
+        missense_filter=False,
+    )
+
+    assert out.shape[0] == 43
+    assert bool((out.filter(like="frq_") > 0.05).any(axis=1).all())
+
+
+def test_calculate_frequencies_cohort_missense_filter_keeps_only_missense():
+    metadata = pd.read_csv(METADATA_PATH, sep="\t")
+    snp_df, geno = amp.vcf_to_snp_dataframe(VCF_PATH, metadata=metadata, platform="illumina")
+
+    out = amp.calculate_frequencies_cohort(
+        snp_df=snp_df,
+        metadata=metadata,
+        geno=geno,
+        cohort_col="location",
+        af_filter=False,
+        missense_filter=True,
+    )
+
+    assert out.shape[0] == 38
+    assert out["type"].dropna().eq("missense_variant").all()
