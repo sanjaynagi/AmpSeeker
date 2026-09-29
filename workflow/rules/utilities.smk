@@ -56,6 +56,23 @@ rule tabix:
         """
 
 
+def merge_gvcf_flag(wildcards):
+    """
+    Nanopore amplicon calls are masked clair3 gVCFs, and must be merged in gVCF mode so that
+    covered wild-type samples get 0/0 and samples with no data stay ./.
+    """
+    if config["platform"] == "nanopore" and wildcards.call_type == "amplicons":
+        return "-g " + config["reference-fasta"]
+    return ""
+
+
+def merge_view_flags(wildcards):
+    """Drop gVCF reference blocks and the <NON_REF> allele from the final merged VCF."""
+    if config["platform"] == "nanopore" and wildcards.call_type == "amplicons":
+        return "-a -i 'ALT!=\"<NON_REF>\"'"
+    return ""
+
+
 rule bcftools_merge:
     input:
         vcfs=expand("results/vcfs/{{call_type}}/{sample}.calls.vcf.gz", sample=samples),
@@ -68,10 +85,14 @@ rule bcftools_merge:
         "logs/bcftools/{call_type}/merge_{dataset}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
+    params:
+        gvcf=merge_gvcf_flag,
+        view=merge_view_flags,
     threads: 12
     shell:
         """
-        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} --force-samples 2> {log}
+        bcftools merge {params.gvcf} --threads {threads} -O u {input.vcfs} --force-samples 2> {log} |
+            bcftools view {params.view} -O v -o {output.vcf} 2>> {log}
         """
 
 
@@ -87,10 +108,12 @@ rule bcftools_merge1:
         "logs/bcftools/{call_type}/merge1_{dataset}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
+    params:
+        gvcf=merge_gvcf_flag,
     threads: 12
     shell:
         """
-        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
+        bcftools merge {params.gvcf} --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
         """
 
 
@@ -106,10 +129,12 @@ rule bcftools_merge2:
         "logs/bcftools/{call_type}/merge2_{dataset}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
+    params:
+        gvcf=merge_gvcf_flag,
     threads: 12
     shell:
         """
-        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
+        bcftools merge {params.gvcf} --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
         """
 
 
@@ -150,7 +175,11 @@ rule bcftools_merge3:
         "logs/bcftools/{call_type}/merge3_{dataset}.log",
     conda:
         "../envs/AmpSeeker-cli.yaml"
+    params:
+        gvcf=merge_gvcf_flag,
+        view=merge_view_flags,
     shell:
         """
-        bcftools merge -o {output.vcf} -Ov {input.vcf} 2> {log}
+        bcftools merge {params.gvcf} -Ou {input.vcf} 2> {log} |
+            bcftools view {params.view} -O v -o {output.vcf} 2>> {log}
         """

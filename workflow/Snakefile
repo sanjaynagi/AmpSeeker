@@ -31,6 +31,10 @@ if config['platform'] == 'nanopore' and ploidy > 2:
     )
 config['ploidy'] = ploidy
 
+# Minimum read depth for a genotype to be kept when calling amplicon variants with
+# clair3 gVCFs. Below this, the genotype is set to missing rather than assumed wild type.
+config.setdefault('min-genotype-depth', 10)
+
 if config['platform'] == 'nanopore' and config['from-bcl']:
     raise ValueError("from-bcl option is only compatible with Illumina data. Please set from-bcl to False for nanopore data.")
 if config['platform'] == 'nanopore' and len(config['metadata']) == 0:

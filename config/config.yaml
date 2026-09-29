@@ -8,6 +8,9 @@ platform: illumina
 # Polyploid (>2) is supported for Illumina only — Nanopore is restricted
 # to ploidy 1 or 2 because clair3 has no polyploid mode.
 ploidy: 2
+# Nanopore only: minimum read depth for a genotype to be retained when calling variants across
+# whole amplicons (clair3 gVCF). Sites with lower depth are set to missing (./.), not wild type.
+min-genotype-depth: 10
 panel: ag-vampir
 cohort-columns:
   - location
