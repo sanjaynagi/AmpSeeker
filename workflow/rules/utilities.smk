@@ -71,7 +71,7 @@ rule bcftools_merge:
     threads: 12
     shell:
         """
-        bcftools merge --missing-to-ref --threads {threads} -o {output.vcf} -O v {input.vcfs} --force-samples 2> {log}
+        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} --force-samples 2> {log}
         """
 
 
@@ -90,7 +90,7 @@ rule bcftools_merge1:
     threads: 12
     shell:
         """
-        bcftools merge --missing-to-ref --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
+        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
         """
 
 
@@ -109,7 +109,7 @@ rule bcftools_merge2:
     threads: 12
     shell:
         """
-        bcftools merge --missing-to-ref --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
+        bcftools merge --threads {threads} -o {output.vcf} -O v {input.vcfs} 2> {log}
         """
 
 
@@ -152,5 +152,5 @@ rule bcftools_merge3:
         "../envs/AmpSeeker-cli.yaml"
     shell:
         """
-        bcftools merge --missing-to-ref -o {output.vcf} -Ov {input.vcf} 2> {log}
+        bcftools merge -o {output.vcf} -Ov {input.vcf} 2> {log}
         """
